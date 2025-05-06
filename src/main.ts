@@ -12,6 +12,8 @@ import { Polygon } from "./primitives/Polygon"
 import { BLine } from "./bristle/BLine"
 import { transform } from "./math/matrix"
 import { BPolygon } from "./bristle/BPolygon"
+import { Curve } from "./primitives/Curve"
+import { BezierSpline } from "./primitives/BezierSpline"
 
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 let w = atom('width', window.innerWidth)
@@ -154,23 +156,53 @@ const polygon = new Polygon(center, n, radius, angle)
 
 const points = polygon.points.map(p => BPoint.from(p, { color: 'orange', width: 20}))
 
-renderer.add(polygon, {
-    // fillStyle: 'orange',
-    strokeStyle: 'orange',
-    width: 5
+// renderer.add(polygon, {
+//     // fillStyle: 'orange',
+//     strokeStyle: 'orange',
+//     width: 5
+// })
+
+// renderer.add(points)
+// renderer.add(center, {
+//     color: 'red',
+//     width: 5
+// })
+
+const curve = new Curve(center, center.add(100, 0), center.add(50, 50))
+
+const diff = atom('diff', 50)
+const minusdiff = computed('-diff', () => -1 * diff.value)
+
+const spline = new BezierSpline([
+    center, // p0
+    center.add(100, minusdiff),
+    center.add(100, diff),
+    center.add(200, 0), // p1
+    center.add(300, minusdiff),
+    center.add(300, diff),
+    center.add(400, 0), // p2
+])
+
+// spline.points.map(p => BPoint.from(p, {
+//     color: 'red',
+//     width: 3
+// })).forEach(r => renderer.add(r))
+
+renderer.add(spline, {
+    width: 1,
+    color: 'red'
 })
 
-renderer.add(points)
-renderer.add(center, {
-    color: 'red',
-    width: 5
-})
+// renderer.add(curve, {
+//     width: 5
+// })
 
 let t = 0
 const refresh = () => {
     t = (t + 0.01) % (2 * Math.PI)
-    angle.set(t)
-    originalRadius.set(100  + 200 * Math.abs(Math.sin(t)))
+    diff.set(Math.sin(t * 3) * 50)
+    // angle.set(t)
+    // originalRadius.set(100  + 200 * Math.abs(Math.sin(t)))
 
     // count.set(Math.floor(t % 10))
 

@@ -1,5 +1,7 @@
 import { num } from "../math/matrix";
+import { BezierSpline } from "../primitives/BezierSpline";
 import { Circle } from "../primitives/Circle";
+import { Curve } from "../primitives/Curve";
 import { Line } from "../primitives/Line";
 import { Point } from "../primitives/Point";
 import { Polygon } from "../primitives/Polygon";
@@ -7,7 +9,9 @@ import { ReactiveArray } from "../primitives/ReactiveArray";
 import { Rectangle } from "../primitives/Rectangle";
 import { NumSig } from "../utils/signalTypes";
 import { BArray } from "./BArray";
+import { BBezierSpline } from "./BBezierSpline";
 import { BCircle } from "./BCircle";
+import { BCurve } from "./BCurve";
 import { BLine } from "./BLine";
 import { BPoint } from "./BPoint";
 import { BPolygon } from "./BPolygon";
@@ -21,6 +25,8 @@ const RENDER_CLASSES = [
     [Polygon, BPolygon],
     [Circle, BCircle],
     [Rectangle, BRectangle],
+    [Curve, BCurve],
+    [BezierSpline, BBezierSpline]
     
 ] as const
 

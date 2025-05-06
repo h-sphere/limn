@@ -1,5 +1,7 @@
+import { isSignal } from "signia";
 import { transform, TransformConfig, transformPoint } from "../math/matrix";
 import { Point } from "../primitives/Point";
+import { PointSig } from "../utils/signalTypes";
 import { Transformable } from "../utils/transformable";
 import { BristleContext, Renderable } from "./interfaces";
 
@@ -27,7 +29,11 @@ export class BPoint extends Point implements Renderable {
         ctx.fill()
     }
 
-    static from(p: Point, config?: Partial<BPointConfig>) {
-        return new BPoint(p, config)
+    static from(p: PointSig, config?: Partial<BPointConfig>) {
+        if (Array.isArray(p)) {
+            return new BPoint(new Point(p[0], p[1]))
+        } else {
+            return new BPoint(p, config)
+        }
     }
 }
