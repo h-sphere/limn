@@ -1,4 +1,4 @@
-import { computed, Computed } from "signia";
+import { computed, Computed, Signal } from "signia";
 
 type MapFn<T, U> = (item: T, index: number) => U;
 type FilterFn<T> = (item: T, index: number) => boolean;
@@ -7,9 +7,13 @@ type ReduceFn<T, U> = (accumulator: U, item: T, index: number) => U;
 
 export class ReactiveArray<T> {
     // FIXME: not make this public
-    public _items: Computed<T[]>;
-    constructor(items: Computed<T[]>) {
+    public _items: Signal<T[]>;
+    constructor(items: Signal<T[]>) {
         this._items = items
+    }
+
+    @computed get length() {
+        return this.items.length
     }
 
     get items() {

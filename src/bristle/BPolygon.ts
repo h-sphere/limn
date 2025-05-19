@@ -1,3 +1,4 @@
+import { computed, Signal } from "signia";
 import { num } from "../math/matrix";
 import { Polygon } from "../primitives/Polygon";
 import { BristleContext, Renderable } from "./interfaces";
@@ -18,6 +19,15 @@ export class BPolygon extends Polygon implements Renderable {
             strokeStyle: config?.strokeStyle ?? '',
 
         }
+    }
+    get state(): Signal<any, unknown> {
+        return computed('BPolygon.state', () => ({
+            center: this.center,
+            n: this.n,
+            radius: this.radius,
+            angle: this.angle,
+            config: this.#config
+        }))
     }
 
     render(ctx: BristleContext) {

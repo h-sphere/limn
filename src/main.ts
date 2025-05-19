@@ -1,19 +1,13 @@
 import { atom, computed, transact } from "signia"
-import { BArray } from "./bristle/BArray"
-import { BCircle } from "./bristle/BCircle"
 import { BPoint } from "./bristle/BPoint"
-import { BRectangle } from "./bristle/BRectangle"
 import { BristleRenderer } from "./bristle/Renderer"
-import { Circle } from "./primitives/Circle"
-import { GenerativeCollection } from "./primitives/GenerativeCollection"
 import { Point } from "./primitives/Point"
-import { Rectangle } from "./primitives/Rectangle"
 import { Polygon } from "./primitives/Polygon"
-import { BLine } from "./bristle/BLine"
-import { transform } from "./math/matrix"
-import { BPolygon } from "./bristle/BPolygon"
-import { Curve } from "./primitives/Curve"
 import { BezierSpline } from "./primitives/BezierSpline"
+import { CubicBezierCurve } from "./primitives/CubicBezierCurve"
+import { BLine } from "./bristle/BLine"
+import { Line } from "./primitives/Line"
+import { BCubicBezierCurve } from "./bristle/BCubicBezierCurve"
 
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 let w = atom('width', window.innerWidth)
@@ -147,14 +141,18 @@ const planets = () => {
 const center = new Point(
     computed('w', () => w.value / 2),
     computed('h', () => h.value / 2))
-const angle = atom('angle', 0)
-const padding = 50
-const originalRadius = atom('radius', 300)
-const radius = computed('radius', () => Math.min(h.value / 2 - padding, originalRadius.value))
-const n = atom('n', 5)
-const polygon = new Polygon(center, n, radius, angle)
+// const angle = atom('angle', 0)
+// const padding = 50
+// const originalRadius = atom('radius', 300)
+// const radius = computed('radius', () => Math.min(h.value / 2 - padding, originalRadius.value))
+// const n = atom('n', 5)
+// const polygon = new Polygon(center, n, radius, angle)
 
-const points = polygon.points.map(p => BPoint.from(p, { color: 'orange', width: 20}))
+// setInterval(() => {
+//     angle.set(angle.value + 30)
+// }, 100)
+
+// const points = polygon.points.map(p => BPoint.from(p, { color: 'orange', width: 20}))
 
 // renderer.add(polygon, {
 //     // fillStyle: 'orange',
@@ -162,45 +160,112 @@ const points = polygon.points.map(p => BPoint.from(p, { color: 'orange', width: 
 //     width: 5
 // })
 
+// // renderer.add(points)
+// // renderer.add(center, {
+// //     color: 'red',
+// //     width: 5
+// // })
+
 // renderer.add(points)
-// renderer.add(center, {
+
+// const diff = atom('diff', 50)
+// const minusdiff = computed('-diff', () => -1 * diff.value)
+
+// const x = atom('x', 50)
+// const y = atom('y', 50)
+// const p = new Point(x, y)
+
+
+// renderer.add(p, {
 //     color: 'red',
-//     width: 5
+//     width: 20
 // })
+// setInterval(() => {
+//     console.log('moving')
+//     x.set((x.value + Math.random() * 5) % canvas.width)
+//     y.set((y.value + Math.random() * 10) % canvas.height)
+// }, 5)
 
-const curve = new Curve(center, center.add(100, 0), center.add(50, 50))
+// const spline = new BezierSpline([
+//     center, // p0
+//     center.add(100, minusdiff),
+//     center.add(100, diff),
+//     center.add(200, 0), // p1
+//     center.add(300, minusdiff),
+//     center.add(300, diff),
+//     center.add(400, 0), // p2
+// ])
 
-const diff = atom('diff', 50)
-const minusdiff = computed('-diff', () => -1 * diff.value)
 
-const spline = new BezierSpline([
-    center, // p0
-    center.add(100, minusdiff),
-    center.add(100, diff),
-    center.add(200, 0), // p1
-    center.add(300, minusdiff),
-    center.add(300, diff),
-    center.add(400, 0), // p2
-])
+// renderer.add(new SquareGrid(100, { color: 'rgba(255 255 255 / 10%)', width: 2 }))
 
+// renderer.add(new SpectreTiling({ x: w.value / 2, y: h.value / 2, size: 50, depth: 4, rotation: 0 }, {
+//     width: 1,
+//     stroke: 'red',
+//     fill: 'white'
+// }))
+
+// renderer.add(new Mandelbrot())
+
+// const res = renderer.add(spline, {})
 // spline.points.map(p => BPoint.from(p, {
 //     color: 'red',
 //     width: 3
 // })).forEach(r => renderer.add(r))
 
-renderer.add(spline, {
-    width: 1,
-    color: 'red'
-})
+
+// const i = renderer.add(spline, {
+//     width: 5,
+//     color: 'red'
+// })
 
 // renderer.add(curve, {
 //     width: 5
 // })
 
-let t = 0
+let t = atom('t', 0)
+
+const c = new Point(computed('x', () => w.value / 2), computed('y', () => h.value / 2))
+const poly = new Polygon(c, 5, 200, computed('angle', () => t.value * 1))
+renderer.add(poly.edges.map(e => BLine.from(e, { width: 1, color: 'red' })))
+
+const points = poly.points
+    .map((p, i) => new Line(p, poly.points.get((i + 2) % 5)))
+    .map(line => {
+        const l = new Line(center, line.lerp(t)).center
+        return new CubicBezierCurve(line.p1, line.lerp(t), new Point(0, 0), [0, 0])
+    })
+    .map(line => new BCubicBezierCurve(line, { width: 1, color: 'red' }))
+
+renderer.add(points)
+
+// const curve = new CubicBezierCurve(center, center.add(140, 0), center.add(50, 50), center.add(50, -50))
+// renderer.add(curve, {
+//     color: 'red',
+//     width: 0
+// })
+
+// const p = curve.lerp(t)
+// renderer.add(p, {
+//     width: 10,
+//     color: 'orange'
+// })
+
+setInterval(() => {
+    const v = Math.abs((Date.now() / 3000) % 1)
+    t.set(2* Math.min(v, 1 - v))
+    console.log(t.value)
+}, 5)
+
+renderer.watch()
+
 const refresh = () => {
-    t = (t + 0.01) % (2 * Math.PI)
-    diff.set(Math.sin(t * 3) * 50)
+
+    // x.set(Math.random() * canvas.width)
+    // y.set(Math.random() * canvas.height)
+    // renderer.render()
+    // t = (t + 0.01) % (2 * Math.PI)
+    // diff.set(Math.sin(t * 3) * 50)
     // angle.set(t)
     // originalRadius.set(100  + 200 * Math.abs(Math.sin(t)))
 
@@ -212,8 +277,8 @@ const refresh = () => {
 
     // poly.length = 3 + Math.floor(((t / 2) % 20))
 
-    renderer.render()
+    // renderer.render()
     requestAnimationFrame(refresh)
 }
 
-refresh()
+// refresh()

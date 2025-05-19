@@ -1,3 +1,4 @@
+import { computed, Signal } from "signia";
 import { Circle } from "../primitives/Circle";
 import { BristleContext, Renderable } from "./interfaces";
 
@@ -19,6 +20,13 @@ export class BCircle extends Circle implements Renderable {
             fillStyle: config?.fillStyle ?? '',
             strokeStyle: config?.strokeStyle ?? ''
         }
+    }
+    get state(): Signal<any, unknown> {
+        return computed('BCircle.state', () => ({
+            center: this.center,
+            radius: this.radius,
+            config: this.#config
+        }))
     }
 
     render(ctx: BristleContext) {

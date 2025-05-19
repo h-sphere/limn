@@ -1,3 +1,4 @@
+import { computed, Signal } from "signia";
 import { Line } from "../primitives/Line";
 import { BristleContext, Renderable } from "./interfaces";
 
@@ -14,6 +15,13 @@ export class BLine extends Line implements Renderable {
             width: config?.width ?? 1,
             color: config?.color ?? 'black'
         }
+    }
+    get state(): Signal<any, unknown> {
+        return computed('BLine.state', () => ({
+            p1: this.p1,
+            p2: this.p2,
+            config: this.#config
+        }))
     }
 
     render(ctx: BristleContext) {

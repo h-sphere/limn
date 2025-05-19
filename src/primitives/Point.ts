@@ -1,75 +1,75 @@
-import { atom, Atom, computed, Signal, isAtom } from "signia";
+import { computed, isAtom, Signal } from "signia";
 import { num, transform, TransformConfig, transformPoint } from "../math/matrix";
 import { Transformable } from "../utils/transformable";
-import { NumSig } from "../utils/signalTypes";
-
-// FIXME: allow constructor to use signals too.
+import { NumSig, toNumberSig } from "../utils/signalTypes";
 
 export class Point implements Transformable<Point> {
     #x: Signal<number>
     #y: Signal<number>
-    constructor(x: number | Signal<number>, y: number | Signal<number>) {
-        if (typeof x === 'number') {
-            this.#x = atom('x', x)
-        } else {
-            this.#x = x
-        }
-
-        if (typeof y === 'number') {
-            this.#y = atom('y', y)
-        } else {
-            this.#y = y
-        }
+    constructor(x: NumSig, y: NumSig) {
+        this.#x = toNumberSig(x)
+        this.#y = toNumberSig(y)
     }
 
-    get x() {
+    @computed get x(): number {
         return this.#x.value
     }
 
-    set x(newValue: number) {
+    set x(newValue: NumSig) {
         if (isAtom(this.#x)) {
-            this.#x.set(newValue)
+            this.#x.set(num(newValue))
             return
         }
         throw new Error('Cannot set value of a computed signal')
     }
 
-    get xSignal() {
-        return this.#x
-    }
-
-    get y() {
+    @computed get y(): number {
         return this.#y.value
     }
 
-    get xy() {
-        return [this.x, this.y] as const
-    }
-
-    get yx() {
-        return [this.y, this.x] as const
-    }
-
-    set y(newValue: number) {
+    set y(newValue: NumSig) {
         if (isAtom(this.#y)) {
-            this.#y.set(newValue)
+            this.#y.set(num(newValue))
             return
         }
         throw new Error('Cannot set value of a computed signal')
     }
 
-    get ySignal() {
-        return this.#y
+    @computed get xy(): [number, number] {
+        return [this.x, this.y] as const
     }
 
-    add(xDiff: NumSig, yDiff: NumSig) {
-        // Create computed atoms that depend on the original point's signals
-        const newX = computed('newX', () => this.xSignal.value + num(xDiff))
-        const newY = computed('newY', () => this.ySignal.value + num(yDiff))
+    set xy([x, y]: [NumSig, NumSig]) {
+        this.x = x
+        this.y = y
+    }
+
+    @computed get yx(): [number, number] {
+        return [this.y, this.x] as const
+    }
+
+    set yx([y, x]: [NumSig, NumSig]) {
+        this.y = y
+        this.x = x
+    }
+
+
+    add<P extends NumSig | Point>(xDiff: P, ...[yDiff]: P extends Point ? [] : [NumSig]) {
+        let newX, newY
+        if (xDiff instanceof Point) {
+            newX = computed('newX', () => this.x + xDiff.x)
+            newY = computed('newY', () => this.y + xDiff.y)
+        } else {
+            // Create computed atoms that depend on the original point's signals
+            newX = computed('newX', () => this.x + num(xDiff))
+            newY = computed('newY', () => this.y + num(yDiff!))
+        }
         return new Point(newX, newY)
     }
 
-
+    mul(v: NumSig) {
+        return new Point(this.x * num(v), this.y * num(v))
+    }
 
     transform(c: TransformConfig): Point {
         const t =  computed('transform', () => {

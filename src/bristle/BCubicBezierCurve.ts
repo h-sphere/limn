@@ -1,5 +1,6 @@
+import { computed, Signal } from "signia";
 import { xy } from "../math/matrix";
-import { Curve } from "../primitives/Curve";
+import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { BristleContext, Renderable } from "./interfaces";
 
 interface BCurveConfig {
@@ -7,14 +8,23 @@ interface BCurveConfig {
     color: string;
 }
 
-export class BCurve extends Curve implements Renderable {
+export class BCubicBezierCurve extends CubicBezierCurve implements Renderable {
     #config: BCurveConfig
-    constructor(c: Curve, config?: Partial<BCurveConfig>) {
+    constructor(c: CubicBezierCurve, config?: Partial<BCurveConfig>) {
         super(c.p1, c.p2, c.c1, c.c2)
         this.#config = {
             width: config?.width ?? 1,
             color: config?.color ?? 'black'
         }
+    }
+    get state(): Signal<any, unknown> {
+        return computed('BCurveConfig.state', () => ({
+            p1: this.p1,
+            p2: this.p2,
+            c1: this.c1,
+            c2: this.c2,
+            config: this.#config
+        }))
     }
 
     render(ctx: BristleContext) {
@@ -34,7 +44,7 @@ export class BCurve extends Curve implements Renderable {
         ctx.stroke()
     }
 
-    static from(c: Curve, config?: Partial<BCurveConfig>) {
-        return new BCurve(c, config)
+    static from(c: CubicBezierCurve, config?: Partial<BCurveConfig>) {
+        return new BCubicBezierCurve(c, config)
     }
 }

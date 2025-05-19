@@ -24,14 +24,14 @@ export class Line {
     }
 
     get center() {
-        const xDiff = computed('x', () => this.p2.x - this.p1.y)
-        const yDiff = computed('y', () => this.p2.y - this.p2.y)
+        const xDiff = computed('x', () => this.p1.x + (this.p2.x - this.p1.x) / 2)
+        const yDiff = computed('y', () => this.p1.y + (this.p2.y - this.p1.y) / 2)
         return new Point(xDiff, yDiff)
     }
 
     lerp(t: NumSig) {
-        const x = computed('x', () => 1-num(t) * this.p1.x + num(t) * this.p2.x)
-        const y = computed('y', () => 1-num(t) * this.p1.y + num(t) * this.p2.y)
+        const x = computed('x', () => (1-num(t)) * this.p1.x + num(t) * this.p2.x)
+        const y = computed('y', () => (1-num(t)) * this.p1.y + num(t) * this.p2.y)
         return new Point(x, y)
     }
 }

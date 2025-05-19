@@ -1,4 +1,4 @@
-import { isSignal } from "signia";
+import { computed, getComputedInstance, isSignal } from "signia";
 import { transform, TransformConfig, transformPoint } from "../math/matrix";
 import { Point } from "../primitives/Point";
 import { PointSig } from "../utils/signalTypes";
@@ -16,7 +16,8 @@ interface BPointConfig {
 export class BPoint extends Point implements Renderable {
     #config: BPointConfig
     constructor(point: Point, config?: Partial<BPointConfig>) {
-        super(point.xSignal, point.ySignal)
+        super(getComputedInstance(point, 'x'), getComputedInstance(point, 'y'))
+        // super(point.x, point.y)
         this.#config = {
             color: config?.color ?? 'black',
             width: config?.width ?? 5
@@ -35,5 +36,9 @@ export class BPoint extends Point implements Renderable {
         } else {
             return new BPoint(p, config)
         }
+    }
+
+    get state() {
+        return computed('Point.state', () => ({ x: this.x, y: this.y, config: this.#config }))
     }
 }

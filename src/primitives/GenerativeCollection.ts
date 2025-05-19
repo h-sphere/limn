@@ -1,15 +1,11 @@
 import { atom, computed, isAtom, Signal } from "signia";
 import { ReactiveArray } from "./ReactiveArray";
+import { NumSig, toNumberSig } from "../utils/signalTypes";
 
 export class GenerativeCollection<T> extends ReactiveArray<T> {
     #n: Signal<number>;
-    constructor(n: number | Signal<number>, private readonly factory: (index: number) => T) {
-        let length 
-        if (typeof n === 'number') {
-            length = atom('count', n)
-        } else {
-            length = n
-        }
+    constructor(n: NumSig, private readonly factory: (index: number) => T) {
+        const length = toNumberSig(n)
         super(computed('elements', () => {
             const elements: T[] = [];
             const count = Math.floor(length.value)

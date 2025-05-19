@@ -1,3 +1,4 @@
+import { computed, Signal } from "signia";
 import { xy } from "../math/matrix";
 import { BezierSpline } from "../primitives/BezierSpline";
 import { BristleContext, Renderable } from "./interfaces";
@@ -15,6 +16,12 @@ export class BBezierSpline extends BezierSpline implements Renderable {
             width: config?.width ?? 1,
             color: config?.color ?? 'black'
         }
+    }
+    get state(): Signal<any, unknown> {
+        return computed('BBezierSpline.state', () => ({
+            points: this.points,
+            config: this.#config
+        }))
     }
 
     render(ctx: BristleContext) {
