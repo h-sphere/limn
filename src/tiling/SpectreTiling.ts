@@ -1,4 +1,3 @@
-import { Signal } from "signia";
 import { BristleContext, Renderable } from "../bristle/interfaces";
 import { TurtleRenderConfig } from "../turtle/turtle";
 import { Spectre } from "./spectre";
@@ -14,9 +13,6 @@ interface Settings {
 export class SpectreTiling implements Renderable {
     constructor(private params: Settings, private readonly renderConfig: TurtleRenderConfig) {
 
-    }
-    get state(): Signal<any, unknown> {
-        throw new Error("Method not implemented.");
     }
     render(ctx: BristleContext) {
         if (this.params.depth <= 0) {

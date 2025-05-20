@@ -1,4 +1,4 @@
-import { computed, Computed, Signal } from "signia";
+import { atom, computed, Computed, isSignal, Signal } from "signia";
 
 type MapFn<T, U> = (item: T, index: number) => U;
 type FilterFn<T> = (item: T, index: number) => boolean;
@@ -8,8 +8,12 @@ type ReduceFn<T, U> = (accumulator: U, item: T, index: number) => U;
 export class ReactiveArray<T> {
     // FIXME: not make this public
     public _items: Signal<T[]>;
-    constructor(items: Signal<T[]>) {
-        this._items = items
+    constructor(items: Signal<T[]> | T[]) {
+        if (isSignal(items)) {
+            this._items = items
+        } else {
+            this._items = atom('items', items)
+        }
     }
 
     @computed get length() {

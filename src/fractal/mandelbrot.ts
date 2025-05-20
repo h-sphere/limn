@@ -1,4 +1,4 @@
-import { BristleContext, Renderable } from "../bristle/interfaces";
+import { BristleContext, PrimitiveRenderable } from "../bristle/interfaces";
 import { Point } from "../primitives/Point";
 import { Rectangle } from "../primitives/Rectangle";
 
@@ -21,7 +21,7 @@ const inMandelbrotSet = (c: Point) => {
     return 1000
 }
 
-export class Mandelbrot implements Renderable {
+export class Mandelbrot implements PrimitiveRenderable {
     render(ctx: BristleContext): void {
         const { width, height } = ctx.canvas
         const size = Math.min(width, height)

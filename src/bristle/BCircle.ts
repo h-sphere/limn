@@ -1,6 +1,5 @@
-import { computed, Signal } from "signia";
 import { Circle } from "../primitives/Circle";
-import { BristleContext, Renderable } from "./interfaces";
+import { BristleContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BCircleConfig {
     width: number
@@ -9,43 +8,27 @@ export interface BCircleConfig {
 
 }
 
-export class BCircle extends Circle implements Renderable {
-    
-    #config: BCircleConfig
-
-    constructor(c: Circle, config?: Partial<BCircleConfig>) {
-        super(c.center, c.radius) // FIXME: properly setup center
-        this.#config = {
-            width: config?.width ?? 1,
-            fillStyle: config?.fillStyle ?? '',
-            strokeStyle: config?.strokeStyle ?? ''
+export class BCircle extends PrimitiveRenderable<Circle, BCircleConfig> {
+    parseConfig(config: Partial<BCircleConfig>): BCircleConfig {
+        return {
+            fillStyle: config.fillStyle ?? '',
+            strokeStyle: config.strokeStyle ?? '',
+            width: config.width ?? 1
         }
     }
-    get state(): Signal<any, unknown> {
-        return computed('BCircle.state', () => ({
-            center: this.center,
-            radius: this.radius,
-            config: this.#config
-        }))
-    }
-
     render(ctx: BristleContext) {
+        const center = this._p.center
+        const radius = this._p.radius
         ctx.beginPath()
-        ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI)
-        if (this.#config.fillStyle) {
-            ctx.fillStyle = this.#config.fillStyle
+        ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI)
+        if (this._config.fillStyle) {
+            ctx.fillStyle = this._config.fillStyle
             ctx.fill()
         }
-        if (this.#config.strokeStyle) {
-            ctx.strokeStyle = this.#config.strokeStyle
-            ctx.lineWidth = this.#config.width
+        if (this._config.strokeStyle) {
+            ctx.strokeStyle = this._config.strokeStyle
+            ctx.lineWidth = this._config.width
             ctx.stroke()
         }
     }
-
-    static from(c: Circle, config?: Partial<BCircleConfig>) {
-        return new BCircle(c, config)
-    }
-
-
 }
