@@ -11,7 +11,7 @@ const multiply = (a: Point, b: Point) => {
 
 const inMandelbrotSet = (c: Point) => {
     let z = new Point(0, 0)
-    let escapeRadius = 2 * 2
+    const escapeRadius = 2 * 2
     for (let i = 0; i < 1000; i++) {
         z = multiply(z, z).add(c.x, c.y)
         if (z.x + z.y > escapeRadius) {

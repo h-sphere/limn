@@ -1,11 +1,11 @@
-import { BristleContext, PrimitiveRenderable } from "../bristle/interfaces";
+import { BristleContext, Renderable } from "../bristle/interfaces";
 
 interface SquareGridConfig {
     width: number,
     color: string
 }
 
-export class SquareGrid implements PrimitiveRenderable {
+export class SquareGrid implements Renderable {
     constructor(public readonly size: number, private readonly config: SquareGridConfig) {
 
     }

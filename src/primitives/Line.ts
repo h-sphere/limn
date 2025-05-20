@@ -1,29 +1,31 @@
-import { computed } from "signia";
+import { computed, Signal } from "signia";
 import { Point } from "./Point";
-import { NumSig } from "../utils/signalTypes";
+import { NumSig, PointSig, PointSignal, toPointSig } from "../utils/signalTypes";
 import { num } from "../math/matrix";
 
 export class Line {
-    constructor(
-        private readonly _p1: Point,
-        private readonly _p2: Point) {
+    #p1: Signal<Point>
+    #p2: Signal<Point>
+    constructor(p1: PointSignal, p2: PointSignal) {
+        this.#p1 = toPointSig(p1)
+        this.#p2 = toPointSig(p2)
     }
 
-    get p1() {
-        return this._p1
+    @computed get p1() {
+        return this.#p1.value
     }
 
-    get p2() {
-        return this._p2
+    @computed get p2() {
+        return this.#p2.value
     }
 
-    get length() {
+    @computed get length() {
         const xDiff = this.p2.x - this.p1.x
         const yDiff = this.p2.y - this.p1.y
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff)
     }
 
-    get center() {
+    @computed get center() {
         const xDiff = computed('x', () => this.p1.x + (this.p2.x - this.p1.x) / 2)
         const yDiff = computed('y', () => this.p1.y + (this.p2.y - this.p1.y) / 2)
         return new Point(xDiff, yDiff)

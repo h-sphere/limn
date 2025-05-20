@@ -1,11 +1,11 @@
-import { BristleContext, PrimitiveRenderable } from "../bristle/interfaces";
+import { BristleContext, Renderable } from "../bristle/interfaces";
 
 interface TriangleGridConfig {
     width: number,
     color: string
 }
 
-export class TriangleGrid implements PrimitiveRenderable {
+export class TriangleGrid implements Renderable {
     constructor(public readonly size: number, private readonly config: TriangleGridConfig) {
 
     }

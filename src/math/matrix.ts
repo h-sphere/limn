@@ -76,10 +76,10 @@ const id = [1,0,0,0,1,0,0,0,1] as Matrix3x3
 
 export const transform = (config: TransformConfig) => {
   return computed('matrix', () => {
-    let [x, y] = xy(config.origin ?? [0, 0])
+    const [x, y] = xy(config.origin ?? [0, 0])
     const translate = xy(config.translate ?? [0, 0])
     const rotate = num(config.rotate ?? 0)
-    const scale = num(config.scale ?? 0)
+    const scale = num(config.scale ?? 1)
 
     const translateToOrigin = createMatrix3(
       1, 0, -x,
@@ -89,8 +89,18 @@ export const transform = (config: TransformConfig) => {
     const cos = Math.cos(rotate)
     const sin = Math.sin(rotate)
 
+    const translateMatrix = createMatrix3(
+      1, 0, translate[0],
+      0, 1, translate[1]
+    )
+
+    const scaleMatrix = createMatrix3(
+      scale, 0,     0,
+      0,     scale, 0
+    )
+
     const rotateMatrix = createMatrix3(
-      cos, sin, 0,
+      cos , sin, 0,
       -sin, cos, 0
     )
 
@@ -99,7 +109,9 @@ export const transform = (config: TransformConfig) => {
       0, 1, y
     )
 
-    const tmp = multiply(rotateMatrix, translateToOrigin)
+    const transformations = multiply(multiply(rotateMatrix, scaleMatrix), translateMatrix)
+
+    const tmp = multiply(transformations, translateToOrigin)
     return multiply(translateBack, tmp)
   })
 }

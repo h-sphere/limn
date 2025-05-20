@@ -68,7 +68,10 @@ export class Point implements Transformable<Point> {
     }
 
     mul(v: NumSig) {
-        return new Point(this.x * num(v), this.y * num(v))
+        return new Point(
+            computed('x', () => this.x * num(v)),
+            computed('y', () => this.y * num(v))
+        )
     }
 
     transform(c: TransformConfig): Point {

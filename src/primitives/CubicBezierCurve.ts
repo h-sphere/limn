@@ -1,19 +1,8 @@
 import { atom, computed, isAtom, isSignal, Signal } from "signia";
-import { NumSig, PointSig } from "../utils/signalTypes";
+import { NumSig, PointSig, PointSignal, toPointSig } from "../utils/signalTypes";
 import { num } from "../math/matrix";
 import { Point } from "./Point";
 
-type PointSignal = PointSig | Signal<Point>
-
-const toPointSig = (p: PointSignal) => {
-    if (isSignal(p)) {
-        return p
-    }
-    if (Array.isArray(p)) {
-        return atom('point', new Point(...p))
-    }
-    return atom('point', p)
-}
 
 
 export class CubicBezierCurve {

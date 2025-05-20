@@ -43,4 +43,22 @@ describe('Point', () => {
         const protated = p.transform({ rotate: 90 * Math.PI / 180, origin: [0, 0 ] })
         expect(protated.xy).toEqual([10, -10])
     })
+
+    it('should properly scale point', () => {
+        const p = new Point(10, 20)
+        const pscaled = p.transform({ scale: 2 })
+        expect(pscaled.xy).toEqual([20, 40])
+    })
+
+    it('should properly scale from the same point (no difference)', () => {
+        const p = new Point(20, 50)
+        const pscaled = p.transform({ scale: 2, origin: p })
+        expect(pscaled.xy).toEqual([20, 50])
+    })
+
+    it('should properly translate the point', () => {
+        const p = new Point(20, 50)
+        const ptranslated = p.transform({ translate: [50, 50]})
+        expect(ptranslated.xy).toEqual([70, 100])
+    })
 })
