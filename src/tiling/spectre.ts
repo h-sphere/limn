@@ -1,4 +1,4 @@
-import { BristleContext, PrimitiveRenderable } from "../bristle/interfaces";
+import { BristleContext, Renderable } from "../bristle/interfaces";
 import { Turtle, TurtleRenderConfig } from "../turtle/turtle";
 interface Settings {
     x: number,
@@ -7,7 +7,7 @@ interface Settings {
     rotation?: number
 }
 
-export class Spectre implements PrimitiveRenderable {
+export class Spectre implements Renderable {
     constructor(private readonly params: Settings, private readonly config: TurtleRenderConfig) {
 
     }

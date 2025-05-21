@@ -1,5 +1,7 @@
 import { Atom, atom, computed, Signal } from "signia";
 
+const identity = (i: number) => i
+
 export class Timer {
     #currentTime: Atom<number> = atom('time', 0)
     #startTick: number = 0
@@ -49,8 +51,9 @@ export class Timer {
         return this.#isRunning
     }
 
-    infinite<T>(ms: number, fn: (i: number) => T): Signal<T> {
+    infinite<T = number>(ms: number, fn?: (i: number) => T): Signal<T> {
         const start = this.currentTime
+        const f = fn ?? identity
         return computed(`infinite ${ms}ms`, () => {
             let t = (this.currentTime - start) / ms
             if (Math.floor(t) % 2 === 1) {
@@ -58,8 +61,8 @@ export class Timer {
             } else {
                 t = t % 1
             }
-            return fn(t)
-        })
+            return f(t)
+        }) as Signal<T>
     }
 
     infiniteForward<T>(ms: number, fn: (i: number) => T): Signal<T> {

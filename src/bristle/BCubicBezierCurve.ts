@@ -1,10 +1,12 @@
-import { xy } from "../math/matrix";
+import { num, xy } from "../math/matrix";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
+import { Color, Size } from "../utils/configs";
+import { str } from "../utils/signalTypes";
 import { BristleContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BCurveConfig {
-    width: number;
-    color: string;
+    width: Size;
+    color: Color;
 }
 
 export class BCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, BCurveConfig> {
@@ -16,8 +18,8 @@ export class BCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, BCu
     }
 
     render(ctx: BristleContext) {
-        ctx.strokeStyle = this._config.color
-        ctx.lineWidth = this._config.width
+        ctx.strokeStyle = str(this._config.color)
+        ctx.lineWidth = num(this._config.width)
         ctx.beginPath()
         const p1 = xy(this._p.p1)
         const p2 = xy(this._p.p2)

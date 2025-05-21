@@ -1,11 +1,12 @@
-import { computed, Signal } from "signia";
-import { xy } from "../math/matrix";
+import { num, xy } from "../math/matrix";
 import { BezierSpline } from "../primitives/BezierSpline";
 import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { Color, Size } from "../utils/configs";
+import { str } from "../utils/signalTypes";
 
 export interface BBezierSplineConfig {
-    width: number;
-    color: string;
+    width: Size;
+    color: Color;
 }
 
 export class BBezierSpline extends PrimitiveRenderable<BezierSpline, BBezierSplineConfig> {
@@ -16,8 +17,8 @@ export class BBezierSpline extends PrimitiveRenderable<BezierSpline, BBezierSpli
         }
     }
     render(ctx: BristleContext) {
-        ctx.strokeStyle = this._config.color
-        ctx.lineWidth = this._config.width
+        ctx.strokeStyle = str(this._config.color)
+        ctx.lineWidth = num(this._config.width)
         ctx.beginPath()
 
         const points = this._p.points

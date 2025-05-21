@@ -2,6 +2,7 @@ import { atom, computed, isAtom, isSignal, Signal } from "signia";
 import { NumSig, PointSig, PointSignal, toPointSig } from "../utils/signalTypes";
 import { num } from "../math/matrix";
 import { Point } from "./Point";
+import { ReactiveArray } from "./ReactiveArray";
 
 
 
@@ -26,6 +27,10 @@ export class CubicBezierCurve {
         if (isAtom(this.#p1)) {
             this.#p1.set(v)
         }
+    }
+
+    get points() {
+        return new ReactiveArray([this.p1, this.p2, this.c1, this.c2])
     }
 
     @computed get p2(): Point {

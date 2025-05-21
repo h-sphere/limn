@@ -1,10 +1,13 @@
+import { num } from "../math/matrix";
 import { Rectangle } from "../primitives/Rectangle";
+import { Color, Size } from "../utils/configs";
+import { str } from "../utils/signalTypes";
 import { BristleContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BRectangleConfig {
-    fillStyle: string
-    strokeStyle: string
-    width: number
+    fillStyle: Color
+    strokeStyle: Color
+    width: Size
 }
 
 export class BRectangle extends PrimitiveRenderable<Rectangle, BRectangleConfig> {
@@ -19,13 +22,13 @@ export class BRectangle extends PrimitiveRenderable<Rectangle, BRectangleConfig>
     render(ctx: BristleContext) {
         ctx.beginPath()
         if (this._config.fillStyle) {
-            ctx.fillStyle = this._config.fillStyle
+            ctx.fillStyle = str(this._config.fillStyle)
             ctx.fillRect(...this._p.p1.xy, ...this._p.size.xy)
         }
 
         if (this._config.strokeStyle) {
-            ctx.strokeStyle = this._config.strokeStyle
-            ctx.lineWidth = this._config.width
+            ctx.strokeStyle = str(this._config.strokeStyle)
+            ctx.lineWidth = num(this._config.width)
             ctx.strokeRect(...this._p.p1.xy, ...this._p.size.xy)
         }
     }
