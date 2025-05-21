@@ -80,7 +80,7 @@ export class BristleRenderer {
     _height: Atom<number> = atom('height', 0)
     constructor(private readonly ctx: BristleContext) {
         if (ctx.canvas) {
-            this._width.set(ctx.canvas.height)
+            this._width.set(ctx.canvas.width)
             this._height.set(ctx.canvas.height)
         }
     }
@@ -99,6 +99,17 @@ export class BristleRenderer {
 
     @computed get canvasRect() {
         return new Rectangle(new Point(0, 0), this.size)
+    }
+
+    #mousePos: Point = new Point(0, 0)
+    #isTrackingMousePos: boolean = false
+    get mousePos() {
+        if (!this.#isTrackingMousePos) {
+            this.ctx.canvas.addEventListener('mousemove', (e: any) => {
+                this.#mousePos.xy = [e.layerX, e.layerY]
+            })
+        }
+        return this.#mousePos
     }
 
     fitScreen() {

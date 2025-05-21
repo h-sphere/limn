@@ -84,3 +84,5 @@ export class Point implements Transformable<Point> {
         return new Point(x, y)
     }
 }
+
+export const point = (...args: ConstructorParameters<typeof Point>) => new Point(...args)

@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "signia": "^0.1.5"
@@ -17,9 +20,11 @@
     "@types/jest": "^29.5.14",
     "eslint": "^9.27.0",
     "jest": "^29.7.0",
+    "shiki": "^3.4.2",
     "ts-jest": "^29.3.4",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.32.1",
-    "vite": "^5.1.4"
+    "vite": "^5.1.4",
+    "vitepress": "^1.6.3"
   }
 }
