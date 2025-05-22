@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Bristle",
+  base: '/bristle/',
   description: "Reactive Geometry Framework",
   themeConfig: {
     aside: false,
