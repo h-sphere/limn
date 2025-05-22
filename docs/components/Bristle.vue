@@ -23,7 +23,6 @@ onMounted(() => {
 let icon = ref("⏸︎")
 
 function togglePause() {
-  console.log("TOGGLE")
   if (r.timer.isRunning) {
     r.timer.pause()
     icon.value = "▶︎"

@@ -76,14 +76,12 @@ renderer.watch()
 
 window.addEventListener('mousedown', () => {
     if (renderer.timer.isRunning) {
-        console.log('PAUSE')
         renderer.timer.pause()
     }
 })
 
 window.addEventListener('mouseup', () => {
     if (!renderer.timer.isRunning) {
-        console.log('RESTART')
         renderer.timer.start()
     }
 })

@@ -18,14 +18,11 @@ const { fn } = defineProps({
     fn: Function
 })
 
-console.log('FN', fn)
-
 // THIS IS HACK TO PRESERVE IMPORTS
 GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle
 
 const render = (r) => {
     const code = slot.value?.textContent.slice(2)
-    console.log(code)
     eval(code)
     // fn(r)
 }
