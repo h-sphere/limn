@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { useTemplateRef, onMounted, ref } from 'vue'
+<script setup>
+import { useTemplateRef, onMounted, ref, defineProps } from 'vue'
 // import { Renderer } from '../../src/bristle/Renderer'
 // const renderer = new Renderer()
 import { BristleRenderer } from '../../src/bristle/Renderer'

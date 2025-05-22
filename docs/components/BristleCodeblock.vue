@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { useTemplateRef, onMounted, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 // import { Renderer } from '../../src/bristle/Renderer'
 // const renderer = new Renderer()
 import Bristle from './Bristle.vue'
@@ -14,12 +14,8 @@ import { CubicBezierCurve } from '../../src/primitives/CubicBezierCurve'
 
 const slot = ref(null)
 
-const { fn } = defineProps({
-    fn: Function
-})
-
 // THIS IS HACK TO PRESERVE IMPORTS
-GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle
+[GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle]
 
 const render = (r) => {
     const code = slot.value?.textContent.slice(2)
