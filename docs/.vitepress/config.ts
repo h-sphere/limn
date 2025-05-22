@@ -23,6 +23,7 @@ export default defineConfig({
         items: [
           { text: 'Point', link: '/shapes/point' },
           { text: 'Line', link: '/shapes/line' },
+          { text: 'Rectangle', link: '/shapes/rectangle' },
           { text: 'Circle', link: '/shapes/circle' },
           { text: 'Polygon', link: '/shapes/polygon' },
           { text: 'Bezier Curves', link: '/shapes/bezier-curve' }
@@ -39,7 +40,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/h-sphere/bristle' }
     ]
   }
 })

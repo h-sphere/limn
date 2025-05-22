@@ -5,6 +5,7 @@ import { useTemplateRef, onMounted, ref } from 'vue'
 import Bristle from './Bristle.vue'
 import { Circle } from '../../src/primitives/Circle'
 import { Line } from '../../src/primitives/Line'
+import { Rectangle } from '../../src/primitives/Rectangle'
 import { computed } from 'signia'
 import { GenerativeCollection } from '../../src/primitives/GenerativeCollection'
 import { Point } from '../../src/primitives/Point'
@@ -20,7 +21,7 @@ const { fn } = defineProps({
 console.log('FN', fn)
 
 // THIS IS HACK TO PRESERVE IMPORTS
-GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve
+GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle
 
 const render = (r) => {
     const code = slot.value?.textContent.slice(2)

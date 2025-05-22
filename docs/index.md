@@ -10,9 +10,6 @@ hero:
     - theme: brand
       text: Get Started
       link: /get-started
-    - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
   - title: Reactive
