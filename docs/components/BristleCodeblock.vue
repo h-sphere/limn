@@ -11,19 +11,37 @@ import { GenerativeCollection } from '../../src/primitives/GenerativeCollection'
 import { Point } from '../../src/primitives/Point'
 import { Polygon } from '../../src/primitives/Polygon'
 import { CubicBezierCurve } from '../../src/primitives/CubicBezierCurve'
+import { onMounted } from 'vue'
 
 const slot = ref(null)
 
 // THIS IS HACK TO PRESERVE IMPORTS
 [GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle]
 
+let wasRenderer = false
+
 const render = (variable) => {
     const r = variable
     window.r = variable
-    console.log('SLOT', slot)
-    const code = slot.value?.textContent.slice(2)
-    eval(code)
+    if (window.r && slot.value && !wasRenderer) {
+      wasRenderer = true
+      const code = slot.value?.textContent.slice(2)
+      eval(code)
+      
+    }
 }
+
+onMounted(() => {
+  if (window.r && slot.value) {
+    if (!wasRenderer) {
+      console.log('mounted')
+      const code = slot.value?.textContent.slice(2)
+      eval(code)
+    }
+  } else {
+    console.log('not mounted, something wrong')
+  }
+})
 
 </script>
 
