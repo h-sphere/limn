@@ -17,10 +17,12 @@ const slot = ref(null)
 // THIS IS HACK TO PRESERVE IMPORTS
 [GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle]
 
-const render = (r) => {
+const render = (variable) => {
+    const r = variable
+    window.r = variable
+    console.log('SLOT', slot)
     const code = slot.value?.textContent.slice(2)
     eval(code)
-    // fn(r)
 }
 
 </script>
