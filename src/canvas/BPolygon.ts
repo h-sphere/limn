@@ -2,7 +2,7 @@ import { num } from "../math/matrix";
 import { Polygon } from "../primitives/Polygon";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BPolygonConfig {
     width: Size;
@@ -20,7 +20,7 @@ export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
         }
     }
 
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         ctx.save()
         ctx.beginPath()
         const p = this._p.points

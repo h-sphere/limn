@@ -10,14 +10,14 @@ import { GenerativeCollection } from "./primitives/GenerativeCollection";
 import { ReactiveArray } from "./primitives/ReactiveArray";
 
 // Renderers
-import { BristleRenderer } from "./bristle/Renderer";
-import { BPoint } from "./bristle/BPoint";
-import { BRectangle } from "./bristle/BRectangle";
-import { BBezierSpline } from "./bristle/BBezierSpline";
-import { BCircle } from "./bristle/BCircle";
-import { BCubicBezierCurve } from "./bristle/BCubicBezierCurve";
-import { BLine } from "./bristle/BLine";
-import { BPolygon } from "./bristle/BPolygon";
+import { LimnRenderer } from "./canvas/Renderer";
+import { BPoint } from "./canvas/BPoint";
+import { BRectangle } from "./canvas/BRectangle";
+import { BBezierSpline } from "./canvas/BBezierSpline";
+import { BCircle } from "./canvas/BCircle";
+import { BCubicBezierCurve } from "./canvas/BCubicBezierCurve";
+import { BLine } from "./canvas/BLine";
+import { BPolygon } from "./canvas/BPolygon";
 
 // Timer
 import { Timer } from "./timer/timer";
@@ -36,7 +36,7 @@ export {
     GenerativeCollection,
     ReactiveArray,
 
-    BristleRenderer,
+    LimnRenderer,
     BPoint,
     BRectangle,
     BBezierSpline,

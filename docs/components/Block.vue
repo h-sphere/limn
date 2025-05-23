@@ -1,6 +1,6 @@
 <script setup>
 import VCodeBlock from '@wdns/vue-code-block';
-import Bristle from './Bristle.vue'
+import Limn from './Limn.vue'
 import { data } from '../examples.data'
 import * as code from '../exampleCode.ts'
 
@@ -16,7 +16,7 @@ const render = (r) => {
 
 </script>
 <template>
-    <div class="bristle-codeblock">
+    <div class="limn-codeblock">
         <div class="left">
             <VCodeBlock
                 :code="codeStr"
@@ -26,19 +26,19 @@ const render = (r) => {
                 />
         </div>
         <div class="right">
-            <Bristle @render="render" border controls />
+            <Limn @render="render" border controls />
         </div>
     </div>
 </template>
 <style>
-  .bristle-codeblock {
+  .limn-codeblock {
     display: grid;
     grid-template-columns: 50% 50%;
     gap: 1em;
   }
 
   @media (max-width: 768px) {
-    .bristle-codeblock {
+    .limn-codeblock {
       grid-template-columns: auto;
     }
   }

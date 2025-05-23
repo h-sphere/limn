@@ -2,12 +2,12 @@ import { Line } from "../primitives/Line"
 import { Point } from "../primitives/Point"
 import { BLine } from "./BLine"
 import { BPoint } from "./BPoint"
-import { BristleRenderer } from "./Renderer"
+import { LimnRenderer } from "./Renderer"
 
 describe('Renderer', () => {
     it('should properly as for proper type when instantiating non-renderable objects', () => {
         const ctx = {} as any
-        const renderer = new BristleRenderer(ctx, 100, 100)
+        const renderer = new LimnRenderer(ctx, 100, 100)
         const p = new Point(10, 10)
 
         const ret = renderer.add(p, { color: 'red', width: 1 })

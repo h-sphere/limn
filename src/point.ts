@@ -1,5 +1,5 @@
 import { atom, computed, react } from "signia"
-import { BristleRenderer } from "./bristle/Renderer"
+import { LimnRenderer } from "./canvas/Renderer"
 import { Point } from "./primitives/Point"
 import { Polygon } from "./primitives/Polygon"
 import { Line } from "./primitives/Line"
@@ -14,7 +14,7 @@ const com = <T>(fn: () => T) => {
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 
 const ctx = canvas.getContext('2d')!
-const renderer = new BristleRenderer(ctx).fitScreen()
+const renderer = new LimnRenderer(ctx).fitScreen()
 
 const c = renderer.center
 const size = computed('size', () => Math.min(renderer.center.x, renderer.center.y))

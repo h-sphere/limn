@@ -1,21 +1,19 @@
 <script setup>
 import { useTemplateRef, onMounted, ref, defineProps } from 'vue'
-// import { Renderer } from '../../src/bristle/Renderer'
-// const renderer = new Renderer()
-import { BristleRenderer } from '../../src/bristle/Renderer'
+import { LimnRenderer } from '../../src/canvas/Renderer'
 
 const emit = defineEmits(['render'])
 const props = defineProps({
   controls: Boolean,
   border: Boolean
 })
-const canvas = useTemplateRef('bristle-canvas')
+const canvas = useTemplateRef('limn-canvas')
 let r
 onMounted(() => {
   const v = canvas.value
   v.width = v.clientWidth
   v.height = v.clientHeight
-  r = new BristleRenderer(v.getContext('2d'))
+  r = new LimnRenderer(v.getContext('2d'))
   emit('render', r)
   r.watch()
 })
@@ -35,15 +33,15 @@ function togglePause() {
 </script>
 
 <template>
-  <div class="bristle-example-container" :class="{ 'with-border': props.border, 'with-controls': props.controls}">
-    <canvas class="bristle-example" ref="bristle-canvas"></canvas>
+  <div class="limn-example-container" :class="{ 'with-border': props.border, 'with-controls': props.controls}">
+    <canvas class="limn-example" ref="limn-canvas"></canvas>
     <button class="pause-button" @click="togglePause">{{icon}}</button>
   </div>
 </template>
 
 <style>
 
-.bristle-example-container {
+.limn-example-container {
   width: 100%;
   aspect-ratio: 16/9;
   position: relative;
@@ -54,7 +52,7 @@ function togglePause() {
   border: 1px solid var(--vp-c-divider);
 }
 
-.bristle-example {
+.limn-example {
   width: 100%;
   height: 100%;
 }

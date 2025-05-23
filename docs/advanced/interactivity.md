@@ -6,7 +6,7 @@ import Block from '../components/Block.vue'
 You can change underlying signals based on user interactions like mouse position, clicks, gyroscope, etc.
 
 ## Mouse Movement
-BristleRenderer exposes `mousePos` property which is a point storing current mouse position (relative to the canvas).
+LimnRenderer exposes `mousePos` property which is a point storing current mouse position (relative to the canvas).
 
 <Block name="interactivityBasic" />
 

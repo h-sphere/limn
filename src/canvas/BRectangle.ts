@@ -2,7 +2,7 @@ import { num } from "../math/matrix";
 import { Rectangle } from "../primitives/Rectangle";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BRectangleConfig {
     fillStyle: Color
@@ -19,7 +19,7 @@ export class BRectangle extends PrimitiveRenderable<Rectangle, BRectangleConfig>
         }
     }
 
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         ctx.beginPath()
         if (this._config.fillStyle) {
             ctx.fillStyle = str(this._config.fillStyle)

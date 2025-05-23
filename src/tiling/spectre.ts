@@ -1,4 +1,4 @@
-import { BristleContext, Renderable } from "../bristle/interfaces";
+import { LimnContext, Renderable } from "../canvas/interfaces";
 import { Turtle, TurtleRenderConfig } from "../turtle/turtle";
 interface Settings {
     x: number,
@@ -12,7 +12,7 @@ export class Spectre implements Renderable {
 
     }
 
-    render (ctx: BristleContext) {
+    render (ctx: LimnContext) {
         ctx.beginPath()
         // FIXME: use turtle?
         const x = this.params.x

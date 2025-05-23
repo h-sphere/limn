@@ -1,6 +1,6 @@
 import { atom, computed, isSignal, Signal } from "signia";
 import { ReactiveArray } from "../primitives/ReactiveArray";
-import { BristleContext, Renderable } from "./interfaces";
+import { LimnContext, Renderable } from "./interfaces";
 
 export class BArray<T extends Renderable> implements Renderable {
     arr: Signal<ReactiveArray<T>>
@@ -12,7 +12,7 @@ export class BArray<T extends Renderable> implements Renderable {
         }
     }
 
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         (this.arr.value.items ?? []).forEach(i => {
             if (i.render) {
                 i.render(ctx)

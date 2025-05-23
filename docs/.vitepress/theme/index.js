@@ -1,7 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
-import BristleTheme from './BristleTheme.vue'
+import LimnTheme from './LimnTheme.vue'
 
 export default {
   extends: DefaultTheme,
-  Layout: BristleTheme
+  Layout: LimnTheme
 }

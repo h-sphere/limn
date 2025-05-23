@@ -1,17 +1,17 @@
 import { atom, computed } from "signia"
-import { BristleRenderer } from "./bristle/Renderer"
+import { LimnRenderer } from "./canvas/Renderer"
 import { Polygon } from "./primitives/Polygon"
 import { Line } from "./primitives/Line"
 import { CubicBezierCurve } from "./primitives/CubicBezierCurve"
 import { Circle } from "./primitives/Circle"
 import { GenerativeCollection } from "./primitives/GenerativeCollection"
-import { BCircle } from "./bristle/BCircle"
+import { BCircle } from "./canvas/BCircle"
 
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 
 const ctx = canvas.getContext('2d')!
 
-const renderer = new BristleRenderer(ctx).fitScreen()
+const renderer = new LimnRenderer(ctx).fitScreen()
 
 const p = atom('p', 25)
 const edges = atom('edges', 5)

@@ -1,8 +1,5 @@
-import { atom, computed, react } from "signia"
-import { BristleRenderer } from "./bristle/Renderer"
-import { Point } from "./primitives/Point"
-import { Polygon } from "./primitives/Polygon"
-import { Line } from "./primitives/Line"
+import { computed } from "signia"
+import { LimnRenderer } from "./canvas/Renderer"
 import { CubicBezierCurve } from "./primitives/CubicBezierCurve"
 
 const com = <T>(fn: () => T) => {
@@ -12,7 +9,7 @@ const com = <T>(fn: () => T) => {
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 
 const ctx = canvas.getContext('2d')!
-const renderer = new BristleRenderer(ctx).fitScreen()
+const renderer = new LimnRenderer(ctx).fitScreen()
 
 // const width = renderer.timer.infinite(2000, i => i * 20)
 

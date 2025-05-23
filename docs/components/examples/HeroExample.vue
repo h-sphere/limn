@@ -1,6 +1,5 @@
 <script setup>
-import Bristle from '../Bristle.vue'
-import { BristleRenderer } from '../../../src/bristle/Renderer'
+import Limn from '../Limn.vue'
 import { Circle } from '../../../src/primitives/Circle'
 import { Line } from '../../../src/primitives/Line'
 import { computed } from 'signia'
@@ -17,5 +16,5 @@ function code(r) {
 }
 </script>
 <template>
-    <Bristle @render="code" />
+    <Limn @render="code" />
 </template>

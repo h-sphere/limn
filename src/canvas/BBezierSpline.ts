@@ -1,6 +1,6 @@
 import { num, xy } from "../math/matrix";
 import { BezierSpline } from "../primitives/BezierSpline";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 
@@ -16,7 +16,7 @@ export class BBezierSpline extends PrimitiveRenderable<BezierSpline, BBezierSpli
             color: config?.color ?? 'black'
         }
     }
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         ctx.strokeStyle = str(this._config.color)
         ctx.lineWidth = num(this._config.width)
         ctx.beginPath()

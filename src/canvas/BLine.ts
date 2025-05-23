@@ -1,5 +1,5 @@
 import { Line } from "../primitives/Line";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 import { Color, Size } from "../utils/configs";
 import { num } from "../math/matrix";
 import { str } from "../utils/signalTypes";
@@ -17,7 +17,7 @@ export class BLine extends PrimitiveRenderable<Line, BLineConfig> {
         }
     }
 
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         ctx.strokeStyle = str(this._config.color)
         ctx.lineWidth = num(this._config.width)
         ctx.beginPath()

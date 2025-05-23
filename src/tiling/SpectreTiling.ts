@@ -1,4 +1,4 @@
-import { BristleContext, Renderable } from "../bristle/interfaces";
+import { LimnContext, Renderable } from "../canvas/interfaces";
 import { TurtleRenderConfig } from "../turtle/turtle";
 import { Spectre } from "./spectre";
 
@@ -14,7 +14,7 @@ export class SpectreTiling implements Renderable {
     constructor(private params: Settings, private readonly renderConfig: TurtleRenderConfig) {
 
     }
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         if (this.params.depth <= 0) {
             return
         }

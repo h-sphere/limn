@@ -2,7 +2,7 @@ import { num } from "../math/matrix";
 import { Circle } from "../primitives/Circle";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BCircleConfig {
     width: Size
@@ -19,7 +19,7 @@ export class BCircle extends PrimitiveRenderable<Circle, BCircleConfig> {
             width: config.width ?? 1
         }
     }
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         const center = this._p.center
         const radius = this._p.radius
         ctx.beginPath()

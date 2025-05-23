@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Bristle",
-  base: '/bristle/',
+  title: "Limn",
+  base: '/limn/',
   description: "Reactive Geometry Framework",
   themeConfig: {
     aside: false,
@@ -41,7 +41,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/h-sphere/bristle' }
+      { icon: 'github', link: 'https://github.com/h-sphere/limn' }
     ]
   }
 })

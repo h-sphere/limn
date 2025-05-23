@@ -14,7 +14,7 @@ import { BLine } from "./BLine";
 import { BPoint } from "./BPoint";
 import { BPolygon } from "./BPolygon";
 import { BRectangle } from "./BRectangle";
-import { BristleContext, PrimitiveRenderable, Renderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
 
@@ -75,10 +75,10 @@ const isRenderable = (r: object): r is PrimitiveRenderable<any, any> => {
     return false
 }
 
-export class BristleRenderer {
+export class LimnRenderer {
     _width: Atom<number> = atom('width', 0)
     _height: Atom<number> = atom('height', 0)
-    constructor(private readonly ctx: BristleContext) {
+    constructor(private readonly ctx: LimnContext) {
         if (ctx.canvas) {
             this._width.set(ctx.canvas.width)
             this._height.set(ctx.canvas.height)

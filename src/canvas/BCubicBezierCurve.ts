@@ -2,7 +2,7 @@ import { num, xy } from "../math/matrix";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
-import { BristleContext, PrimitiveRenderable } from "./interfaces";
+import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BCurveConfig {
     width: Size;
@@ -17,7 +17,7 @@ export class BCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, BCu
         }
     }
 
-    render(ctx: BristleContext) {
+    render(ctx: LimnContext) {
         ctx.strokeStyle = str(this._config.color)
         ctx.lineWidth = num(this._config.width)
         ctx.beginPath()

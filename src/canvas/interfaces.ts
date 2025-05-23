@@ -1,9 +1,7 @@
-import { Signal } from "signia"
-
-export type BristleContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
+export type LimnContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
 
 export interface Renderable {
-    render(ctx: BristleContext): void
+    render(ctx: LimnContext): void
 }
 
 export abstract class PrimitiveRenderable<Parent, Config> implements Renderable {
@@ -14,5 +12,5 @@ export abstract class PrimitiveRenderable<Parent, Config> implements Renderable 
         this._config = this.parseConfig(config)
     }
     abstract parseConfig(config: Partial<Config>): Config
-    abstract render(ctx: BristleContext): void
+    abstract render(ctx: LimnContext): void
 }

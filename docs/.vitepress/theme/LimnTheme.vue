@@ -1,7 +1,7 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
-import Bristle from '../../components/Bristle.vue'
+import Limn from '../../components/Limn.vue'
 import { Line } from '../../../src/primitives/Line'
 import { Point } from '../../../src/primitives/Point'
 import { Circle } from '../../../src/primitives/Circle'
@@ -48,7 +48,7 @@ const { Layout } = DefaultTheme
   <Layout>
     <template #home-hero-image>
       
-<Bristle @render="render" />
+<Limn @render="render" />
     </template>
   </Layout>
 </template>

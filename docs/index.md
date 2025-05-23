@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Bristle"
+  name: "Limn"
   text: "Reactive Geometry Framework"
   tagline: TypeScript library for reactive geometry
   actions:

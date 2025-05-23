@@ -1,4 +1,4 @@
-import { BristleContext } from "../bristle/interfaces"
+import { LimnContext } from "../canvas/interfaces"
 import { Point } from "../primitives/Point";
 
 export interface TurtleRenderConfig {
@@ -10,7 +10,7 @@ export interface TurtleRenderConfig {
 export class Turtle {
     angle: number = 0
     points: Array<Point> = []
-    constructor(private x: number, private y: number, private ctx: BristleContext) {
+    constructor(private x: number, private y: number, private ctx: LimnContext) {
         this.points.push(new Point(x, y))
         this.ctx.moveTo(x, y)
     }

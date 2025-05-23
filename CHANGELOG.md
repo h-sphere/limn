@@ -1,4 +1,4 @@
-# bristle
+# Limn
 
 ## 0.1.0
 
