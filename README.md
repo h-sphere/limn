@@ -1,3 +1,3 @@
 # Limn
 
-Reactive library for drawing 2d.
+Reactive library for drawing 2D.

@@ -1,5 +1,5 @@
 {
-  "name": "limner",
+  "name": "limn",
   "private": false,
   "version": "0.1.0",
   "type": "module",
@@ -15,6 +15,11 @@
     "lint": "eslint src",
     "publish": "pnpm build && pnpm exec changeset publish"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "signia": "^0.1.5"
   },
