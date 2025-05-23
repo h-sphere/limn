@@ -1,18 +1,19 @@
 <script setup>
-import BCodeblock from '../components/BristleCodeblock.vue'
+import Block from '../components/Block.vue'
+import { Circle } from '../../src/index'
+
+const circle = (r) => {
+    const c = new Circle(r.center, 50)
+    r.add(c, {
+        strokeStyle: 'red',
+        width: 1
+    })
+}
+
 </script>
 
 # Circle
 You can draw circles
 
-## Rendering a line
-<BCodeblock>
-
-```js
-const c = new Circle(r.center, 50)
-r.add(c, {
-    strokeStyle: 'red',
-    width: 1
-})
-```
-</BCodeblock>
+## Rendering a circle
+<Block :code="circle" />
