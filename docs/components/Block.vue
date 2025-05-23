@@ -1,18 +1,17 @@
 <script setup>
-import { computed, onMounted } from 'vue'
 import VCodeBlock from '@wdns/vue-code-block';
 import Bristle from './Bristle.vue'
-
+import { data } from '../examples.data'
+import * as code from '../exampleCode.ts'
 
 const props = defineProps({
-    code: Function
+  name: String
 })
 
-const codeStr = props.code?.toString().split('\n').slice(1, -1).join('\n')
-
+const codeStr = data[props.name]
 
 const render = (r) => {
-    props.code(r)
+  code[props.name](r)
 }
 
 </script>
@@ -27,7 +26,7 @@ const render = (r) => {
                 />
         </div>
         <div class="right">
-            <Bristle @render="render" border="true" controls="true" />
+            <Bristle @render="render" border controls />
         </div>
     </div>
 </template>

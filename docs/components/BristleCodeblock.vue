@@ -22,7 +22,6 @@ const props = defineProps({
 [GenerativeCollection, Circle, Line, computed, Point, Polygon, CubicBezierCurve, Rectangle]
 
 const render = (variable) => {
-    console.log('bristle render')
     // const r = variable
     // window.r = variable
     // if (window.r && slot.value && !wasRenderer) {
