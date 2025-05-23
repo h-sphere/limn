@@ -1,5 +1,11 @@
 # Limn
 
+## 0.1.1
+
+### Patch Changes
+
+- 2c6d1ff: adding license and reducing number of published files
+
 ## 0.1.0
 
 ### Minor Changes
