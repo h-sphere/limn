@@ -8,9 +8,7 @@ const props = defineProps({
     code: Function
 })
 
-const codeStr = computed(() => {
-    return props.code?.toString().split('\n').slice(1, -1).join('\n')
-})
+const codeStr = props.code?.toString().split('\n').slice(1, -1).join('\n')
 
 
 const render = (r) => {
