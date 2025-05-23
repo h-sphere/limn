@@ -1,5 +1,0 @@
----
-"bristle": minor
----
-
-initial release
