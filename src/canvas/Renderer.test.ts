@@ -1,7 +1,7 @@
 import { Line } from "../primitives/Line"
 import { Point } from "../primitives/Point"
-import { BLine } from "./BLine"
-import { BPoint } from "./BPoint"
+import { RLine } from "./RLine"
+import { RPoint } from "./RPoint"
 import { LimnRenderer } from "./Renderer"
 
 describe('Renderer', () => {
@@ -10,19 +10,19 @@ describe('Renderer', () => {
         const renderer = new LimnRenderer(ctx, 100, 100)
         const p = new Point(10, 10)
 
-        const ret = renderer.add(p, { color: 'red', width: 1 })
-        expect(ret).toBeInstanceOf(BPoint)
+        const ret = renderer.add(p, { color: 'red', radius: 1 })
+        expect(ret).toBeInstanceOf(RPoint)
 
         const bpoint = renderer.add(new Point(10, 10), {
             color: 'red',
-            width: 1
+            radius: 1
         })
-        expect(bpoint).toBeInstanceOf(BPoint)
+        expect(bpoint).toBeInstanceOf(RPoint)
 
         const res = renderer.add(new Line(p, p.add(100, 100)), {
             color: 'red',
             width: 1
         })
-        expect(res).toBeInstanceOf(BLine)
+        expect(res).toBeInstanceOf(RLine)
     })
 })

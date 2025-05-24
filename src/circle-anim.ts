@@ -33,12 +33,12 @@ const j = renderer.timer.infiniteForward(3440, i=>1-i)
 
 renderer.add(circle.lerp(i), {
     color: 'white',
-    width: 5
+    radius: 5
 })
 
 renderer.add(circle.lerp(j), {
     color: 'white',
-    width: 5
+    radius: 5
 })
 
 const l = new Line(circle.lerp(i), circle.lerp(j))
@@ -50,12 +50,12 @@ renderer.add(l, {
 
 renderer.add(l.tangent.center, {
     color: 'white',
-    width: 10
+    radius: 10
 })
 
 renderer.add(l.center, {
     color: 'orange',
-    width: 20
+    radius: 20
 })
 
 

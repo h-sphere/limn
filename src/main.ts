@@ -5,7 +5,7 @@ import { Line } from "./primitives/Line"
 import { CubicBezierCurve } from "./primitives/CubicBezierCurve"
 import { Circle } from "./primitives/Circle"
 import { GenerativeCollection } from "./primitives/GenerativeCollection"
-import { BCircle } from "./canvas/BCircle"
+import { RCircle } from "./canvas/RCircle"
 
 const canvas = document.querySelector<HTMLCanvasElement>('#app')!
 
@@ -25,7 +25,7 @@ const circle = new Circle(point, 300)
 
 const arr = new GenerativeCollection(20, i =>
     new Circle(point, computed('', () => i * p.value * 1))
-).map((p, i) => new BCircle(p, { width: 44 - i*5, strokeStyle: `rgb(255 255 255 / ${Math.min(50, 30 + i * 5)}%)` }))
+).map((p, i) => new RCircle(p, { width: 44 - i*5, strokeStyle: `rgb(255 255 255 / ${Math.min(50, 30 + i * 5)}%)` }))
 
 renderer.add(renderer.canvasRect, {
     fillStyle: 'orange',

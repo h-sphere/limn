@@ -11,13 +11,13 @@ import { ReactiveArray } from "./primitives/ReactiveArray";
 
 // Renderers
 import { LimnRenderer } from "./canvas/Renderer";
-import { BPoint } from "./canvas/BPoint";
-import { BRectangle } from "./canvas/BRectangle";
-import { BBezierSpline } from "./canvas/BBezierSpline";
-import { BCircle } from "./canvas/BCircle";
-import { BCubicBezierCurve } from "./canvas/BCubicBezierCurve";
-import { BLine } from "./canvas/BLine";
-import { BPolygon } from "./canvas/BPolygon";
+import { RPoint } from "./canvas/RPoint";
+import { RRectangle } from "./canvas/RRectangle";
+import { RBezierSpline } from "./canvas/RBezierSpline";
+import { RCircle } from "./canvas/RCircle";
+import { RCubicBezierCurve } from "./canvas/RCubicBezierCurve";
+import { RLine } from "./canvas/RLine";
+import { BPolygon } from "./canvas/RPolygon";
 
 // Timer
 import { Timer } from "./timer/timer";
@@ -37,12 +37,12 @@ export {
     ReactiveArray,
 
     LimnRenderer,
-    BPoint,
-    BRectangle,
-    BBezierSpline,
-    BCircle,
-    BCubicBezierCurve,
-    BLine,
+    RPoint as BPoint,
+    RRectangle as BRectangle,
+    RBezierSpline as BBezierSpline,
+    RCircle as BCircle,
+    RCubicBezierCurve as BCubicBezierCurve,
+    RLine as BLine,
     BPolygon,
 
     Timer,

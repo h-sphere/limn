@@ -6,27 +6,27 @@ import { Point } from "../primitives/Point";
 import { Polygon } from "../primitives/Polygon";
 import { ReactiveArray } from "../primitives/ReactiveArray";
 import { Rectangle } from "../primitives/Rectangle";
-import { BArray } from "./BArray";
-import { BBezierSpline } from "./BBezierSpline";
-import { BCircle } from "./BCircle";
-import { BCubicBezierCurve } from "./BCubicBezierCurve";
-import { BLine } from "./BLine";
-import { BPoint } from "./BPoint";
-import { BPolygon } from "./BPolygon";
-import { BRectangle } from "./BRectangle";
+import { RArray } from "./RArray";
+import { RBezierSpline } from "./RBezierSpline";
+import { RCircle } from "./RCircle";
+import { RCubicBezierCurve } from "./RCubicBezierCurve";
+import { RLine } from "./RLine";
+import { RPoint } from "./RPoint";
+import { BPolygon } from "./RPolygon";
+import { RRectangle } from "./RRectangle";
 import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
 
 const RENDER_CLASSES = [
-    [Point, BPoint],
-    [Line, BLine],
-    [ReactiveArray, BArray],
+    [Point, RPoint],
+    [Line, RLine],
+    [ReactiveArray, RArray],
     [Polygon, BPolygon],
-    [Circle, BCircle],
-    [Rectangle, BRectangle],
-    [CubicBezierCurve, BCubicBezierCurve],
-    [BezierSpline, BBezierSpline]
+    [Circle, RCircle],
+    [Rectangle, RRectangle],
+    [CubicBezierCurve, RCubicBezierCurve],
+    [BezierSpline, RBezierSpline]
 ] as const
 
 type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
@@ -41,12 +41,12 @@ type MapPairToInstances<T extends readonly [any, any]> =
   };
 
 
-type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [Config] : []
+type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [Partial<Config>] : []
 
 type RR = VV[0] | Renderable
 type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
 TT extends Renderable ?
-BArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? BArray<OR<TT>> : never : never
+RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
 :
 T extends VV[0] ? O<T> : T
 
@@ -140,7 +140,7 @@ export class LimnRenderer {
             if (isArrayType(item)) {
                 const WrapClass = getWrapClass(item.get(0) as any)
                 if (WrapClass !== null) {
-                    const arr = new BArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
+                    const arr = new RArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
                     this.items.set([...this.items.value, arr as any])
                     return arr as OR<Item>
                 }

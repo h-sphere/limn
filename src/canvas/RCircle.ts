@@ -1,35 +1,37 @@
 import { num } from "../math/matrix";
-import { Rectangle } from "../primitives/Rectangle";
+import { Circle } from "../primitives/Circle";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
-export interface BRectangleConfig {
+export interface RCircleConfig {
+    width: Size
     fillStyle: Color
     strokeStyle: Color
-    width: Size
+
 }
 
-export class BRectangle extends PrimitiveRenderable<Rectangle, BRectangleConfig> {
-    parseConfig(config: Partial<BRectangleConfig>): BRectangleConfig {
+export class RCircle extends PrimitiveRenderable<Circle, RCircleConfig> {
+    parseConfig(config: Partial<RCircleConfig>): RCircleConfig {
         return {
-            fillStyle: config?.fillStyle ?? '',
-            strokeStyle: config?.strokeStyle ?? '',
-            width: config?.width ?? 1
+            fillStyle: config.fillStyle ?? '',
+            strokeStyle: config.strokeStyle ?? '',
+            width: config.width ?? 1
         }
     }
-
     render(ctx: LimnContext) {
+        const center = this._p.center
+        const radius = this._p.radius
         ctx.beginPath()
+        ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI)
         if (this._config.fillStyle) {
             ctx.fillStyle = str(this._config.fillStyle)
-            ctx.fillRect(...this._p.p1.xy, ...this._p.size.xy)
+            ctx.fill()
         }
-
         if (this._config.strokeStyle) {
             ctx.strokeStyle = str(this._config.strokeStyle)
             ctx.lineWidth = num(this._config.width)
-            ctx.strokeRect(...this._p.p1.xy, ...this._p.size.xy)
+            ctx.stroke()
         }
     }
 }

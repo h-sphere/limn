@@ -17,6 +17,8 @@ export default defineConfig({
         text: 'Introduction',
         items: [
           { text: 'Get Started', link: '/get-started' },
+          { text: 'Basic Concepts', link: '/basic-concepts' },
+          { text: 'Shapes vs Renderers', link: '/shapes-vs-renderers' }
         ]
       },
       {

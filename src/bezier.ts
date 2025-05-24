@@ -61,12 +61,12 @@ renderer.add(bezier, {
 
 renderer.add(bezier.points, {
     color: 'yellow',
-    width: 5
+    radius: 5
 })
 
 renderer.add(bezier.lerp(i), {
     color: 'white',
-    width: 10
+    radius: 10
 })
 
 renderer.watch()

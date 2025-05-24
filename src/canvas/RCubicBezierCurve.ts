@@ -4,13 +4,13 @@ import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
-export interface BCurveConfig {
+export interface RCurveConfig {
     width: Size;
     color: Color;
 }
 
-export class BCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, BCurveConfig> {
-    parseConfig(config: Partial<BCurveConfig>): BCurveConfig {
+export class RCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, RCurveConfig> {
+    parseConfig(config: Partial<RCurveConfig>): RCurveConfig {
         return {
             color: config.color ?? 'red',
             width: config.width ?? 1
