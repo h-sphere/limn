@@ -14,7 +14,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "declarationMap": false//,
+//    "declarationDir": "dist/"
   },
-  "include": ["src"]
+  "include": ["src"],
 } 

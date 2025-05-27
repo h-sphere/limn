@@ -1,4 +1,4 @@
-import { NumSig, StringSig } from "./signalTypes"
+import { ColorOrSignal, NumSig, StringSig } from "./signalTypes"
 
-export type Color = StringSig
+export type Color = ColorOrSignal
 export type Size = NumSig

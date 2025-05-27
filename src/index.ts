@@ -37,12 +37,12 @@ export {
     ReactiveArray,
 
     LimnRenderer,
-    RPoint as BPoint,
-    RRectangle as BRectangle,
-    RBezierSpline as BBezierSpline,
-    RCircle as BCircle,
-    RCubicBezierCurve as BCubicBezierCurve,
-    RLine as BLine,
+    RPoint,
+    RRectangle,
+    RBezierSpline,
+    RCircle,
+    RCubicBezierCurve,
+    RLine,
     BPolygon,
 
     Timer,

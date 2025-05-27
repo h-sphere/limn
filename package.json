@@ -3,10 +3,11 @@
   "private": false,
   "version": "0.1.1",
   "type": "module",
-  "main": "dist/main.js",
+  "main": "dist/main.mjs",
   "scripts": {
     "dev": "vite",
     "build": "node esbuild.mjs",
+    "build:types": "tsc --emitDeclarationOnly --declaration src/index.ts",
     "preview": "vite preview",
     "test": "jest",
     "docs:dev": "vitepress dev docs",

@@ -1,30 +1,20 @@
-import { atom, computed, Signal } from "signia";
+import { computed } from "signia";
 import { Point } from "./Point";
-import { NumSig, toNumberSig } from "../utils/signalTypes";
+import { NumSig, PointSignal } from "../utils/signalTypes";
+import { BaseShape } from "../utils/base";
+
+interface RectangleConfig {
+    p1: PointSignal,
+    p2: PointSignal,
+    angle?: NumSig
+}
 
 // FIXME: should rectangle have angle or should it just get transformed to polygon when rotated?
-export class Rectangle  {
-    #p1: Signal<Point>
-    #p2: Signal<Point>
-    #angle: Signal<number>
-    constructor(p1: Point, p2: Point, angle?: NumSig) {
-        // FIXME: properly organise values of this rect based on order
-        this.#p1 = atom('p1', p1)
-        this.#p2 = atom('p2', p2)
-        this.#angle = toNumberSig(angle ?? 0)
-    }
-
-    @computed get p1() {
-        return this.#p1.value
-    }
-
-    @computed get p2() {
-        return this.#p2.value
-    }
-
-    @computed get angle() {
-        return this.#angle.value
-    }
+export class Rectangle extends BaseShape<RectangleConfig>  {
+    declare readonly p1: Point
+    declare readonly p2: Point
+    declare readonly angle: number
+    protected defaults = { angle: 0 }
 
     @computed get center() {
         // FIXME: how to make this computable?

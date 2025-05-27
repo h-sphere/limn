@@ -39,6 +39,12 @@ export default defineConfig({
           { text: 'Timers', link: '/advanced/timers' },
           { text: 'Interactivity', link: '/advanced/interactivity'}
         ]
+      },
+      {
+        text: 'Demos',
+        items: [
+          { text: 'Circles', link: 'demos/circles' }
+        ]
       }
     ],
 

@@ -1,54 +1,35 @@
-import { atom, computed, isAtom, Signal } from "signia";
+import { computed } from "signia";
 import { GenerativeCollection } from "./GenerativeCollection";
 import { Point } from "./Point";
 import { Line } from "./Line";
-import { NumSig, PointSig } from "../utils/signalTypes";
-import { getx, gety, num, xy } from "../math/matrix";
+import { NumSig, PointSignal } from "../utils/signalTypes";
+import { getx, gety, num } from "../math/matrix";
+import { BaseShape } from "../utils/base";
 
-export class Polygon {
-    #n: NumSig
-    #radius: NumSig
-    #center: PointSig
-    #angle: NumSig
-    constructor(center: PointSig, n: NumSig, radius: NumSig, angle: NumSig = 0) {
-        this.#n = n
-        this.#center = center
-        this.#radius = radius
-        this.#angle = angle
-    }
+interface PolygonConfig {
+    center: PointSignal,
+    radius: NumSig,
+    n: NumSig,
+    angle?: NumSig
+}
 
-    set length(v: number) {
-        if (isAtom(this.#n)) {
-            this.#n.set(v)
-        }
-    }
-
-    get n() {
-        return this.#n
-    }
-
-    get radius() {
-        return this.#radius
-    }
-
-    get angle() {
-        return this.#angle
-    }
-
-    get center() {
-        return this.#center
-    }
+export class Polygon extends BaseShape<PolygonConfig> {
+    declare readonly center: Point
+    declare readonly radius: number
+    declare readonly n: number
+    declare readonly angle: number
+    protected defaults = { angle: 0 }
 
     get points() {
         // FIXME: BOTH WILL CHANGE PROBABLY.
-        return new GenerativeCollection(this.#n, (i) => {
+        return new GenerativeCollection(this.n, (i) => {
             const r = num(this.radius)
-            const a = num(this.angle)
+            const a = num(this.angle ?? 0)
             const n = num(this.n)
             // make points
             const angle = 2 * Math.PI / n
-            const x = computed('x', () => getx(this.#center) + r * Math.cos(a + i * angle))
-            const y = computed('y', () => gety(this.#center) + r * Math.sin(a + i * angle))
+            const x = computed('x', () => getx(this.center) + r * Math.cos(a + i * angle))
+            const y = computed('y', () => gety(this.center) + r * Math.sin(a + i * angle))
             return new Point(x, y)
         })
     }

@@ -1,35 +1,64 @@
 import { computed, isAtom, Signal } from "signia";
 import { num, transform, TransformConfig, transformPoint } from "../math/matrix";
 import { Transformable } from "../utils/transformable";
-import { NumSig, toNumberSig } from "../utils/signalTypes";
+import { NumSig, PointSignal, toNumberSig, toPointSig } from "../utils/signalTypes";
+import { BaseShape } from "../utils/base";
+import { configToInternal, ConfigToSignal } from "../utils/signals";
+
+interface PointConfig {
+    x: NumSig
+    y: NumSig
+}
+
+const isPointConfig = (conf: PointConfig | NumSig): conf is PointConfig => {
+    return (typeof conf === 'object') && 'x' in conf && 'y' in conf
+}
+
+
+// Point is the only one that cannot use BaseShape as it is being refered in there. we cannot have circular dependency.
 
 export class Point implements Transformable<Point> {
-    #x: Signal<number>
-    #y: Signal<number>
-    constructor(x: NumSig, y: NumSig) {
-        this.#x = toNumberSig(x)
-        this.#y = toNumberSig(y)
+    protected defaults: Required<Pick<PointConfig, never>> = {}
+    private _config: ConfigToSignal<PointConfig>
+
+    constructor(conf: PointConfig);
+    constructor(x: NumSig, y: NumSig);
+    constructor(conf: PointConfig | NumSig, y?: NumSig) {
+        this._config = configToInternal(isPointConfig(conf) ? conf : { x: conf, y: y ?? 0 })
     }
 
-    @computed get x(): number {
-        return this.#x.value
+    get x(): number {
+        return this._config.x.value
     }
+
+    get y(): number {
+        return this._config.y.value
+    }
+
+    // constructor(x: NumSig, y: NumSig) {
+    //     this.#x = toNumberSig(x)
+    //     this.#y = toNumberSig(y)
+    // }
+
+    // @computed get x(): number {
+    //     return this.#x.value
+    // }
 
     set x(newValue: NumSig) {
-        if (isAtom(this.#x)) {
-            this.#x.set(num(newValue))
+        if (isAtom(this._config.x)) {
+            this._config.x.set(num(newValue))
             return
         }
         throw new Error('Cannot set value of a computed signal')
     }
 
-    @computed get y(): number {
-        return this.#y.value
-    }
+    // @computed get y(): number {
+    //     return this.#y.value
+    // }
 
     set y(newValue: NumSig) {
-        if (isAtom(this.#y)) {
-            this.#y.set(num(newValue))
+        if (isAtom(this._config.y)) {
+            this._config.y.set(num(newValue))
             return
         }
         throw new Error('Cannot set value of a computed signal')
@@ -48,10 +77,10 @@ export class Point implements Transformable<Point> {
         return [this.y, this.x] as const
     }
 
-    set yx([y, x]: [NumSig, NumSig]) {
-        this.y = y
-        this.x = x
-    }
+    // set yx([y, x]: [NumSig, NumSig]) {
+    //     this.y = y
+    //     this.x = x
+    // }
 
 
     add<P extends NumSig | Point>(xDiff: P, ...[yDiff]: P extends Point ? [] : [NumSig]) {
@@ -82,6 +111,13 @@ export class Point implements Transformable<Point> {
         const x = computed('x', () => t.value.value[0])
         const y = computed('y', () => t.value.value[1])
         return new Point(x, y)
+    }
+
+    distance(p: PointSignal) {
+        const pp = toPointSig(p)
+        const xDiff = this.x - pp.value.x
+        const yDiff = this.y - pp.value.y
+        return Math.sqrt(xDiff*xDiff + yDiff*yDiff)
     }
 }
 

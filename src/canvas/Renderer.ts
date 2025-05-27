@@ -17,6 +17,8 @@ import { RRectangle } from "./RRectangle";
 import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
+import { Arc } from "../primitives/Arc";
+import { RArc } from "./RArc";
 
 const RENDER_CLASSES = [
     [Point, RPoint],
@@ -26,7 +28,8 @@ const RENDER_CLASSES = [
     [Circle, RCircle],
     [Rectangle, RRectangle],
     [CubicBezierCurve, RCubicBezierCurve],
-    [BezierSpline, RBezierSpline]
+    [BezierSpline, RBezierSpline],
+    [Arc, RArc]
 ] as const
 
 type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
@@ -98,7 +101,7 @@ export class LimnRenderer {
     }
 
     @computed get canvasRect() {
-        return new Rectangle(new Point(0, 0), this.size)
+        return new Rectangle({ p1: new Point(0, 0), p2: this.size })
     }
 
     #mousePos: Point = new Point(0, 0)
@@ -161,6 +164,10 @@ export class LimnRenderer {
             throw new Error(`No renderer found for input type: ${inputType.name}`);
         }
         return item as any
+    }
+
+    clear() {
+        this.items.set([])
     }
 
     get timer() {
