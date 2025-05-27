@@ -9,7 +9,7 @@ export type StringSig = string | Signal<string>
 
 export type RawColor = CanvasFillStrokeStyles['fillStyle']
 
-export type ColorOrSignal = /*RawColor |*/ Signal<RawColor>
+export type ColorOrSignal = string | Signal<string> // RawColor | Signal<RawColor>
 
 export const toStringSig = (n: StringSig) => isSignal(n) ? n : atom('string', n)
 export const str = (n: StringSig) => isSignal(n) ? n.value : n

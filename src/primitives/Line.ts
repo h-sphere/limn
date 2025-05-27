@@ -1,7 +1,7 @@
-import { computed, Signal } from "signia";
+import { computed } from "signia";
 import { Point } from "./Point";
-import { NumSig, PointSig, PointSignal, toPointSig } from "../utils/signalTypes";
-import { num, TransformConfig, transformPoint } from "../math/matrix";
+import { NumSig, PointSignal } from "../utils/signalTypes";
+import { num, TransformConfig } from "../math/matrix";
 import { BaseShape } from "../utils/base";
 
 interface LineConfig {

@@ -1,6 +1,5 @@
 import { num } from "../math/matrix";
 import { Arc } from "../primitives/Arc";
-import { Circle } from "../primitives/Circle";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";

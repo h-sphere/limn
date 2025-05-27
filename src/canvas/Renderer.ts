@@ -191,7 +191,7 @@ export class LimnRenderer {
             }
             isScheduled = true;
             requestAnimationFrame(() => {
-                effect()
+                scheduledEffect()
                 isScheduled = false
             })
         }

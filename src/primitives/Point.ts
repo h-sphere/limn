@@ -1,8 +1,7 @@
-import { computed, isAtom, Signal } from "signia";
+import { computed, isAtom } from "signia";
 import { num, transform, TransformConfig, transformPoint } from "../math/matrix";
 import { Transformable } from "../utils/transformable";
-import { NumSig, PointSignal, toNumberSig, toPointSig } from "../utils/signalTypes";
-import { BaseShape } from "../utils/base";
+import { NumSig, PointSignal, toPointSig } from "../utils/signalTypes";
 import { configToInternal, ConfigToSignal } from "../utils/signals";
 
 interface PointConfig {

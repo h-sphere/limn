@@ -1,4 +1,4 @@
-import { atom, computed, isAtom, isSignal, Signal } from "signia";
+import { computed, isAtom, Signal } from "signia";
 import { NumSig, PointSig, PointSignal, toPointSig } from "../utils/signalTypes";
 import { num } from "../math/matrix";
 import { Point } from "./Point";

@@ -1,8 +1,7 @@
-import { atom, computed, Computed, isSignal, Signal } from "signia";
+import { atom, computed, isSignal, Signal } from "signia";
 
 type MapFn<T, U> = (item: T, index: number) => U;
 type FilterFn<T> = (item: T, index: number) => boolean;
-type ReduceFn<T, U> = (accumulator: U, item: T, index: number) => U;
 
 
 export class ReactiveArray<T> {

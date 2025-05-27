@@ -72,8 +72,6 @@ const multiply = (a: Matrix3x3, b: Matrix3x3) => {
 }
 
 
-const id = [1,0,0,0,1,0,0,0,1] as Matrix3x3
-
 export const transform = (config: TransformConfig) => {
   return computed('matrix', () => {
     const [x, y] = xy(config.origin ?? [0, 0])
