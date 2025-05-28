@@ -6,16 +6,16 @@ import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BPolygonConfig {
     width: Size;
-    fillStyle: Color;
-    strokeStyle: Color;
+    fill: Color;
+    stroke: Color;
 }
 
 export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
     parseConfig(config: Partial<BPolygonConfig>): BPolygonConfig {
         return {
             width: config?.width ?? 1,
-            fillStyle: config?.fillStyle ?? '',
-            strokeStyle: config?.strokeStyle ?? '',
+            fill: config?.fill ?? '',
+            stroke: config?.stroke ?? '',
 
         }
     }
@@ -29,12 +29,12 @@ export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
             ctx.lineTo(...point.xy)
         }
         ctx.lineTo(...p.get(0).xy)
-        if (this._config.fillStyle) {
-            ctx.fillStyle = str(this._config.fillStyle)
+        if (this._config.fill) {
+            ctx.fillStyle = str(this._config.fill)
             ctx.fill()
         }
-        if (this._config.strokeStyle) {
-            ctx.strokeStyle = str(this._config.strokeStyle)
+        if (this._config.stroke) {
+            ctx.strokeStyle = str(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }

@@ -6,16 +6,16 @@ import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RCircleConfig {
     width: Size
-    fillStyle: Color
-    strokeStyle: Color
+    fill: Color
+    stroke: Color
 
 }
 
 export class RCircle extends PrimitiveRenderable<Circle, RCircleConfig> {
     parseConfig(config: Partial<RCircleConfig>): RCircleConfig {
         return {
-            fillStyle: config.fillStyle ?? '',
-            strokeStyle: config.strokeStyle ?? '',
+            fill: config.fill ?? '',
+            stroke: config.stroke ?? '',
             width: config.width ?? 1
         }
     }
@@ -24,12 +24,12 @@ export class RCircle extends PrimitiveRenderable<Circle, RCircleConfig> {
         const radius = this._p.radius
         ctx.beginPath()
         ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI)
-        if (this._config.fillStyle) {
-            ctx.fillStyle = str(this._config.fillStyle)
+        if (this._config.fill) {
+            ctx.fillStyle = str(this._config.fill)
             ctx.fill()
         }
-        if (this._config.strokeStyle) {
-            ctx.strokeStyle = str(this._config.strokeStyle)
+        if (this._config.stroke) {
+            ctx.strokeStyle = str(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }

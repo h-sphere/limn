@@ -5,7 +5,7 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, LimnRenderer } from '../src/index'
+import { computed, LimnRenderer } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
 
 export const getStarted = (r: LimnRenderer) => {
@@ -25,7 +25,7 @@ export const getStarted = (r: LimnRenderer) => {
     )
     r.add(c, {
         width: 2,
-        strokeStyle: 'red'
+        stroke: 'red'
     })
 }
 
@@ -55,7 +55,7 @@ export const line = (r: LimnRenderer) => {
 export const rect = (r: LimnRenderer) => {
     const l = new Rectangle({ p1: new Point(10, 10),p2: new Point(50, 50)})
     r.add(l, {
-        strokeStyle: 'red',
+        stroke: 'red',
         width: 1
     })
 }
@@ -63,7 +63,7 @@ export const rect = (r: LimnRenderer) => {
 export const circle = (r: LimnRenderer) => {
     const c = new Circle({ center: r.center, radius: 50})
     r.add(c, {
-        strokeStyle: 'red',
+        stroke: 'red',
         width: 1
     })
 }
@@ -71,7 +71,7 @@ export const circle = (r: LimnRenderer) => {
 export const polygon = (r: LimnRenderer) => {
     const p = new Polygon({ center: r.center, n: 6, radius: 50 })
     r.add(p, {
-        strokeStyle: 'red',
+        stroke: 'red',
         width: 1
     })
 }
@@ -119,7 +119,7 @@ export const interactivityAdvanced = (r: LimnRenderer) => {
 
     r.add(gen, {
         width: 1,
-        strokeStyle: 'red'
+        stroke: 'red'
     })
 
 }
@@ -146,8 +146,8 @@ export const shapesVsRenderers1 = (r: LimnRenderer) => {
     const line = new Rectangle({ p1: p, p2: p.add(20, 20) })
     r.add(line, {
         width: 2,
-        strokeStyle: 'yellow',
-        fillStyle: 'blue'
+        stroke: 'yellow',
+        fill: 'blue'
     })
 }
 
@@ -170,6 +170,6 @@ export const demosCircles = (r: LimnRenderer) => {
 
     r.add(circles, {
         width: 10,
-        strokeStyle: 'rgb(140 120 140)'
+        stroke: 'rgb(140 120 140)'
     })
 }

@@ -6,14 +6,14 @@ import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RArcConfig {
     width: Size
-    strokeStyle: Color
+    stroke: Color
 
 }
 
 export class RArc extends PrimitiveRenderable<Arc, RArcConfig> {
     parseConfig(config: Partial<RArcConfig>): RArcConfig {
         return {
-            strokeStyle: config.strokeStyle ?? 'red',
+            stroke: config.stroke ?? 'red',
             width: config.width ?? 1
         }
     }
@@ -24,8 +24,8 @@ export class RArc extends PrimitiveRenderable<Arc, RArcConfig> {
         const end = this._p.end * 2 * Math.PI
         ctx.beginPath()
         ctx.arc(center.x, center.y, radius, start, end)
-        if (this._config.strokeStyle) {
-            ctx.strokeStyle = str(this._config.strokeStyle)
+        if (this._config.stroke) {
+            ctx.strokeStyle = str(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }
