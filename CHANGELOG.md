@@ -1,5 +1,11 @@
 # Limn
 
+## 0.2.0
+
+### Minor Changes
+
+- 0d5c3d6: aligned api and fixed build
+
 ## 0.1.1
 
 ### Patch Changes
