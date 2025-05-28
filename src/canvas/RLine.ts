@@ -4,13 +4,13 @@ import { Color, Size } from "../utils/configs";
 import { num } from "../math/matrix";
 import { str } from "../utils/signalTypes";
 
-export interface BLineConfig {
+export interface RLineConfig {
     width: Size;
     color: Color;
 }
 
-export class BLine extends PrimitiveRenderable<Line, BLineConfig> {
-    parseConfig(config: Partial<BLineConfig>): BLineConfig {
+export class RLine extends PrimitiveRenderable<Line, RLineConfig> {
+    parseConfig(config: Partial<RLineConfig>): RLineConfig {
         return {
             width: config?.width ?? 1,
             color: config?.color ?? 'black'

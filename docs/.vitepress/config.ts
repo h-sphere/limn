@@ -17,6 +17,8 @@ export default defineConfig({
         text: 'Introduction',
         items: [
           { text: 'Get Started', link: '/get-started' },
+          { text: 'Basic Concepts', link: '/basic-concepts' },
+          { text: 'Shapes vs Renderers', link: '/shapes-vs-renderers' }
         ]
       },
       {
@@ -36,6 +38,12 @@ export default defineConfig({
         items: [
           { text: 'Timers', link: '/advanced/timers' },
           { text: 'Interactivity', link: '/advanced/interactivity'}
+        ]
+      },
+      {
+        text: 'Demos',
+        items: [
+          { text: 'Circles', link: 'demos/circles' }
         ]
       }
     ],

@@ -10,7 +10,7 @@ export class BezierSpline {
         return this.#points
     }
 
-    lerp(c: number) {
+    lerp(_c: number) {
         // FIXME: need to properly compute lerps of lerps or use matrix here.
     }
 }

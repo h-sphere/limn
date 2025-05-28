@@ -1,10 +1,10 @@
-import { atom, computed, isAtom, Signal } from "signia";
+import { computed, isAtom, Signal } from "signia";
 import { ReactiveArray } from "./ReactiveArray";
 import { NumSig, toNumberSig } from "../utils/signalTypes";
 
 export class GenerativeCollection<T> extends ReactiveArray<T> {
     #n: Signal<number>;
-    constructor(n: NumSig, private readonly factory: (index: number) => T) {
+    constructor(n: NumSig, factory: (index: number) => T) {
         const length = toNumberSig(n)
         super(computed('elements', () => {
             const elements: T[] = [];

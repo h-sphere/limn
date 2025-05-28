@@ -4,13 +4,13 @@ import { LimnContext, PrimitiveRenderable } from "./interfaces";
 import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 
-export interface BBezierSplineConfig {
+export interface RBezierSplineConfig {
     width: Size;
     color: Color;
 }
 
-export class BBezierSpline extends PrimitiveRenderable<BezierSpline, BBezierSplineConfig> {
-    parseConfig(config: Partial<BBezierSplineConfig>): BBezierSplineConfig {
+export class RBezierSpline extends PrimitiveRenderable<BezierSpline, RBezierSplineConfig> {
+    parseConfig(config: Partial<RBezierSplineConfig>): RBezierSplineConfig {
         return {
             width: config?.width ?? 1,
             color: config?.color ?? 'black'

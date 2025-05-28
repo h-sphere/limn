@@ -6,27 +6,30 @@ import { Point } from "../primitives/Point";
 import { Polygon } from "../primitives/Polygon";
 import { ReactiveArray } from "../primitives/ReactiveArray";
 import { Rectangle } from "../primitives/Rectangle";
-import { BArray } from "./BArray";
-import { BBezierSpline } from "./BBezierSpline";
-import { BCircle } from "./BCircle";
-import { BCubicBezierCurve } from "./BCubicBezierCurve";
-import { BLine } from "./BLine";
-import { BPoint } from "./BPoint";
-import { BPolygon } from "./BPolygon";
-import { BRectangle } from "./BRectangle";
+import { RArray } from "./RArray";
+import { RBezierSpline } from "./RBezierSpline";
+import { RCircle } from "./RCircle";
+import { RCubicBezierCurve } from "./RCubicBezierCurve";
+import { RLine } from "./RLine";
+import { RPoint } from "./RPoint";
+import { BPolygon } from "./RPolygon";
+import { RRectangle } from "./RRectangle";
 import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
+import { Arc } from "../primitives/Arc";
+import { RArc } from "./RArc";
 
 const RENDER_CLASSES = [
-    [Point, BPoint],
-    [Line, BLine],
-    [ReactiveArray, BArray],
+    [Point, RPoint],
+    [Line, RLine],
+    [ReactiveArray, RArray],
     [Polygon, BPolygon],
-    [Circle, BCircle],
-    [Rectangle, BRectangle],
-    [CubicBezierCurve, BCubicBezierCurve],
-    [BezierSpline, BBezierSpline]
+    [Circle, RCircle],
+    [Rectangle, RRectangle],
+    [CubicBezierCurve, RCubicBezierCurve],
+    [BezierSpline, RBezierSpline],
+    [Arc, RArc]
 ] as const
 
 type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
@@ -41,12 +44,12 @@ type MapPairToInstances<T extends readonly [any, any]> =
   };
 
 
-type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [Config] : []
+type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [config: Partial<Config>] : []
 
 type RR = VV[0] | Renderable
 type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
 TT extends Renderable ?
-BArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? BArray<OR<TT>> : never : never
+RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
 :
 T extends VV[0] ? O<T> : T
 
@@ -76,8 +79,8 @@ const isRenderable = (r: object): r is PrimitiveRenderable<any, any> => {
 }
 
 export class LimnRenderer {
-    _width: Atom<number> = atom('width', 0)
-    _height: Atom<number> = atom('height', 0)
+    private _width: Atom<number> = atom('width', 0)
+    private _height: Atom<number> = atom('height', 0)
     constructor(private readonly ctx: LimnContext) {
         if (ctx.canvas) {
             this._width.set(ctx.canvas.width)
@@ -97,8 +100,11 @@ export class LimnRenderer {
         return this.canvasRect.center
     }
 
+    /**
+     * Rectangle representing whole canvas area (from (0,0) to (w,h))
+     */
     @computed get canvasRect() {
-        return new Rectangle(new Point(0, 0), this.size)
+        return new Rectangle({ p1: new Point(0, 0), p2: this.size })
     }
 
     #mousePos: Point = new Point(0, 0)
@@ -126,6 +132,12 @@ export class LimnRenderer {
         return this
     }
 
+    /**
+     * Adds new item to render on canvas
+     * @param item either Renderable or a basic shape
+     * @param config configuration for the basic shape
+     * @returns renderer added to the canvas. if renderable was passed, returns the same renderable. if not, returns renderable that wraps given object
+     */
     add<const Item extends RR>(
         item: Item,
         ...[config]: ConfigR<Item> 
@@ -140,7 +152,7 @@ export class LimnRenderer {
             if (isArrayType(item)) {
                 const WrapClass = getWrapClass(item.get(0) as any)
                 if (WrapClass !== null) {
-                    const arr = new BArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
+                    const arr = new RArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
                     this.items.set([...this.items.value, arr as any])
                     return arr as OR<Item>
                 }
@@ -161,6 +173,10 @@ export class LimnRenderer {
             throw new Error(`No renderer found for input type: ${inputType.name}`);
         }
         return item as any
+    }
+
+    clear() {
+        this.items.set([])
     }
 
     get timer() {
@@ -184,7 +200,7 @@ export class LimnRenderer {
             }
             isScheduled = true;
             requestAnimationFrame(() => {
-                effect()
+                scheduledEffect()
                 isScheduled = false
             })
         }

@@ -1,36 +1,38 @@
-import { atom, computed, isAtom, Signal } from "signia";
+import { computed } from "signia";
 import { Point } from "./Point";
-import { NumSig, toNumberSig } from "../utils/signalTypes";
+import { NumSig, PointSignal } from "../utils/signalTypes";
 import { num } from "../math/matrix";
+import { Arc } from "./Arc";
+import { BaseShape } from "../utils/base";
 
-export class Circle {
-    #center: Signal<Point>
-    #radius: Signal<number>
-    constructor(center: Point, radius: NumSig) {
-        // FIXME: properly organise values of this rect based on order
-        this.#center = atom('center', center)
-        this.#radius = toNumberSig(radius)
-    }
+interface CircleConfig {
+    center: PointSignal,
+    radius: NumSig
+}
 
-    @computed get center(): Point {
-        return this.#center.value
-    }
+export class Circle extends BaseShape<CircleConfig> {
+    protected defaults = {}
+    declare readonly center: Point
+    declare readonly radius: number
 
-    @computed get radius(): number {
-        return this.#radius.value
-    }
-
-    set radius(newRadius: NumSig) {
-        if (isAtom(this.#radius)) {
-            this.#radius.set(num(newRadius))
-            return
-        }
-        throw new Error('Cannot set value of a computed signal')
+    segment(start: NumSig, end?: NumSig) {
+        const p0 = computed('p0', () => !end ? 0 : num(start))
+        const p1 = computed('p1', () => !end ? num(start) : num(end))
+        return new Arc({
+            center: this.center,
+            radius: this.radius,
+            start: p0,
+            end: p1
+        })
     }
 
     lerp(n: NumSig) {
         const x = computed('x', () => this.center.x + this.radius * Math.cos(num(n) * 2 * Math.PI))
         const y = computed('y', () => this.center.y + this.radius * Math.sin(num(n) * 2 * Math.PI))
         return new Point(x, y)
+    }
+
+    isInside(p: PointSignal): boolean {
+        return this.center.distance(p) <= this.radius
     }
 }

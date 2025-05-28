@@ -4,22 +4,22 @@ import { Color, Size } from "../utils/configs";
 import { str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
-export interface BPointConfig {
+export interface RPointConfig {
     color: Color
-    width: Size
+    radius: Size
 }
 
-export class BPoint extends PrimitiveRenderable<Point, BPointConfig> {
-    parseConfig(config: Partial<BPointConfig>): BPointConfig {
+export class RPoint extends PrimitiveRenderable<Point, RPointConfig> {
+    parseConfig(config: Partial<RPointConfig>): RPointConfig {
         return {
             color: config.color ?? 'black',
-            width: config.width ?? 5
+            radius: config.radius ?? 5
         }
     }
     render(ctx: LimnContext) {
         ctx.fillStyle = str(this._config.color)
         ctx.beginPath()
-        ctx.arc(this._p.x, this._p.y, num(this._config.width), 0, 2 * Math.PI)
+        ctx.arc(this._p.x, this._p.y, num(this._config.radius), 0, 2 * Math.PI)
         ctx.fill()
     }
 }
