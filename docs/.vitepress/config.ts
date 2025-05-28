@@ -10,11 +10,13 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Explorer', link: 'http://hypersphere.blog/limn-explorer'}
     ],
 
     sidebar: [
       {
-        text: 'Introduction',
+        text: 'Concepts',
+        collapsed: true,
         items: [
           { text: 'Get Started', link: '/get-started' },
           { text: 'Basic Concepts', link: '/basic-concepts' },
@@ -23,6 +25,7 @@ export default defineConfig({
       },
       {
         text: 'Shapes',
+        collapsed: true,
         items: [
           { text: 'Point', link: '/shapes/point' },
           { text: 'Line', link: '/shapes/line' },
@@ -35,6 +38,7 @@ export default defineConfig({
       },
       {
         text: 'Advanced',
+        collapsed: true,
         items: [
           { text: 'Timers', link: '/advanced/timers' },
           { text: 'Interactivity', link: '/advanced/interactivity'}
@@ -42,6 +46,7 @@ export default defineConfig({
       },
       {
         text: 'Demos',
+        collapsed: true,
         items: [
           { text: 'Circles', link: 'demos/circles' }
         ]

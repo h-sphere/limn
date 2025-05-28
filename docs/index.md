@@ -10,6 +10,9 @@ hero:
     - theme: brand
       text: Get Started
       link: /get-started
+    - theme: alt
+      text: Try it out
+      link: https://hypersphere.blog/limn-explorer
 
 features:
   - title: Reactive

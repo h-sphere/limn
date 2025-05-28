@@ -5,7 +5,7 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, LimnRenderer } from '../src/limn'
+import { computed, LimnRenderer, RCircle } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
 
 export const getStarted = (r: LimnRenderer) => {
@@ -172,4 +172,30 @@ export const demosCircles = (r: LimnRenderer) => {
         width: 10,
         stroke: 'rgb(140 120 140)'
     })
+}
+
+export const basicConceptsExample = (r: LimnRenderer) => {
+
+    const v = r.timer.infinite(5000)
+
+    const line = new Line({
+        p1: r.center,
+        p2: r.center.add(50, 50)
+    })
+    const circle = new Circle({
+        center: line.lerp(v),
+        radius: 100
+    })
+    r.add(circle, {
+        fill: 'rgb(0 255 0 / 10%)',
+        stroke: 'red',
+        width: 10
+    })
+
+    // alternatively you can instantiate Renderer manually and add it
+    const circleRenderer = new RCircle(circle.with({ radius: 50 }), {
+        fill: 'yellow'
+    })
+
+    r.add(circleRenderer)
 }
