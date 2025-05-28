@@ -1,13 +1,26 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  base: './',
-  server: {
-    open: true
-  },
   build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: false
-  }
-}); 
+    lib: {
+      entry: 'src/limn.ts',
+      name: 'Limn',
+      fileName: (format) => `limn.${format}.js`
+    },
+    rollupOptions: {
+      external: ['signia'],
+      output: {
+        globals: {
+          signia: 'Signia'
+        }
+      }
+    }
+  },
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      bundledPackages: ['signia'], // Bundle signia types if needed
+    })
+  ]
+})

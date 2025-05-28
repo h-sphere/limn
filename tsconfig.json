@@ -8,17 +8,17 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
-    "emitDeclarationOnly": false,
-    "declaration": false,
-    "declarationMap": false//,
-//    "declarationDir": "dist/"
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outFile": "dist/index.d.ts"
   },
   "include": ["src"],
+  "exclude": ["**/*.test.ts", "src/main.ts"]
 } 

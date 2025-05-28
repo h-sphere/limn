@@ -36,7 +36,6 @@ export abstract class BaseShape<Config> {
                     return (value as any).value
                 }
             })]))) as Partial<Config>
-            console.log('result conf', resultConf)
         }
         const Constructor = this.constructor as new (config: Config) => this
         const newConfig = {...this._config, ...resultConf} as Config
@@ -45,15 +44,12 @@ export abstract class BaseShape<Config> {
 
     protected defaultWrapper<K extends keyof OptionalProperties<Config>>(key: K): SignalType<OptionalProperties<Config>[K]> {
         const v = (this._config as any)[key]
-        console.log('default wrapper', key, v)
         return v ? v.value : (this.defaults as any)[key]
     }
 
     protected handleDefaults() {
-        console.log('handle defaults', this.defaults)
         for (const key in this.defaults) {
             if (!(key in this._config)) {
-                console.log((this.defaults as any)[key])
                 Object.defineProperty(this, key, {
                     get: () => (this.defaults as any)[key],
                     enumerable: true

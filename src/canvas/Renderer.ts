@@ -44,7 +44,7 @@ type MapPairToInstances<T extends readonly [any, any]> =
   };
 
 
-type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [Partial<Config>] : []
+type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [config: Partial<Config>] : []
 
 type RR = VV[0] | Renderable
 type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
@@ -79,8 +79,8 @@ const isRenderable = (r: object): r is PrimitiveRenderable<any, any> => {
 }
 
 export class LimnRenderer {
-    _width: Atom<number> = atom('width', 0)
-    _height: Atom<number> = atom('height', 0)
+    private _width: Atom<number> = atom('width', 0)
+    private _height: Atom<number> = atom('height', 0)
     constructor(private readonly ctx: LimnContext) {
         if (ctx.canvas) {
             this._width.set(ctx.canvas.width)
@@ -100,6 +100,9 @@ export class LimnRenderer {
         return this.canvasRect.center
     }
 
+    /**
+     * Rectangle representing whole canvas area (from (0,0) to (w,h))
+     */
     @computed get canvasRect() {
         return new Rectangle({ p1: new Point(0, 0), p2: this.size })
     }
@@ -129,6 +132,12 @@ export class LimnRenderer {
         return this
     }
 
+    /**
+     * Adds new item to render on canvas
+     * @param item either Renderable or a basic shape
+     * @param config configuration for the basic shape
+     * @returns renderer added to the canvas. if renderable was passed, returns the same renderable. if not, returns renderable that wraps given object
+     */
     add<const Item extends RR>(
         item: Item,
         ...[config]: ConfigR<Item> 

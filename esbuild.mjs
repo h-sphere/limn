@@ -5,5 +5,5 @@ await esbuild.build({
   bundle: true,
   minify: true,
   sourcemap: "external",
-  outfile: 'dist/main.js',
+  outfile: 'dist/index.js',
 })
