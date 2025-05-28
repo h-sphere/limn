@@ -1,6 +1,5 @@
 <script setup>
 import Block from '../components/Block.vue'
-import { Circle } from '../../src/index'
 
 
 

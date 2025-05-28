@@ -1,8 +1,5 @@
 <script setup>
 import Block from '../components/Block.vue'
-import { Polygon } from '../../src/index'
-
-
 </script>
 
 # Polygon

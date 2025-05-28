@@ -1,7 +1,5 @@
 <script setup>
 import Block from '../components/Block.vue'
-import { Line, Point, Rectangle } from '../../src/index'
-
 </script>
 
 # Rectangle

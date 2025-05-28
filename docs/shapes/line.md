@@ -1,9 +1,5 @@
 <script setup>
 import Block from '../components/Block.vue'
-import { Line, Point } from '../../src/index'
-
-
-
 </script>
 
 # Line
