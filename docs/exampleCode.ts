@@ -5,8 +5,9 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, LimnRenderer, RCircle } from '../src/limn'
+import { computed, LimnRenderer, RCircle, ReactiveArray } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
+import { atom } from "signia"
 
 export const getStarted = (r: LimnRenderer) => {
     const t = r.timer.infinite(500, i => 5 + i * 20)
@@ -198,4 +199,136 @@ export const basicConceptsExample = (r: LimnRenderer) => {
     })
 
     r.add(circleRenderer)
+}
+
+export const bezierPoints = (r: LimnRenderer) => {
+    const editing = atom('editing', 0)
+    const p1 = r.center.add(-100, 0)
+    const p2 = p1.add(200, 0)
+    
+    // copying values to make them independent signals that can be edited. Probably need nicer API for that
+    const c1 = new Point(...new Line(p1, p2).center.add(0, -50).xy)
+    const c2 = new Point(...c1.add(50, 0).xy)
+
+    const points = new ReactiveArray([p1, p2])
+    // Adding both p1 and p2 using reactive array
+    r.add(points, {
+        color: 'blue',
+        radius: 5
+    })
+
+    // adding c1 and c2 independently as their colors are different
+    r.add(c1, {
+        color: computed(() => editing.value === 1 ? 'rgb(50 250 0)' : 'blue'),
+        radius: 5
+    })
+
+    r.add(c2, {
+        color: computed(() => editing.value === 2 ? 'rgb(50 250 0)' : 'blue'),
+        radius: 5
+    })
+
+    const bezier = new CubicBezierCurve(p1, p2, c1, c2)
+    r.add(bezier, {
+        color: 'red',
+        width: 2
+    })
+    const lines = new ReactiveArray([
+        new Line(p1, c1),
+        new Line(p2, c2)
+    ])
+    r.add(lines, {
+        color: 'gray',
+        width: 1
+    });
+
+    // This will be improved in future version of the library
+    const canvas = ((r as any).ctx.canvas as HTMLCanvasElement);
+    
+    canvas.addEventListener('mousedown', () => {
+        console.log('mouse down')
+        if (r.mousePos.distance(c1) < 20) {
+            editing.set(1)
+        } else if (r.mousePos.distance(c2) < 20) {
+            editing.set(2)
+        } else {
+            editing.set(0)
+        }
+    })
+    canvas.addEventListener('mouseup', () => {
+        editing.set(0)
+    })
+
+    canvas.addEventListener('mousemove', () => {
+        if (editing.value) {
+            if (editing.value === 1) {
+                c1.xy = r.mousePos.xy
+            } else {
+                c2.xy = r.mousePos.xy
+            }
+        }
+    })
+}
+
+export const reactiveArrayBasics = (r: LimnRenderer) => {
+    const array = new ReactiveArray([
+        r.center,
+        r.center.add(100, 0),
+        r.center.add(-100, 0),
+        r.center.add(0, 100),
+        r.center.add(0, -100)
+    ])
+    r.add(array, {
+        color: 'red',
+        radius: 10
+    })
+}
+
+export const reactiveArrayUpdate = (r: LimnRenderer) => {
+    const p = r.center
+    const arr = new ReactiveArray([p, p.add(100, 0)])
+    const addElement = () => {
+
+    }
+    const canvas = ((r as any).ctx.canvas as HTMLCanvasElement);
+    
+    canvas.addEventListener('mousedown', () => {
+        // FIXME: to implement push. It should implement full ArrayLike
+    })
+}
+
+export const reactiveArrayFiltering = (r: LimnRenderer) => {
+    const p = r.center
+    const arr = new ReactiveArray([
+        p,
+        p.add(50, 0),
+        p.add(100, 0),
+        p.add(150, 0)
+    ]).filter((point, i) => {
+        if (r.mousePos.x > r.center.x) {
+            return true
+        } else {
+            return i % 2 === 0
+        }
+    })
+    r.add(arr, {
+        color: 'red',
+        radius: 10
+    })
+}
+
+export const generativeArrayBasics = (r: LimnRenderer) => {
+    const t = r.timer.infinite(5000, i => Math.ceil(1 + 10 * i))
+    const array = new GenerativeCollection(t, i => {
+        return new Circle({
+            center: r.center,
+            radius: i * 20
+        })
+    })
+
+    // FIXME: for some reason we need to map it so it's ReactiveArray instead. Need to fix this in future versions
+    r.add(array.map(i => i), {
+        stroke: 'red',
+        width: 5
+    })
 }

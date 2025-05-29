@@ -32,7 +32,10 @@ export default defineConfig({
           { text: 'Rectangle', link: '/shapes/rectangle' },
           { text: 'Circle', link: '/shapes/circle' },
           { text: 'Polygon', link: '/shapes/polygon' },
-          { text: 'Bezier Curves', link: '/shapes/bezier-curve' }
+          { text: 'Bezier Curves', link: '/shapes/bezier-curve' },
+          { text: 'Reactive Array', link: '/shapes/reactive-array'},
+          { text: 'Generative Collection', link: '/shapes/generative-collection'}
+
 
         ]
       },
