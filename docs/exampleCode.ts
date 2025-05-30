@@ -5,7 +5,7 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, LimnRenderer, RCircle, ReactiveArray } from '../src/limn'
+import { computed, LimnRenderer, RCircle, ReactiveArray, Text } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
 import { atom } from "signia"
 
@@ -74,6 +74,55 @@ export const polygon = (r: LimnRenderer) => {
     r.add(p, {
         stroke: 'red',
         width: 1
+    })
+}
+
+export const polygonAnimate = (r: LimnRenderer) => {
+    const sides = r.timer.infinite(4000, i => 3 + Math.floor(i * 12))
+
+    const polygon = new Polygon({
+        center: r.center,
+        n: sides,
+        radius: 100
+    })
+
+    r.add(polygon, {
+        stroke: 'red',
+        width: 5
+    })
+
+    const text = new Text({
+        text: computed(() => sides.value.toString()),
+        position: r.center,
+        size: 20,
+        anchor: 'center-center'
+    })
+    r.add(text, {
+        color: 'red'
+    })
+}
+
+export const polygonEdges = (r: LimnRenderer) => {
+    const rotation = r.timer.infiniteForward(4000, i => 2 * Math.PI * i)
+    const polygon = new Polygon({
+        center: r.center,
+        n: 6,
+        radius: 100
+    })
+
+    r.add(polygon, { stroke: 'rgb(100 100 100)', width: 2 })
+
+    const edges = polygon.edges.map(e =>
+        // rotating each edge around it's center
+        e.transform({
+            rotate: rotation,
+            origin: e.center
+        })
+    )
+
+    r.add(edges, {
+        color: 'red',
+        width: 3
     })
 }
 
@@ -331,4 +380,96 @@ export const generativeArrayBasics = (r: LimnRenderer) => {
         stroke: 'red',
         width: 5
     })
+}
+
+export const textBasics = (r: LimnRenderer) => {
+    r.add(r.center, { color: 'red', radius: 5 })
+    const text = new Text({
+        text: 'Hello World',
+        position: r.center,
+        size: 50,
+        anchor: 'center-center'
+    })
+    r.add(text, {
+        color: 'red'
+    })
+}
+
+export const textAnchors = (r: LimnRenderer) => {
+    // Drawing center
+    r.add(r.center, { color: 'grey', radius: 5 })
+
+    const v = r.timer.infiniteForward(9000, i => Math.floor(i * 9)) // integers 0-8
+    const vals = [
+        'top-right', 'top-center', 'top-left',
+        'center-right', 'center-center', 'center-left',
+        'bottom-right', 'bottom-center', 'bottom-left'
+    ]
+    const anchor = computed(() => vals[v.value])
+    const text = new Text({
+        text: 'Hello World',
+        position: r.center,
+        size: 50,
+        anchor: anchor
+    })
+    r.add(text, {
+        color: 'red'
+    })
+
+    // showing label on top
+    const anchorText = new Text({ text: anchor, position: new Point(r.center.x, 20), anchor: 'center-center', size: 10 })
+    r.add(anchorText, { 
+        color: 'red'
+    })
+}
+
+export const comparingTimers = (r: LimnRenderer) => {
+    const duration = 5_000
+    // goes from 0 to 1 in 10s (10k ms) and then back
+    const t1 = r.timer.infinite(duration)
+
+    // goes from 0 to 0.5 in 10s and then back - function modifying original value
+    const t2 = r.timer.infinite(duration, i => i / 2)
+
+    // goes from 0 to 1 and resets
+    const t3 = r.timer.infiniteForward(duration)
+
+    // like above but goes to 0.5 only
+    const t4 = r.timer.infiniteForward(duration, i => i / 2)
+
+    const height = 20
+
+    const timers = [t1, t2, t3, t4]
+
+    const elements = new ReactiveArray(timers).map((timer, i) => {
+        return new Text({
+            text: computed(() => timer.value.toFixed(2)),
+            position: new Point(0, r.center.y).add(50, -2 *height).add(0, i * height),
+            size: 10,
+            anchor: 'center-bottom'
+        })
+    })
+
+    r.add(elements, {
+        color: 'red'
+    })
+
+    const lines = elements.map(text =>
+        new Line(text.position.add(20, 0), new Point(r.canvasRect.p2.x, text.position.y).add(-20, 0))
+    )
+
+    r.add(lines, {
+        width: 2
+    })
+    
+    const balls = lines.map((line, i) => {
+        // we need to lerp based on the value
+        return line.lerp(timers[i].value)
+    })
+
+    r.add(balls, {
+        color: 'red',
+        radius: 5
+    })
+
 }

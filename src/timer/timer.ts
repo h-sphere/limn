@@ -65,11 +65,12 @@ export class Timer {
         }) as Signal<T>
     }
 
-    infiniteForward<T>(ms: number, fn: (i: number) => T): Signal<T> {
+    infiniteForward<T = number>(ms: number, fn?: (i: number) => T): Signal<T> {
         const start = this.currentTime
+        const f = fn ?? identity
         return computed(`infinite ${ms}ms`, () => {
             const t = (this.currentTime - start) / ms
-            return fn(t % 1)
+            return f(t % 1) as T
         })
     }
     

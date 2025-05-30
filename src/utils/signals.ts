@@ -1,5 +1,5 @@
 import { atom as a, computed as c, isSignal, Signal } from "signia";
-import { NumSig, toNumberSig, toPointSig } from "./signalTypes";
+import { NumSig, toNumberSig, toPointSig, toStringSig } from "./signalTypes";
 import { Point } from "../primitives/Point";
 
 export const atom = <T>(t: T) => a('untitled', t)
@@ -30,6 +30,9 @@ const toSignal = <T>(v: T) => {
     }
     if (v instanceof Point) {
         return toPointSig(v)
+    }
+    if (typeof v === 'string') {
+        return toStringSig(v)
     }
     if (Array.isArray(v) && isTupple(v)) {
         return toPointSig(v)

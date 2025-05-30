@@ -8,6 +8,7 @@ import { BezierSpline } from "./primitives/BezierSpline";
 import { CubicBezierCurve } from "./primitives/CubicBezierCurve";
 import { GenerativeCollection } from "./primitives/GenerativeCollection";
 import { ReactiveArray } from "./primitives/ReactiveArray";
+import { Text } from "./primitives/Text";
 
 // Renderers
 import { LimnRenderer } from "./canvas/Renderer";
@@ -18,6 +19,7 @@ import { RCircle } from "./canvas/RCircle";
 import { RCubicBezierCurve } from "./canvas/RCubicBezierCurve";
 import { RLine } from "./canvas/RLine";
 import { BPolygon } from "./canvas/RPolygon";
+import { RText } from "./canvas/RText";
 
 // Timer
 import { Timer } from "./timer/timer";
@@ -35,6 +37,7 @@ export {
     CubicBezierCurve,
     GenerativeCollection,
     ReactiveArray,
+    Text,
 
     LimnRenderer,
     RPoint,
@@ -44,6 +47,7 @@ export {
     RCubicBezierCurve,
     RLine,
     BPolygon,
+    RText,
 
     Timer,
 

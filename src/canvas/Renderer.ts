@@ -19,6 +19,8 @@ import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
 import { Arc } from "../primitives/Arc";
 import { RArc } from "./RArc";
+import { Text } from "../primitives/Text";
+import { RText } from "./RText";
 
 const RENDER_CLASSES = [
     [Point, RPoint],
@@ -29,7 +31,8 @@ const RENDER_CLASSES = [
     [Rectangle, RRectangle],
     [CubicBezierCurve, RCubicBezierCurve],
     [BezierSpline, RBezierSpline],
-    [Arc, RArc]
+    [Arc, RArc],
+    [Text, RText]
 ] as const
 
 type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]

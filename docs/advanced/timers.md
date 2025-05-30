@@ -9,3 +9,7 @@ Timers allow to easily create animations (both infinite and temporary). They can
 
 ## Basic timers
 <Block name="timer" />
+
+## Comparing Timers
+Below you can see comparison of different timers functions
+<Block name="comparingTimers" />
