@@ -1,4 +1,4 @@
-import { atom, computed, isSignal, Signal } from "signia";
+import { atom, computed, isAtom, isSignal, Signal } from "signia";
 
 type MapFn<T, U> = (item: T, index: number) => U;
 type FilterFn<T> = (item: T, index: number) => boolean;
@@ -25,6 +25,14 @@ export class ReactiveArray<T> {
 
     get(i: number) {
         return this._items.value[i] as T
+    }
+
+    push(...items: T[]) {
+        if (isAtom(this._items)) {
+            this._items.set([...this._items.value, ...items])
+        } else {
+            throw new Error('Reactive Array needs to be instantiated as an atom')
+        }
     }
 
     map<U>(mapFn: MapFn<T, U>): ReactiveArray<U> {

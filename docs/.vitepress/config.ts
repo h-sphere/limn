@@ -35,7 +35,8 @@ export default defineConfig({
           { text: 'Text', link: '/shapes/text' },
           { text: 'Bezier Curves', link: '/shapes/bezier-curve' },
           { text: 'Reactive Array', link: '/shapes/reactive-array'},
-          { text: 'Generative Collection', link: '/shapes/generative-collection'}
+          { text: 'Generative Collection', link: '/shapes/generative-collection'},
+          { text: 'Layer', link: '/shapes/layer' }
 
 
         ]

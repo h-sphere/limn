@@ -5,9 +5,9 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, LimnRenderer, RCircle, ReactiveArray, Text } from '../src/limn'
+import { computed, Layer, LimnRenderer, RCircle, ReactiveArray, Text } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
-import { atom } from "signia"
+import { atom, react } from "signia"
 
 export const getStarted = (r: LimnRenderer) => {
     const t = r.timer.infinite(500, i => 5 + i * 20)
@@ -472,4 +472,37 @@ export const comparingTimers = (r: LimnRenderer) => {
         radius: 5
     })
 
+}
+
+export const layerBasics = (r: LimnRenderer) => {
+    const p = new Point(...r.center.xy)
+    const layer = new Layer([
+        p
+    ])
+
+    r.add(layer, {
+        color: 'red',
+        radius: 10
+    })
+
+    // Nothing on this layer gets rerendered, it should only get rendered once.
+
+    const t = r.timer.infinite(1000)
+    const point = new Line(r.canvasRect.p1, r.canvasRect.p2).lerp(t)
+    r.add(point, {
+        color: 'red',
+        radius: 20
+    })
+
+    
+    // This will be improved in future version of the library
+    const canvas = ((r as any).ctx.canvas as HTMLCanvasElement);
+    
+    canvas.addEventListener('mousedown', () => {
+        p.xy = [100, 100]
+    })
+
+    canvas.addEventListener('mouseup', () => {
+        p.xy = r.center.xy
+    })
 }

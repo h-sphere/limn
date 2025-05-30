@@ -8,7 +8,3 @@ Line class represents a line in 2D space.
 ## Rendering a line
 
 <Block name="line" />
-
-<BCodeblock>
-
-</BCodeblock>
