@@ -11,13 +11,10 @@ import { GenerativeCollection } from '../../../src/primitives/GenerativeCollecti
 import { computed } from 'signia'
 
 const render = (r) => {
-
-
-
 const c = r.center
 const size = computed('size', () => Math.min(r.center.x, r.center.y))
 
-const p = new Polygon(c, 12, computed('radius', () => 0.9 * size.value))
+const p = new Polygon({ n: 12, center: c, radius: computed('radius', () => 0.9 * size.value)})
 const points = p.points
 const diagonals = points.map((p, i) => new Line(p, points.get((i + 4) % 12)))
 const i = r.timer.infinite(3000, i => i)
