@@ -1,5 +1,11 @@
 # Limn
 
+## 0.2.2
+
+### Patch Changes
+
+- 014cb57: fix for release
+
 ## 0.2.1
 
 ### Patch Changes
