@@ -29,6 +29,11 @@ import { Timer } from "./timer/timer";
 // Helpers
 import { atom, computed, value } from "./utils/signals";
 
+// Fills
+import { LinearGradient } from "./fills/linearGradient";
+import { RadialGradient } from "./fills/radialGradient";
+import { ConicGradient } from "./fills/conicGradient";
+
 export {
     Point,
     Rectangle,
@@ -55,5 +60,9 @@ export {
 
     Timer,
 
-    atom, computed, value
+    atom, computed, value,
+
+    LinearGradient,
+    RadialGradient,
+    ConicGradient
 }

@@ -1,7 +1,7 @@
 import { num } from "../math/matrix";
 import { Arc } from "../primitives/Arc";
 import { Color, Size } from "../utils/configs";
-import { str } from "../utils/signalTypes";
+import { color, str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RArcConfig {
@@ -25,7 +25,7 @@ export class RArc extends PrimitiveRenderable<Arc, RArcConfig> {
         ctx.beginPath()
         ctx.arc(center.x, center.y, radius, start, end)
         if (this._config.stroke) {
-            ctx.strokeStyle = str(this._config.stroke)
+            ctx.strokeStyle = color(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }

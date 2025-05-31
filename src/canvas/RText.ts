@@ -1,6 +1,6 @@
 import { Text } from "../primitives/Text";
 import { Color } from "../utils/configs";
-import { str } from "../utils/signalTypes";
+import { color, str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RTextConfig {
@@ -14,7 +14,7 @@ export class RText extends PrimitiveRenderable<Text, RTextConfig> {
         }
     }
     render(ctx: LimnContext) {
-        ctx.fillStyle = str(this._config.color)
+        ctx.fillStyle = color(this._config.color)
         ctx.beginPath()
         ctx.font = `${this._p.size}px Arial`
         let [x, y] = this._p.position.xy

@@ -42,6 +42,16 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Fills',
+        collapsed: true,
+        items: [
+          { text: 'Linear Fill', link: '/fills/linearFill' },
+          { text: 'Radial Fill', link: '/fills/radialFill' },
+          { text: 'Conic Fill', link: '/fills/conicFill' },
+
+        ]
+      },
+      {
         text: 'Advanced',
         collapsed: true,
         items: [

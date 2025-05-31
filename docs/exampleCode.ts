@@ -5,7 +5,7 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, Layer, LimnRenderer, RCircle, ReactiveArray, Text } from '../src/limn'
+import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, RadialGradient, RCircle, ReactiveArray, Text } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
 import { atom, react } from "signia"
 
@@ -533,5 +533,142 @@ export const layerBasics = (r: LimnRenderer) => {
 
     canvas.addEventListener('mouseup', () => {
         p.xy = r.center.xy
+    })
+}
+
+export const linearFillBasic = (r: LimnRenderer) => {
+    const p1 = r.center.add(-50, -50)
+    const rect = new Rectangle({
+        p1: p1,
+        p2: p1.add(100, 100)
+    })
+
+    const t = r.timer.infinite(5000)
+
+    const fill = new LinearGradient({
+        bounds: rect,
+        ctx: ((r as any).ctx) as any,
+        stops: [{
+            color: 'red',
+            value: 0
+        },
+    {
+        color: 'green',
+        value: t
+    },
+{
+    color: 'black',
+    value: 1
+}]
+    })
+
+    r.add(rect, {
+        fill: fill
+    })
+}
+
+export const linearFillCircleBorder = (r: LimnRenderer) => {
+    const c = r.center
+    const radius = 50
+    const rect = new Rectangle({
+        p1: c.add(-radius, -radius),
+        p2: c.add(radius, radius)
+    })
+    const fill = new LinearGradient({
+        bounds: rect,
+        ctx: (r as any).ctx,
+        stops: [{
+            color: 'red',
+            value: 0
+        }, { color: 'blue', value: 1}, { color: 'white', value: 0.5 }]
+    })
+
+    const rad = r.timer.infinite(5000, i => 20 + i * (radius - 20))
+    const circle = new Circle({
+        center: c,
+        radius: rad
+    })
+    r.add(circle, {
+        stroke: fill,
+        width: 10
+    })
+}
+
+
+export const radialFillBasic = (r: LimnRenderer) => {
+    const c = r.center
+
+    const t = r.timer.infiniteForward(5000, i => i * 2 * Math.PI)
+
+    const c1 = new Circle({
+        center: r.center.transform({
+            rotate: t,
+            origin: c.add(50, -100)
+        }),
+        radius: 20
+    })
+
+    const c2 = new Circle({
+        center: r.center.add(0, 130).transform({
+            rotate: t,
+            origin: c
+        }),
+        radius: 200
+    })
+
+    const g = new RadialGradient({
+        c1, c2,
+        ctx: (r as any).ctx,
+        stops: [{
+            color: 'orange',
+            value: 0
+        },
+        {
+            color: 'rebeccapurple',
+            value: 1
+        }
+    ]
+    })
+
+    const rect = new Rectangle({
+        p1: c.add(-100, -100),
+        p2: c.add(100, 100)
+    })
+
+    r.add(rect, {
+        fill: g,
+        stroke: 'black',
+        width: 4
+    })
+}
+
+export const conicFillBasic = (r: LimnRenderer) => {
+    const c = r.center
+
+    const t = r.timer.infiniteForward(5000, i => i * 2 * Math.PI)
+
+    const circle = new Circle({
+        center: r.center,
+        radius: 100
+    })
+
+    const fill = new ConicGradient({
+        angle: t,
+        center: c.add(50, 0).transform({
+            rotate: t,
+            origin: c
+        }),
+        ctx: (r as any).ctx,
+        stops: [{
+           color: 'red',
+           value: 0 
+        }, {
+            color: 'orange',
+            value: 1
+        }]
+    })
+
+    r.add(circle, {
+        fill: fill
     })
 }

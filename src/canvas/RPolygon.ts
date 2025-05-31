@@ -1,7 +1,7 @@
 import { num } from "../math/matrix";
 import { Polygon } from "../primitives/Polygon";
 import { Color, Size } from "../utils/configs";
-import { str } from "../utils/signalTypes";
+import { color, str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BPolygonConfig {
@@ -30,11 +30,11 @@ export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
         }
         ctx.lineTo(...p.get(0).xy)
         if (this._config.fill) {
-            ctx.fillStyle = str(this._config.fill)
+            ctx.fillStyle = color(this._config.fill)
             ctx.fill()
         }
         if (this._config.stroke) {
-            ctx.strokeStyle = str(this._config.stroke)
+            ctx.strokeStyle = color(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }

@@ -1,7 +1,7 @@
 import { num } from "../math/matrix";
 import { Circle } from "../primitives/Circle";
 import { Color, Size } from "../utils/configs";
-import { str } from "../utils/signalTypes";
+import { color, str } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RCircleConfig {
@@ -25,11 +25,11 @@ export class RCircle extends PrimitiveRenderable<Circle, RCircleConfig> {
         ctx.beginPath()
         ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI)
         if (this._config.fill) {
-            ctx.fillStyle = str(this._config.fill)
+            ctx.fillStyle = color(this._config.fill)
             ctx.fill()
         }
         if (this._config.stroke) {
-            ctx.strokeStyle = str(this._config.stroke)
+            ctx.strokeStyle = color(this._config.stroke)
             ctx.lineWidth = num(this._config.width)
             ctx.stroke()
         }
