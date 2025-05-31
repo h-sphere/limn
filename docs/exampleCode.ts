@@ -295,7 +295,6 @@ export const bezierPoints = (r: LimnRenderer) => {
     const canvas = ((r as any).ctx.canvas as HTMLCanvasElement);
     
     canvas.addEventListener('mousedown', () => {
-        console.log('mouse down')
         if (r.mousePos.distance(c1) < 20) {
             editing.set(1)
         } else if (r.mousePos.distance(c2) < 20) {
@@ -420,6 +419,36 @@ export const textAnchors = (r: LimnRenderer) => {
     const anchorText = new Text({ text: anchor, position: new Point(r.center.x, 20), anchor: 'center-center', size: 10 })
     r.add(anchorText, { 
         color: 'red'
+    })
+}
+
+const loremIpsumText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis varius ligula. Quisque nec nibh porttitor, molestie sapien et, semper nunc. Integer sed porttitor eros. Nunc consectetur augue ut sem euismod, a efficitur arcu faucibus. Nunc interdum ac velit viverra ultrices. Vestibulum pharetra magna urna, ac lobortis purus rutrum sed. Sed malesuada orci eget dolor viverra vestibulum. Aenean eu felis nec mauris venenatis ullamcorper. Maecenas odio risus, aliquet vel mauris sit amet, laoreet viverra lorem. Quisque et purus ultrices, porttitor est a, malesuada lorem. Nulla facilisi. Sed vitae imperdiet justo. Phasellus lacus neque, dignissim commodo massa sit amet, malesuada condimentum lacus. Mauris eget feugiat sem. Aliquam sit amet dui vel lectus bibendum maximus.'
+
+export const textBox = (r: LimnRenderer) => {
+    const width = r.timer.infinite(5000, i => 100 + 200 * i)
+    const position = r.center.add(computed(() => -width.value / 2), -r.center.y + 40)
+    const text = new Text({
+        text: loremIpsumText,
+        position,
+        size: 10,
+        anchor: 'top-left',
+        width: width
+    })
+    r.add(text, {
+        color: 'red'
+    })
+
+    const topLine = new Line(position, position.add(width, 0))
+    r.add(topLine, {
+        color: 'red',
+        width: 2
+    })
+
+    const rightLine = new Line(topLine.p2, new Point(computed(() => topLine.p2.x), r.canvasRect.p2.y))
+
+    r.add(rightLine, {
+        color: 'red',
+        width: 2
     })
 }
 

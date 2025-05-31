@@ -21,7 +21,6 @@ export class RLayer<T extends Renderable> extends PrimitiveRenderable<Layer<T>, 
         this.drawing = computed('drawing', () => {
             // FIXME: bundle all redraws into a single one when needed
             // Inner context
-            console.log('Redrawing Layer')
             innerCtx.clearRect(0, 0, width, height);
             (this._p.items ?? []).forEach((e) => e.render(innerCtx))
             return this.canvas!

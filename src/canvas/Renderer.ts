@@ -156,10 +156,8 @@ export class LimnRenderer {
             if (isArrayType(item)) {
                 const WrapClass = getWrapClass(item.get(0) as any)
                 if (WrapClass !== null) {
-                    console.log('WRAPP?', item)
                     let arr
                     if (item instanceof Layer) {
-                        console.log('is renderable, fuck yeah')
                         arr = new RLayer(item.map(e => new WrapClass(e as any, config as any))) // FIXME: better typing here?
                     } else {
                         arr = new RArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
