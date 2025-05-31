@@ -1,6 +1,6 @@
 import { Text } from "../primitives/Text";
 import { Color } from "../utils/configs";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RTextConfig {
@@ -56,7 +56,6 @@ export class RText extends PrimitiveRenderable<Text, RTextConfig> {
 
         let line = ''
         const words = this._p.text.split(' ') // Fixme: any whitespace would do but we need to reconstruct it later
-        let length = 0
         let rows = 0
         const overallMeasure = ctx.measureText(this._p.text)
 

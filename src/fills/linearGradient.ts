@@ -1,7 +1,6 @@
 import { atom, computed, isSignal, Signal } from "signia";
-import { ColorOrSignal, NumSig, str, StringSig } from "../utils/signalTypes";
+import { NumSig, str, StringSig } from "../utils/signalTypes";
 import { LimnFill } from "./limnFill";
-import { Color } from "../utils/configs";
 import { LimnContext } from "../canvas/interfaces";
 import { Rectangle } from "../limn";
 import { num } from "../math/matrix";

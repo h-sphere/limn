@@ -1,7 +1,7 @@
 import { num } from "../math/matrix";
 import { Arc } from "../primitives/Arc";
 import { Color, Size } from "../utils/configs";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RArcConfig {

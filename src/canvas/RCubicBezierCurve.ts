@@ -1,7 +1,7 @@
 import { num, xy } from "../math/matrix";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Color, Size } from "../utils/configs";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface RCurveConfig {

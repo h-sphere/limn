@@ -1,4 +1,4 @@
-import { atom, Atom, computed, Signal } from "signia";
+import { computed, Signal } from "signia";
 import { Layer } from "../primitives/Layer";
 import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 

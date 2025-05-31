@@ -2,7 +2,7 @@ import { Line } from "../primitives/Line";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 import { Color, Size } from "../utils/configs";
 import { num } from "../math/matrix";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 
 export interface RLineConfig {
     width: Size;

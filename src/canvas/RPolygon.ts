@@ -1,7 +1,7 @@
 import { num } from "../math/matrix";
 import { Polygon } from "../primitives/Polygon";
 import { Color, Size } from "../utils/configs";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
 export interface BPolygonConfig {

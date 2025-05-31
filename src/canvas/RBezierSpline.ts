@@ -2,7 +2,7 @@ import { num, xy } from "../math/matrix";
 import { BezierSpline } from "../primitives/BezierSpline";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 import { Color, Size } from "../utils/configs";
-import { color, str } from "../utils/signalTypes";
+import { color } from "../utils/signalTypes";
 
 export interface RBezierSplineConfig {
     width: Size;
