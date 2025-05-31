@@ -1,5 +1,14 @@
 # Limn
 
+## 0.2.1
+
+### Patch Changes
+
+- 2603f28: added fills (gradients)
+- 06d0a50: added text element to render text on canvas
+- dfde05c: added autolayouting for text (max width)
+- c8f12ff: adding layer primitive
+
 ## 0.2.0
 
 ### Minor Changes
