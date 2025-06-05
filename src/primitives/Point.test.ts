@@ -61,4 +61,36 @@ describe('Point', () => {
         const ptranslated = p.transform({ translate: [50, 50]})
         expect(ptranslated.xy).toEqual([70, 100])
     })
+
+    it('should create invalid points', () => {
+        const p1 = new Point(0, Infinity)
+        expect(p1.isValid).toBeFalsy()
+
+        const p2 = new Point(-Infinity, Infinity)
+        expect(p2.isValid).toBeFalsy()
+
+        const p3 = new Point(Infinity, Infinity)
+        expect(p3.isValid).toBeFalsy()
+
+        const p4 = new Point(5, 5)
+        expect(p4.isValid).toBeTruthy()
+    })
+
+    it('should properly compute dot product', () => {
+        const p1 = new Point(1, 1)
+        const p2 = new Point(-2, 2)
+        expect(p1.dot(p2)).toEqual(0)
+
+        // const rot = 0.134321
+        // // should also work when both of them are rotated
+        // const p3 = p1.transform({
+        //     rotate: rot
+        // })
+
+        // const p4 = p2.transform({
+        //     rotate: rot
+        // })
+
+        // expect(p3.dot(p4)).toEqual(0)
+    })
 })

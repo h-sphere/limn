@@ -102,6 +102,14 @@ export class Point implements Transformable<Point> {
         )
     }
 
+    dot(p2: Point) {
+        return this.x * p2.y + this.y * p2.x
+    }
+
+    get isValid() {
+        return Math.abs(this.x) !== Infinity && Math.abs(this.y) !== Infinity
+    }
+
     transform(c: TransformConfig): Point {
         const t =  computed('transform', () => {
             const m = transform(c)

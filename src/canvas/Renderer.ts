@@ -22,6 +22,10 @@ import { RArc } from "./RArc";
 import { Text } from "../primitives/Text";
 import { RText } from "./RText";
 import { Layer, RLayer } from "../limn";
+import { RImage } from "./RImage";
+import { LimnImage } from "../primitives/Image";
+import { LimnVideo } from "../primitives/Video";
+import { RVideo } from "./RVideo";
 
 const RENDER_CLASSES = [
     [Point, RPoint],
@@ -33,7 +37,9 @@ const RENDER_CLASSES = [
     [CubicBezierCurve, RCubicBezierCurve],
     [BezierSpline, RBezierSpline],
     [Arc, RArc],
-    [Text, RText]
+    [Text, RText],
+    [LimnImage, RImage],
+    [LimnVideo, RVideo]
 ] as const
 
 type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
@@ -104,6 +110,18 @@ export class LimnRenderer {
         return this.canvasRect.center
     }
 
+    get context() {
+        return this.ctx
+    }
+
+    @computed get minSize() {
+        return Math.min(this.size.x, this.size.y)
+    }
+
+    @computed get maxSize() {
+        return Math.max(this.size.x, this.size.y)
+    }
+
     /**
      * Rectangle representing whole canvas area (from (0,0) to (w,h))
      */
@@ -158,7 +176,7 @@ export class LimnRenderer {
                 if (WrapClass !== null) {
                     let arr
                     if (item instanceof Layer) {
-                        arr = new RLayer(item.map(e => new WrapClass(e as any, config as any))) // FIXME: better typing here?
+                        arr = new RLayer(item.map(e => new WrapClass(e as any, config as any)) as any) // FIXME: better typing here?
                     } else {
                         arr = new RArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
                     }

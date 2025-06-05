@@ -5,9 +5,11 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, RadialGradient, RCircle, ReactiveArray, Text } from '../src/limn'
+import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, RadialGradient, RCircle, ReactiveArray, RLayer, RLine, Text } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
-import { atom, react } from "signia"
+import { atom, getComputedInstance, react } from "signia"
+import { LimnImage } from "../src/primitives/Image"
+import { LimnVideo } from "../src/primitives/Video"
 
 export const getStarted = (r: LimnRenderer) => {
     const t = r.timer.infinite(500, i => 5 + i * 20)
@@ -670,5 +672,190 @@ export const conicFillBasic = (r: LimnRenderer) => {
 
     r.add(circle, {
         fill: fill
+    })
+}
+
+
+export const layerFill = (r: LimnRenderer) => {
+
+    const rad = r.timer.infinite(5000, i => 1 + i * 20)
+    const t = r.timer.infinite(5600, i => 200 * i)
+
+    const rcircle = new RCircle(new Circle({
+            center: [25, 25],
+            radius: rad
+        }), { fill: 'red' })
+
+    const fill = new Layer([
+        rcircle
+    ], {
+        width: 50,
+        height: 50
+    })
+
+    const rfill = new RLayer(fill)
+
+    const rect = new Rectangle({
+        p1: r.canvasRect.p1.add(50, 50),
+        p2: r.canvasRect.p2.add(-250, -50).add(t, 0)
+    })
+
+    r.add(rect, {
+        fill: rfill,
+        stroke: 'orange',
+        width: 5
+    })
+}
+
+
+export const layerFillGrid = (r: LimnRenderer) => {
+
+    const rad = r.timer.infinite(5000, i => 2 * Math.PI * i)
+
+    const layer = new Layer([
+        new RLine(new Line([-10, -10], [55, 55]).transform({
+            origin: [25, 25],
+            rotate: rad
+        }), { color: 'black', width: 2 }),
+    ], { width: 50, height: 50 })
+
+    const rfill = new RLayer(layer)
+
+    const rect = new Rectangle({
+        p1: r.canvasRect.p1.add(50, 50),
+        p2: r.canvasRect.p2.add(-50, -50)
+    })
+
+    r.add(rect, {
+        fill: rfill
+    })
+}
+
+
+export const layerFillGridZigZag = (r: LimnRenderer) => {
+
+    const rad = r.timer.infinite(5000, i => 50 * i)
+    const j = r.timer.infinite(9355, i => (1 - i) * 50)
+
+
+    const layer = new Layer([
+        new RLine(new Line([0, j], [25, rad]), { color: 'black', width: 2 }),
+        new RLine(new Line([25, rad], [50, j]), { color: 'black', width: 2 })
+    ], { width: 50, height: 50 })
+
+    const rfill = new RLayer(layer)
+
+    const rect = new Rectangle({
+        p1: r.canvasRect.p1.add(50, 50),
+        p2: r.canvasRect.p2.add(-50, -50)
+    })
+
+    r.add(rect, {
+        fill: rfill
+    })
+}
+
+export const demosCross = (r: LimnRenderer) => {
+
+    const x = r.timer.infinite(5000, i => 50 + i * 200)
+    const x2 = r.timer.infinite(6000, i => 49 + i * 150)
+
+    const line1 = new Line([x, 50], [160, 200])
+    const line2 = new Line([340, 52], [x2, 200])
+    r.add(line1, {
+        color: 'red',
+        width: 2,
+    })
+
+    r.add(line2, {
+        color: 'green',
+        width: 2
+    })
+
+    const intersection = line1.intersectionPoint(line2)
+    r.add(intersection, {
+        color: 'blue',
+        radius: 5
+    })
+}
+
+export const demosImage = (r: LimnRenderer) => {
+    const img = new Image()
+    img.src = 'https://picsum.photos/200/300'
+
+    const imageEl = new LimnImage({
+        image: img,
+        position: r.center.add(-100, -150)
+    })
+
+    r.add(imageEl, {}) // FIXME: how to handle no conf?
+}
+
+
+export const demosVideo = (r: LimnRenderer) => {
+    const vid = document.createElement('video')
+    vid.muted = true
+    vid.playsInline = true
+    vid.loop = true
+    vid.src = '/limn/rocky-shore-coast.mp4'
+    vid.play()
+
+    const imageEl = new LimnVideo({
+        video: vid,
+        position: [0, 0]
+    })
+
+    r.add(imageEl, {}) // FIXME: how to handle no conf?
+}
+
+
+export const demosVideo2 = (r: LimnRenderer) => {
+    const vid = document.createElement('video')
+    vid.muted = true
+    vid.playsInline = true
+    vid.loop = true
+    vid.src = '/limn/rocky-shore-coast.mp4'
+
+    const progress = computed(() => r.mousePos.x / r.size.x)
+
+    react('video seeking', () => {
+        if (progress.value) {
+            if (!vid.duration) {
+                return
+            }
+            vid.currentTime = progress.value * vid.duration
+        }
+    })
+
+    const imageEl = new LimnVideo({
+        video: vid,
+        position: [0, 0]
+    })
+
+    r.add(imageEl, {}) // FIXME: how to handle no conf?
+
+    const progressBar = new Rectangle({
+        p1: [0, 0],
+        p2: [computed(() => progress.value * r.size.x), 20]
+    })
+    r.add(progressBar, {
+        fill: 'rgb(255 255 255 / 40%)'
+    })
+}
+
+export const demoCardioid = (r: LimnRenderer) => {
+    const progress = computed(() => r.mousePos.x / r.size.x)
+    const n = computed(() => Math.round(20 + 100 * progress.value))
+    const polygon = new Polygon({ n, center: r.center, radius: 100 })
+    const points = getComputedInstance(polygon, 'points')
+    const lines = new GenerativeCollection(n, i => {
+        return new Line(polygon.points.get(i), polygon.points.get((2*i)%n.value))
+    })
+    // const lines = points.map((p, i) => new Line(p, points.get((2 * i) % n.value)))
+    // r.add(lines, { color: 'red', width: 1 })
+
+    r.add(lines, { color: 'red', width: 1 })
+    r.add(new Text({ position: [r.center.x, computed(() => r.size.y - 20)], text: computed(() => n.value.toString())}), {
+        color: 'black'
     })
 }

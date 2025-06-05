@@ -36,7 +36,9 @@ export default defineConfig({
           { text: 'Bezier Curves', link: '/shapes/bezier-curve' },
           { text: 'Reactive Array', link: '/shapes/reactive-array'},
           { text: 'Generative Collection', link: '/shapes/generative-collection'},
-          { text: 'Layer', link: '/shapes/layer' }
+          { text: 'Layer', link: '/shapes/layer' },
+          { text: 'Image', link: '/shapes/image' },
+          { text: 'Video', link: '/shapes/video' },
 
 
         ]
@@ -48,6 +50,7 @@ export default defineConfig({
           { text: 'Linear Fill', link: '/fills/linearFill' },
           { text: 'Radial Fill', link: '/fills/radialFill' },
           { text: 'Conic Fill', link: '/fills/conicFill' },
+          { text: 'Layer Fill', link: '/fills/layerFill' },
 
         ]
       },
@@ -63,7 +66,9 @@ export default defineConfig({
         text: 'Demos',
         collapsed: true,
         items: [
-          { text: 'Circles', link: 'demos/circles' }
+          { text: 'Circles', link: 'demos/circles' },
+          { text: 'Lines Intersection', link: 'demos/lines-intersection' },
+          { text: 'Cardioid', link: 'demos/cardioid' },
         ]
       }
     ],
