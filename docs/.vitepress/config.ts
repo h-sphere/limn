@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Limn",
   description: "Reactive Geometry Framework",
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   themeConfig: {
     aside: false,
     // https://vitepress.dev/reference/default-theme-config
@@ -11,6 +12,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Explorer', link: 'http://hypersphere.blog/limn-explorer'}
     ],
+    logo: '/logo.svg',
 
     sidebar: [
       {
