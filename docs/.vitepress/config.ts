@@ -3,7 +3,6 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Limn",
-  base: './',
   description: "Reactive Geometry Framework",
   themeConfig: {
     aside: false,
