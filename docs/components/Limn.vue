@@ -1,6 +1,6 @@
 <script setup>
 import { useTemplateRef, onMounted, ref, defineProps } from 'vue'
-import { LimnRenderer } from '../../src/canvas/Renderer'
+import { LimnRenderer } from 'limn'
 
 const emit = defineEmits(['render'])
 const props = defineProps({

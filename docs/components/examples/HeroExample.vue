@@ -1,9 +1,7 @@
 <script setup>
 import Limn from '../Limn.vue'
-import { Circle } from '../../../src/primitives/Circle'
-import { Line } from '../../../src/primitives/Line'
+import { Circle, Line, GenerativeCollection } from 'limn'
 import { computed } from 'signia'
-import { GenerativeCollection } from '../../../src/primitives/GenerativeCollection'
 function code(r) {
     const t = r.timer.infinite(500, i => 5 + i * 20)
     const angle = r.timer.infiniteForward(2000, i => i * 2 * Math.PI)

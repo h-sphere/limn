@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "private": true,
+  "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "keywords": [],
   "author": "hypersphere",
@@ -18,5 +19,9 @@
     "shiki": "^3.4.2",
     "vitepress": "^1.6.3",
     "vue": "^3.5.14"
+  },
+  "dependencies": {
+    "signia": "^0.1.5",
+    "limn": "workspace:*"
   }
 }

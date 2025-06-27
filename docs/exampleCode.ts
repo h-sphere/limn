@@ -1,16 +1,9 @@
-import { Circle } from "../src/primitives/Circle"
-import { GenerativeCollection } from "../src/primitives/GenerativeCollection"
-import { Line } from "../src/primitives/Line"
-import { Point } from "../src/primitives/Point"
-import { Rectangle } from "../src/primitives/Rectangle"
-import { Polygon } from "../src/primitives/Polygon"
-import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, Path, RadialGradient, RCircle, ReactiveArray, RLayer, RLine, Text } from '../src/limn'
-import { RPoint } from "../src/canvas/RPoint"
+import {
+    Circle, GenerativeCollection, Line, Point, Rectangle, Polygon, CubicBezierCurve, computed, ConicGradient, Layer, LimnRenderer, LinearGradient, Path, RadialGradient, RCircle, ReactiveArray, RLayer, RLine, Text,
+    RPoint, LimnImage, LimnVideo, PathsArray
+} from 'limn'
+
 import { atom, getComputedInstance, react } from "signia"
-import { LimnImage } from "../src/primitives/Image"
-import { LimnVideo } from "../src/primitives/Video"
-import { PathsArray } from "../src/primitives/PathsArray"
 
 export const getStarted = (r: LimnRenderer) => {
     const t = r.timer.infinite(500, i => 5 + i * 20)
@@ -1053,7 +1046,7 @@ export const demoCardioid = (r: LimnRenderer) => {
     const polygon = new Polygon({ n, center: r.center, radius: 100 })
     const points = getComputedInstance(polygon, 'points')
     const lines = new GenerativeCollection(n, i => {
-        return new Line(polygon.points.get(i), polygon.points.get((2*i)%n.value))
+        return new Line(polygon.points.get(i)!, polygon.points.get((2*i)%n.value)!)
     })
     // const lines = points.map((p, i) => new Line(p, points.get((2 * i) % n.value)))
     // r.add(lines, { color: 'red', width: 1 })

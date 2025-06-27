@@ -1,9 +1,4 @@
 <script setup>
-import Example from './components/examples/HeroExample.vue'
-import { Circle } from '../src/primitives/Circle'
-import { Line } from '../src/primitives/Line'
-import { computed } from 'signia'
-import { GenerativeCollection } from '../src/primitives/GenerativeCollection'
 import Block from './components/Block.vue'
 
 </script>

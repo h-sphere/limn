@@ -16,6 +16,13 @@ importers:
         version: 29.5.14
 
   docs:
+    dependencies:
+      limn:
+        specifier: workspace:*
+        version: link:../packages/limn
+      signia:
+        specifier: ^0.1.5
+        version: 0.1.5
     devDependencies:
       '@wdns/vue-code-block':
         specifier: ^2.3.5

@@ -36,6 +36,12 @@ import { LinearGradient } from "./fills/linearGradient";
 import { RadialGradient } from "./fills/radialGradient";
 import { ConicGradient } from "./fills/conicGradient";
 
+
+import { LimnImage } from "./primitives/Image";
+import { LimnVideo } from "./primitives/Video";
+import { PathsArray } from "./primitives/PathsArray";
+
+
 export {
     Point,
     Rectangle,
@@ -68,5 +74,9 @@ export {
 
     LinearGradient,
     RadialGradient,
-    ConicGradient
+    ConicGradient,
+
+    LimnImage,
+    LimnVideo,
+    PathsArray
 }

@@ -2,12 +2,7 @@
 import DefaultTheme from 'vitepress/theme'
 
 import Limn from '../../components/Limn.vue'
-import { Line } from '../../../src/primitives/Line'
-import { Point } from '../../../src/primitives/Point'
-import { Circle } from '../../../src/primitives/Circle'
-import { Polygon } from '../../../src/primitives/Polygon'
-import { CubicBezierCurve } from '../../../src/primitives/CubicBezierCurve'
-import { GenerativeCollection } from '../../../src/primitives/GenerativeCollection'
+import { Line, Polygon, CubicBezierCurve } from 'limn'
 import { computed } from 'signia'
 
 const render = (r) => {

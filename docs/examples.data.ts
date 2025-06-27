@@ -1,7 +1,3 @@
-import { computed } from "signia"
-import { Circle } from "../src/primitives/Circle"
-import { GenerativeCollection } from "../src/primitives/GenerativeCollection"
-import { Line } from "../src/primitives/Line"
 import fs from 'fs'
 
 function parseExports(codeString) {
