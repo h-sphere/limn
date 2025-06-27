@@ -11,6 +11,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.4
         version: 2.29.4
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
 
   docs:
     devDependencies:
