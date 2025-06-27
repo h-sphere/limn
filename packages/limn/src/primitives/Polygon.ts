@@ -4,7 +4,8 @@ import { Point } from "./Point";
 import { Line } from "./Line";
 import { NumSig, PointSignal } from "../utils/signalTypes";
 import { getx, gety, num } from "../math/matrix";
-import { BaseShape } from "../utils/base";
+import { Path } from "./Path";
+import { configToInternal } from "../utils/signals";
 
 interface PolygonConfig {
     center: PointSignal,
@@ -13,12 +14,25 @@ interface PolygonConfig {
     angle?: NumSig
 }
 
-export class Polygon extends BaseShape<PolygonConfig> {
+export class Polygon extends Path { //BaseShape<PolygonConfig> {
     declare readonly center: Point
     declare readonly radius: number
     declare readonly n: number
     declare readonly angle: number
     protected defaults = { angle: 0 }
+
+    protected _c
+
+    constructor(conf: PolygonConfig) {
+        super([])
+        this._c = configToInternal<PolygonConfig>(conf)
+        for (const key in this._c) {
+            Object.defineProperty(this, key, {
+                get: () => this._c[key as keyof typeof this._c]?.value,
+                enumerable: true,
+            })
+        }
+    }
 
     get points() {
         // FIXME: BOTH WILL CHANGE PROBABLY.
@@ -37,7 +51,7 @@ export class Polygon extends BaseShape<PolygonConfig> {
     get edges() {
         const points = this.points
         return points.map((p, i) =>
-            new Line(p, points.get((i + 1) % Math.floor(num(this.n))))
+            new Line(p, points.get((i + 1) % Math.floor(num(this.n)))!)
         )
     }
 }

@@ -3,6 +3,7 @@ import { num } from "../math/matrix";
 import { Point } from "./Point";
 import { BaseShape } from "../utils/base";
 import { computed } from "signia";
+import { Path } from "./Path";
 
 interface ArcConfig {
     center: PointSignal,
@@ -41,11 +42,32 @@ export class Arc extends BaseShape<ArcConfig> implements Required<ArcConfig> {
         })
     }
 
+    lerp(n: NumSig) {
+        const v = computed('v', () => this.start + num(n) * (this.end - this.start))
+        const x = computed('x', () => this.center.x + this.radius * Math.cos(num(v) * 2 * Math.PI))
+        const y = computed('y', () => this.center.y + this.radius * Math.sin(num(v) * 2 * Math.PI))
+        console.log('lerped', x.value, y.value)
+        return new Point(x, y)
+    }
+
     rotate(fullCircleRatio: NumSig) {
         return this.with(a => ({
             start: a.start + num(fullCircleRatio),
             end: a.end + num(fullCircleRatio)
         }))
+    }
+
+    tesselate(n: NumSig = 50) {
+        
+        const points = computed('points', () => {
+            const points = []
+            for(let i=0;i<=num(n);i++) {
+                points.push(this.lerp(i/(num(n))))
+            }
+            return points
+        })
+
+        return new Path(points)
     }
 
     // with(newConfig: UpdateConfig) {

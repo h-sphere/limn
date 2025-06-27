@@ -5,11 +5,12 @@ import { Point } from "../src/primitives/Point"
 import { Rectangle } from "../src/primitives/Rectangle"
 import { Polygon } from "../src/primitives/Polygon"
 import { CubicBezierCurve } from "../src/primitives/CubicBezierCurve"
-import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, RadialGradient, RCircle, ReactiveArray, RLayer, RLine, Text } from '../src/limn'
+import { computed, ConicGradient, Layer, LimnRenderer, LinearGradient, Path, RadialGradient, RCircle, ReactiveArray, RLayer, RLine, Text } from '../src/limn'
 import { RPoint } from "../src/canvas/RPoint"
 import { atom, getComputedInstance, react } from "signia"
 import { LimnImage } from "../src/primitives/Image"
 import { LimnVideo } from "../src/primitives/Video"
+import { PathsArray } from "../src/primitives/PathsArray"
 
 export const getStarted = (r: LimnRenderer) => {
     const t = r.timer.infinite(500, i => 5 + i * 20)
@@ -74,11 +75,68 @@ export const rect = (r: LimnRenderer) => {
     })
 }
 
+export const rectRotate = (r: LimnRenderer) => {
+    const r1 = new Rectangle({ p1: new Point(0, 0), p2: new Point(250, 250) })
+    const angle = r.timer.infiniteForward(5000, i => i * 2 * Math.PI)
+    const r2 = r1
+        .transform({ rotate: angle, origin: r1.center })
+
+    const r3 = r1.transform({ rotate: computed(() => -angle.value), origin: r1.center } )
+    const inter = r2
+        .intersect(r3)
+
+
+
+    r.add(new ReactiveArray(r1.points), { radius: 5, color: 'blue' })
+
+    r.add(r2, { fill: 'rgb(0 0 100 / 50%)'})
+    r.add(r3, { fill: 'rgb(0 100 0 / 50%)'})
+}
+
+export const rectIntersect = (r: LimnRenderer) => {
+    
+}
+
 export const circle = (r: LimnRenderer) => {
     const c = new Circle({ center: r.center, radius: 50})
     r.add(c, {
         stroke: 'red',
         width: 1
+    })
+}
+
+export const circleTesselate = (r: LimnRenderer) => {
+    const c = new Circle({ center: r.center, radius: 50 })
+
+    r.add(c.tesselate(15), {
+        stroke: 'red',
+        width: 2
+    })
+}
+
+export const circleSection = (r: LimnRenderer) => {
+    const c = new Circle({ center: r.center, radius: 50 })
+
+    const seg = c.segment(0.5)
+
+    r.add(seg, {
+        stroke: 'red',
+        width: 2
+    })
+}
+
+export const circleTesselateSection = (r: LimnRenderer) => {
+    const c = new Circle({ center: r.center, radius: 50 })
+
+    const seg = c.segment(0.3, 0.8)
+    const tesselated = seg.tesselate(8)
+
+    r.add(seg, { stroke: 'orange', width: 10 })
+
+    r.add(tesselated, {
+        stroke: 'black',
+        width: 1,
+        fill: 'rgb(0 0 200 / 20%)'
     })
 }
 
@@ -88,6 +146,141 @@ export const polygon = (r: LimnRenderer) => {
         stroke: 'red',
         width: 1
     })
+}
+
+export const demosCirclesIntersection = (r: LimnRenderer) => {
+    const p = new Polygon({
+        n: 5,
+        center: r.center,
+        radius: 50
+    })
+
+    const circles = p.points.map(p => new Circle({
+        radius: 60,
+        center: p
+    }).tesselate(50))
+
+    // FIXME: make polygon a path.
+
+    const paths = new PathsArray(circles.items)
+
+    const c = circles.map((p, i) => p.intersect(circles.at((i+1)%5)!))
+
+    r.add(p, {
+        fill: 'red'
+    })
+
+    r.add(paths, {
+        stroke: 'black'
+    })
+
+    r.add(c, {
+        fill: 'black'
+    })
+
+    // TODO: fix this demo
+}
+
+export const pathBasics = (r: LimnRenderer) => {
+    const p = new Path([
+        new Point(10, 10),
+        new Point(10, 100),
+        new Point(120, 30)
+    ])
+
+    r.add(p, {
+        fill: 'red',
+        width: 3,
+        stroke: 'black'
+    })
+}
+
+export const pathIntersection = (r: LimnRenderer) => {
+
+    const t = r.timer.infinite(4000, t => 10 + t * 500)
+
+    const p = new Path([
+        new Point(10, 10),
+        new Point(300, 100),
+        new Point(130, t)
+    ])
+
+    const p2 = new Path([
+        new Point(20, 10),
+        new Point(550, 200),
+        new Point(230, 200)
+    ])
+
+    r.add(p, {
+        fill: 'red',
+    })
+
+    r.add(p2, {
+        fill: 'orange'
+    })
+
+    const intersection = p.intersect(p2)
+    r.add(intersection, {
+        fill: 'blue'
+    })
+}
+
+export const multiIntersections = (r: LimnRenderer) => {
+    const p = new Path([
+        new Point(10, 10),
+        new Point(50, 50),
+        new Point(100, 0),
+        new Point(100, 100),
+        new Point(10, 100)
+    ])
+
+    const rect = new Path([
+            new Point(0, 0),
+            new Point(0, 30),
+            new Point(200, 30),
+            new Point(200, 0)
+        ])
+
+    r.add(p, {
+        fill: 'red'
+    })
+
+    r.add(rect, {
+        fill: 'rgb(0 100 0 / 10%)'
+    })
+
+    const inter = rect.intersect(p)
+    r.add(inter, {
+        fill: 'blue'
+    })
+}
+
+
+export const diffBasics = (r: LimnRenderer) => {
+    const p = new Path([
+        new Point(10, 10),
+        new Point(50, 50),
+        new Point(100, 0),
+        new Point(100, 100),
+        new Point(10, 100)
+    ])
+
+    const anchor = r.timer.infinite(1000, t => 20 + 20 * t)
+    const anchorEnd = computed(() => anchor.value + 20)
+
+    const p2 = new Path([
+        new Point(anchor, anchor),
+        new Point(anchor, anchorEnd),
+        new Point(anchorEnd, anchorEnd),
+        new Point(anchorEnd, anchor)
+    ])
+
+    r.add(p, { fill: 'red' })
+    r.add(p2, { fill: 'orange' })
+
+    const diff = p.diff(p2)
+    r.add(diff, { fill: 'rgb(0 0 100 / 50%)' })
+
 }
 
 export const polygonAnimate = (r: LimnRenderer) => {

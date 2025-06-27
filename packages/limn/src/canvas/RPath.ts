@@ -1,17 +1,17 @@
 import { num } from "../math/matrix";
-import { Polygon } from "../primitives/Polygon";
+import { Path } from "../primitives/Path";
 import { Color, Size } from "../utils/configs";
 import { color } from "../utils/signalTypes";
 import { LimnContext, PrimitiveRenderable } from "./interfaces";
 
-export interface BPolygonConfig {
+export interface RPathConfig {
     width: Size;
     fill: Color;
     stroke: Color;
 }
 
-export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
-    parseConfig(config: Partial<BPolygonConfig>): BPolygonConfig {
+export class RPath extends PrimitiveRenderable<Path, RPathConfig> {
+    parseConfig(config: Partial<RPathConfig>): RPathConfig {
         return {
             width: config?.width ?? 1,
             fill: config?.fill ?? '',
@@ -24,11 +24,14 @@ export class BPolygon extends PrimitiveRenderable<Polygon, BPolygonConfig> {
         ctx.save()
         ctx.beginPath()
         const p = this._p.points
-        for (let i=0;i<num(this._p.n);i++) {
-            const point = p.get(i)
+        if (!p.length) {
+            return
+        }
+        for (let i=0;i<num(p.length);i++) {
+            const point = p.at(i)!
             ctx.lineTo(...point.xy)
         }
-        ctx.lineTo(...p.get(0).xy)
+        ctx.lineTo(...p.at(0)!.xy)
         if (this._config.fill) {
             ctx.fillStyle = color(this._config.fill)
             ctx.fill()

@@ -26,6 +26,8 @@ import { RImage } from "./RImage";
 import { LimnImage } from "../primitives/Image";
 import { LimnVideo } from "../primitives/Video";
 import { RVideo } from "./RVideo";
+import { RPath } from "./RPath";
+import { Path } from "../primitives/Path";
 
 const RENDER_CLASSES = [
     [Point, RPoint],
@@ -36,6 +38,7 @@ const RENDER_CLASSES = [
     [Rectangle, RRectangle],
     [CubicBezierCurve, RCubicBezierCurve],
     [BezierSpline, RBezierSpline],
+    [Path, RPath],
     [Arc, RArc],
     [Text, RText],
     [LimnImage, RImage],

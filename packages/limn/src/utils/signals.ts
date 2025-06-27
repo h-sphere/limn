@@ -37,6 +37,11 @@ const toSignal = <T>(v: T) => {
     if (Array.isArray(v) && isTupple(v)) {
         return toPointSig(v)
     }
+
+    // FIXME: array of points
+    if (Array.isArray(v)) {
+        return atom(v)
+    }
     console.error('invalid data', v)
     throw new Error('Invalid data')
 }

@@ -1,0 +1,41 @@
+{
+  "name": "limn",
+  "private": false,
+  "version": "0.2.2",
+  "type": "module",
+  "main": "dist/limn.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "vite build",
+    "build:types": "tsc",
+    "preview": "vite preview",
+    "test": "jest",
+    "lint": "eslint src",
+    "publish": "pnpm build && pnpm exec changeset publish"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "clipper2-js": "^1.2.4",
+    "signia": "^0.1.5",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.4",
+    "@eslint/js": "^9.27.0",
+    "@types/jest": "^29.5.14",
+    "esbuild": "^0.25.4",
+    "eslint": "^9.27.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.32.1",
+    "vite": "^5.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

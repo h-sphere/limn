@@ -1,0 +1,25 @@
+{
+  "name": "limn-explorer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "dependencies": {
+    "esbuild": "^0.25.5",
+    "limn": "workspace:*",
+    "monaco-editor": "^0.52.2"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5",
+    "vite-plugin-monaco-editor": "^1.1.0"
+  }
+}

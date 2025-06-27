@@ -10,6 +10,7 @@ import { GenerativeCollection } from "./primitives/GenerativeCollection";
 import { ReactiveArray } from "./primitives/ReactiveArray";
 import { Text } from "./primitives/Text";
 import { Layer } from "./primitives/Layer";
+import { Path } from "./primitives/Path";
 
 // Renderers
 import { LimnRenderer } from "./canvas/Renderer";
@@ -22,6 +23,7 @@ import { RLine } from "./canvas/RLine";
 import { BPolygon } from "./canvas/RPolygon";
 import { RText } from "./canvas/RText";
 import { RLayer } from "./canvas/RLayer";
+import { RPath } from "./canvas/RPath";
 
 // Timer
 import { Timer } from "./timer/timer";
@@ -46,6 +48,7 @@ export {
     ReactiveArray,
     Text,
     Layer,
+    Path,
 
     LimnRenderer,
     RPoint,
@@ -57,6 +60,7 @@ export {
     BPolygon,
     RText,
     RLayer,
+    RPath,
 
     Timer,
 

@@ -1,4 +1,6 @@
 import { atom, computed, isAtom, isSignal, Signal } from "signia";
+import { NumSig } from "../utils/signalTypes";
+import { num } from "../math/matrix";
 
 type MapFn<T, U> = (item: T, index: number) => U;
 type FilterFn<T> = (item: T, index: number) => boolean;
@@ -14,7 +16,6 @@ export class ReactiveArray<T> {
             this._items = atom('items', items)
         }
     }
-
     @computed get length() {
         return this.items.length
     }
@@ -24,12 +25,17 @@ export class ReactiveArray<T> {
     }
 
     get(i: number) {
-        return this._items.value[i] as T
+        return this._items.value.at(num(i))
+    }
+
+    at(i: NumSig) {
+        return this._items.value.at(num(i))
     }
 
     push(...items: T[]) {
         if (isAtom(this._items)) {
             this._items.set([...this._items.value, ...items])
+            return this._items.value.length
         } else {
             throw new Error('Reactive Array needs to be instantiated as an atom')
         }
@@ -39,6 +45,14 @@ export class ReactiveArray<T> {
         return new ReactiveArray<U>(
             computed('mapped', () => {
                 return this.items.map(mapFn);
+            })
+        );
+    }
+
+    flatMap<U>(mapFn: MapFn<T, U>) {
+        return new ReactiveArray(
+            computed('mapped', () => {
+                return this.items.flatMap(mapFn);
             })
         );
     }

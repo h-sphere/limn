@@ -16,7 +16,6 @@ export class GenerativeCollection<T> extends ReactiveArray<T> {
         }))
         this.#n = length
     }
-    
     get length() {
         return this.#n.value
     }

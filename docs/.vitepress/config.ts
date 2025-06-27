@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'Point', link: '/shapes/point' },
           { text: 'Line', link: '/shapes/line' },
           { text: 'Rectangle', link: '/shapes/rectangle' },
+          { text: 'Path', link: '/shapes/path' },
           { text: 'Circle', link: '/shapes/circle' },
           { text: 'Polygon', link: '/shapes/polygon' },
           { text: 'Text', link: '/shapes/text' },
@@ -68,6 +69,7 @@ export default defineConfig({
         items: [
           { text: 'Circles', link: 'demos/circles' },
           { text: 'Lines Intersection', link: 'demos/lines-intersection' },
+          { text: 'Circles Intersection', link: 'demos/circles-intersection' },
           { text: 'Cardioid', link: 'demos/cardioid' },
         ]
       }
