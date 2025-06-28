@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "limn-explorer-build": "cd packages/limn-explorer && pnpm build",
+    "explorer:dev": "cd packages/limn-explorer && pnpm dev",
     "build": "cd packages/limn && pnpm build",
     "ci:build-docs": "./build-docs.sh",
     "docs:build": "cd docs && pnpm run docs:build",
