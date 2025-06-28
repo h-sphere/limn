@@ -13,6 +13,7 @@ export default defineConfig({
       { text: 'Explorer', link: 'http://hypersphere.blog/limn-explorer'}
     ],
     logo: '/logo.svg',
+    siteTitle: '',
 
     sidebar: [
       {
