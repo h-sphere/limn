@@ -10,7 +10,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Explorer', link: 'http://hypersphere.blog/limn-explorer'}
+      { text: 'Explorer', link: 'http://limn.hypersphere.blog/explorer/'}
     ],
     logo: '/logo.svg',
     siteTitle: '',
