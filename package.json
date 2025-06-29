@@ -10,7 +10,8 @@
     "build": "cd packages/limn && pnpm build",
     "ci:build-docs": "./build-docs.sh",
     "docs:build": "cd docs && pnpm run docs:build",
-    "docs:dev": "cd docs && pnpm run docs:dev"
+    "docs:dev": "cd docs && pnpm run docs:dev",
+    "test": "echo 'No tests for now'"
   },
   "keywords": [],
   "author": "",
