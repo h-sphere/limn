@@ -6,10 +6,12 @@
   "private": true,
   "scripts": {
     "limn-explorer-build": "cd packages/limn-explorer && pnpm build",
+    "explorer:dev": "cd packages/limn-explorer && pnpm dev",
     "build": "cd packages/limn && pnpm build",
     "ci:build-docs": "./build-docs.sh",
     "docs:build": "cd docs && pnpm run docs:build",
-    "docs:dev": "cd docs && pnpm run docs:dev"
+    "docs:dev": "cd docs && pnpm run docs:dev",
+    "test": "echo 'No tests for now'"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +20,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
     "@types/jest": "^29.5.14"
+  },
+  "overrides": {
+    "css-select": "5.1.0"
   }
 }

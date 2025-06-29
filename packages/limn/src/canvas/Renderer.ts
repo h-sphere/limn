@@ -29,6 +29,28 @@ import { RVideo } from "./RVideo";
 import { RPath } from "./RPath";
 import { Path } from "../primitives/Path";
 
+// FIXME: do proper typings here
+const throttle = (fn: Function, wait: number = 300) => {
+  let inThrottle: boolean,
+    lastFn: ReturnType<typeof setTimeout>,
+    lastTime: number;
+  return function (...args: any[]) {
+    if (!inThrottle) {
+      fn(...args);
+      lastTime = Date.now();
+      inThrottle = true;
+    } else {
+      clearTimeout(lastFn);
+      lastFn = setTimeout(() => {
+        if (Date.now() - lastTime >= wait) {
+          fn(...args)
+          lastTime = Date.now();
+        }
+      }, Math.max(wait - (Date.now() - lastTime), 0));
+    }
+  };
+};
+
 const RENDER_CLASSES = [
     [Point, RPoint],
     [Line, RLine],
@@ -49,22 +71,22 @@ type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
 
 type O<T extends VV[0]> = Extract<VV, readonly [T, any]>[1]
 
-type MapPairToInstances<T extends readonly [any, any]> = 
-  [InstanceType<T[0]>, InstanceType<T[1]>];
+type MapPairToInstances<T extends readonly [any, any]> =
+    [InstanceType<T[0]>, InstanceType<T[1]>];
 
-  type ExtractInstancePairs<T extends readonly (readonly [any, any])[]> = {
+type ExtractInstancePairs<T extends readonly (readonly [any, any])[]> = {
     [K in keyof T]: MapPairToInstances<T[K]>;
-  };
+};
 
 
 type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [config: Partial<Config>] : []
 
 type RR = VV[0] | Renderable
 type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
-TT extends Renderable ?
-RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
-:
-T extends VV[0] ? O<T> : T
+    TT extends Renderable ?
+    RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
+    :
+    T extends VV[0] ? O<T> : T
 
 type ConfigR<T extends RR> = T extends ReactiveArray<infer TT> ?
     TT extends RR ?
@@ -157,6 +179,24 @@ export class LimnRenderer {
         return this
     }
 
+    fitContainer() {
+        // FIXME: observer
+
+        const fn = throttle((entries: ResizeObserverEntry[]) => {
+            const canvas = entries[0].target as HTMLCanvasElement
+            const box = canvas.getBoundingClientRect()
+
+            canvas.width = box.width
+            canvas.height = box.height
+            this._width.set(this.ctx.canvas.width)
+            this._height.set(this.ctx.canvas.height)
+        }, 100)
+
+        const observer = new ResizeObserver(fn)
+        observer.observe(this.ctx.canvas as any)
+        fn([{ target: this.ctx.canvas }])
+    }
+
     /**
      * Adds new item to render on canvas
      * @param item either Renderable or a basic shape
@@ -165,7 +205,7 @@ export class LimnRenderer {
      */
     add<const Item extends RR>(
         item: Item,
-        ...[config]: ConfigR<Item> 
+        ...[config]: ConfigR<Item>
     ): OR<Item> {
         if (isRenderable(item)) {
             this.items.set([...this.items.value, item])
