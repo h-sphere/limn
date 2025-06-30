@@ -12,7 +12,7 @@ hero:
       link: /get-started
     - theme: alt
       text: Try it out
-      link: https://hypersphere.blog/limn-explorer
+      link: https://limn.hypersphere.blog/explorer
 
 features:
   - title: Reactive
