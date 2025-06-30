@@ -16,9 +16,13 @@ import {
 import { ChevronRight } from 'lucide-vue-next';
 import { rectangle } from '../../demos/rectangle';
 import { point } from '../../demos/point';
-import { circle } from '../../demos/circle';
+import { circleAdvanced } from '../../demos/circle_advanced';
 import { config } from '../../state/config';
 import SidebarGroupContent from '../ui/sidebar/SidebarGroupContent.vue';
+import { line } from '../../demos/line';
+import { path } from '../../demos/path';
+import { circle } from '../../demos/circle';
+import { polygonAnimation } from '../../demos/polygon_animation';
 
 // This is sample data.
 const data = {
@@ -35,14 +39,35 @@ const data = {
           title: 'Rectangle',
           code: rectangle
         },
+        {
+          title: 'Line with signals',
+          code: line
+        },
+        {
+          title: 'Path',
+          code: path
+        },
+        {
+          title: 'Circle',
+          code: circle
+        }
       ],
+    },
+    {
+      title: 'Animations',
+      items: [
+        {
+          title: 'Polygon Animations',
+          code: polygonAnimation
+        }
+      ]
     },
     {
       title: 'Advanced',
       items: [
         {
           title: 'Circles Animation',
-          code: circle
+          code: circleAdvanced
         }
       ],
     }

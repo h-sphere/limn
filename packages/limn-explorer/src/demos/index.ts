@@ -1,9 +1,9 @@
-import { circle } from "./circle";
+import { circleAdvanced } from "./circle_advanced";
 import { intro } from "./intro";
 import { rectangle } from "./rectangle";
 
 export const start = `${intro}
-${circle}`
+${circleAdvanced}`
 
 export interface Demo {
     name: string,
