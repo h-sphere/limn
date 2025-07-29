@@ -220,7 +220,7 @@ export class LimnRenderer {
     fitContainer() {
         // FIXME: observer
 
-        const fn = throttle((entries: ResizeObserverEntry[]) => {
+        const fn = throttle((entries: { target: Element }[]) => {
             const canvas = entries[0].target as HTMLCanvasElement
             const box = canvas.getBoundingClientRect()
 
@@ -231,8 +231,8 @@ export class LimnRenderer {
         }, 100)
 
         const observer = new ResizeObserver(fn)
-        observer.observe(this.ctx.canvas as any)
-        fn([{ target: this.ctx.canvas }])
+        observer.observe(this.ctx.canvas as Element)
+        fn([{ target: this.ctx.canvas as Element }])
     }
 
     /**
@@ -263,9 +263,10 @@ export class LimnRenderer {
                 return null
             }
             if (item instanceof RArray) {
-            const arr = new RArray(computed('v', () => item.map((el, i: number) => {
+                return new RArray(computed('v', () => item.map((el, i: number) => {
                 const conf = typeof config === 'function' ? (el: Item) => config(el as any, i) : config
-                return new WrapClass(el as any, conf)
+                const res: any =  new (WrapClass as any)(el as any, conf) // FIXME: fix soon, issue with too complex expression for TS
+                return res
             })))
             }
         }
@@ -286,7 +287,7 @@ export class LimnRenderer {
                             // FIXME: union class is too complex to compute, fix this.
                             const layer = new (WrapClass as any)(
                                 el as any,
-                                typeof config === 'function' ? config(i as any) : config
+                                typeof config === 'function' ? config(el as any, i as any) : config
                             ) as any
                             return layer
                     })
@@ -294,7 +295,7 @@ export class LimnRenderer {
                 )
                     }
                     this.items.set([...this.items.value, arr as any])
-                    return arr as OR<Item>
+                    return arr
                 }
             }
 

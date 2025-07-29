@@ -5,6 +5,7 @@ import { start } from '../../demos';
 import { setupEditor } from './editor';
 import { config } from '../../state/config';
 import { debounce } from '../../lib/utils';
+import { monacoEditor } from './editorRef';
 
 const editorRef = ref()
 let editor: monaco.editor.IStandaloneCodeEditor
@@ -12,6 +13,10 @@ let internalCompileTs = (a:string) => Promise.resolve(a)
 onMounted(async () => {
     const { editor: internalEditor, compileTypeScript } = await setupEditor(editorRef.value, start)
     editor = internalEditor
+    monacoEditor.value = editor
+
+    window.LIMN_EDITOR = editor
+
     internalCompileTs = compileTypeScript
 
     editor.onDidChangeModelContent(debounce(contentChange => {
