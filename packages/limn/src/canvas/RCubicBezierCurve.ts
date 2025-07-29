@@ -18,8 +18,9 @@ export class RCubicBezierCurve extends PrimitiveRenderable<CubicBezierCurve, RCu
     }
 
     render(ctx: LimnContext) {
-        ctx.strokeStyle = color(this._config.color)
-        ctx.lineWidth = num(this._config.width)
+        const config = this.config
+        ctx.strokeStyle = color(config.color)
+        ctx.lineWidth = num(config.width)
         ctx.beginPath()
         const p1 = xy(this._p.p1)
         const p2 = xy(this._p.p2)

@@ -26,6 +26,41 @@ export const getStarted = (r: LimnRenderer) => {
     })
 }
 
+export const zoomBasic = (r: LimnRenderer) => {
+    const rect = new Rectangle({ p1: r.center, p2: r.center.add(100, 100) })
+    r.add(rect, {
+        fill: 'red',
+        stroke: 'orange',
+        width: 5
+    })
+
+    r.zoom = r.timer.infinite(1000, i => 0.5 + i)
+}
+
+export const panBasic = (r: LimnRenderer) => {
+    const rect = new Rectangle({ p1: r.center, p2: r.center.add(100, 100) })
+    r.add(rect, {
+        fill: 'red',
+        stroke: 'orange',
+        width: 5
+    })
+
+    const circle = new Circle({
+        center: r.center,
+        radius: 100
+    })
+
+    r.add(circle, {
+        fill: 'rgba(0, 0, 200, 0.5)'
+    })
+
+    const x = r.timer.infinite(1000, i => 100 * i)
+
+    const p = new Point(x, 0)
+    r.topLeft = p
+
+}
+
 export const pointAbsolute = (r: LimnRenderer) => {
     const p = new Point(50, 50)
     r.add(p, {

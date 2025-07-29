@@ -1,4 +1,4 @@
-import { Atom, atom, computed, react } from "signia";
+import { Atom, atom, computed, react, Signal } from "signia";
 import { BezierSpline } from "../primitives/BezierSpline";
 import { Circle } from "../primitives/Circle";
 import { Line } from "../primitives/Line";
@@ -14,7 +14,7 @@ import { RLine } from "./RLine";
 import { RPoint } from "./RPoint";
 import { BPolygon } from "./RPolygon";
 import { RRectangle } from "./RRectangle";
-import { LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
+import { ConfigOptions, ConfigOptionsArray, LimnContext, PrimitiveRenderable, Renderable } from "./interfaces";
 import { CubicBezierCurve } from "../primitives/CubicBezierCurve";
 import { Timer } from "../timer/timer";
 import { Arc } from "../primitives/Arc";
@@ -28,13 +28,15 @@ import { LimnVideo } from "../primitives/Video";
 import { RVideo } from "./RVideo";
 import { RPath } from "./RPath";
 import { Path } from "../primitives/Path";
+import { numberSignal } from "../signals/NumberSignal";
+import { LimnSignal } from "../signals/Signal";
 
-// FIXME: do proper typings here
-const throttle = (fn: Function, wait: number = 300) => {
+
+const throttle = <F extends (...args: Array<any>) => any>(fn: F, wait: number = 300): F => {
   let inThrottle: boolean,
     lastFn: ReturnType<typeof setTimeout>,
     lastTime: number;
-  return function (...args: any[]) {
+  return function (...args: unknown[]) {
     if (!inThrottle) {
       fn(...args);
       lastTime = Date.now();
@@ -48,7 +50,7 @@ const throttle = (fn: Function, wait: number = 300) => {
         }
       }, Math.max(wait - (Date.now() - lastTime), 0));
     }
-  };
+  } as F;
 };
 
 const RENDER_CLASSES = [
@@ -67,31 +69,46 @@ const RENDER_CLASSES = [
     [LimnVideo, RVideo]
 ] as const
 
-type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
 
-type O<T extends VV[0]> = Extract<VV, readonly [T, any]>[1]
-
-type MapPairToInstances<T extends readonly [any, any]> =
-    [InstanceType<T[0]>, InstanceType<T[1]>];
-
-type ExtractInstancePairs<T extends readonly (readonly [any, any])[]> = {
-    [K in keyof T]: MapPairToInstances<T[K]>;
+type ExtractInstancePairs<T extends typeof RENDER_CLASSES> = {
+    [K in keyof T]: [InstanceType<T[K][0]>, InstanceType<T[K][1]>];
 };
 
+type AvailableRenderers = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
 
-type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [config: Partial<Config>] : []
+type AvailablePrimitives = AvailableRenderers[0]
 
-type RR = VV[0] | Renderable
-type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
-    TT extends Renderable ?
-    RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
-    :
-    T extends VV[0] ? O<T> : T
+type RendererConfig<T, Ar extends boolean = false> = 
+    T extends Renderable ? never
+    : T extends ReactiveArray<infer TT> ? RendererConfig<TT, true>
+    : T extends AvailablePrimitives ? SecondConstParam<PrimitivesRenderer<T>, Ar>
+    : never
 
-type ConfigR<T extends RR> = T extends ReactiveArray<infer TT> ?
-    TT extends RR ?
-    ConfigR<TT> : []
-    : T extends VV[0] ? Config<T> : []
+type SecondConstParam<T, Ar extends boolean = false> = T extends PrimitiveRenderable<infer P, infer C> ? true extends Ar ? ConfigOptionsArray<C, P> : ConfigOptions<C, P> : never
+
+// type VV = ExtractInstancePairs<typeof RENDER_CLASSES>[number]
+
+
+
+// type O<T extends VV[0]> = Extract<VV, readonly [T, any]>[1]
+
+type PrimitivesRenderer<P extends AvailablePrimitives> = Extract<AvailableRenderers, readonly [P, unknown]>[1]
+
+
+
+// type Config<T extends VV[0]> = O<T> extends PrimitiveRenderable<any, infer Config> ? [config: Partial<Config>] : []
+
+type RR = AvailablePrimitives | Renderable
+// type OR<T extends RR> = T extends ReactiveArray<infer TT> ?
+//     TT extends Renderable ?
+//     RArray<TT> : TT extends VV[0] ? OR<TT> extends PrimitiveRenderable<any, any> ? RArray<OR<TT>> : never : never
+//     :
+//     T extends VV[0] ? O<T> : T
+
+// type ConfigR<T extends RR> = T extends ReactiveArray<infer TT> ?
+//     TT extends RR ?
+//     (ConfigR<TT> | [(i: number) => ConfigR<TT>[0]]) : []
+//     : T extends VV[0] ? Config<T> : []
 
 export const isArrayType = (item: RR): item is ReactiveArray<any> => {
     return (item instanceof ReactiveArray)
@@ -125,7 +142,10 @@ export class LimnRenderer {
 
     #timer: Timer = new Timer()
 
-    items: Atom<PrimitiveRenderable<any, any>[]> = atom('Renderable.items', [])
+    items: Atom<PrimitiveRenderable<unknown, unknown>[]> = atom('Renderable.items', [])
+
+    #topLeft = new LimnSignal(new Point(0, 0))
+    #zoom = numberSignal(1)
 
     @computed get size() {
         return new Point(this._width, this._height)
@@ -133,6 +153,22 @@ export class LimnRenderer {
 
     @computed get center() {
         return this.canvasRect.center
+    }
+
+    @computed get zoom(): number {
+        return this.#zoom.value
+    }
+
+    set zoom(v: number | Signal<number>) {
+        this.#zoom.set(v)
+    }
+
+    @computed get topLeft(): Point {
+        return this.#topLeft.value
+    }
+
+    set topLeft(v: Point | Signal<Point>) {
+        this.#topLeft.set(v)
     }
 
     get context() {
@@ -158,8 +194,10 @@ export class LimnRenderer {
     #isTrackingMousePos: boolean = false
     get mousePos() {
         if (!this.#isTrackingMousePos) {
-            this.ctx.canvas.addEventListener('mousemove', (e: any) => {
-                this.#mousePos.xy = [e.layerX, e.layerY]
+            this.ctx.canvas.addEventListener('mousemove', (e: Event) => {
+                if (e instanceof MouseEvent) {
+                    this.#mousePos.xy = [e.layerX, e.layerY]
+                }
             })
         }
         return this.#mousePos
@@ -205,13 +243,32 @@ export class LimnRenderer {
      */
     add<const Item extends RR>(
         item: Item,
-        ...[config]: ConfigR<Item>
-    ): OR<Item> {
+        ...[config]: [RendererConfig<Item>]
+    ) /*OR<Item>*/ {
         if (isRenderable(item)) {
             this.items.set([...this.items.value, item])
-        } else {
-            // Implementation for converting Inputs to Renderable
-            const inputType = item.constructor
+            return item
+        }
+
+        // Implementation for converting Inputs to Renderable
+        const inputType = item.constructor
+        if (isArrayType(item)) {
+            const firstItem = item.get(0) as RR
+            const WrapClass = getWrapClass(firstItem)
+            if (WrapClass === null) {
+                return null
+            }
+            if (item instanceof Layer) {
+                // FIXME: implement layer, not sure what's going on here.
+                return null
+            }
+            if (item instanceof RArray) {
+            const arr = new RArray(computed('v', () => item.map((el, i: number) => {
+                const conf = typeof config === 'function' ? (el: Item) => config(el as any, i) : config
+                return new WrapClass(el as any, conf)
+            })))
+            }
+        }
 
             // FIXME: add case for Array
             if (isArrayType(item)) {
@@ -219,9 +276,22 @@ export class LimnRenderer {
                 if (WrapClass !== null) {
                     let arr
                     if (item instanceof Layer) {
-                        arr = new RLayer(item.map(e => new WrapClass(e as any, config as any)) as any) // FIXME: better typing here?
+                        arr = new RLayer(item.map(e => {
+                            // FIXME: union class is too complex.
+                            const layer = new (WrapClass as any)(e as any, config as unknown) as any
+                            return layer
+                        }) as any) // FIXME: better typing here?
                     } else {
-                        arr = new RArray(computed('v', () => item.map(i => new WrapClass(i as any, config as any))))
+                        arr = new RArray(computed('v', () => item.map((el, i) => {
+                            // FIXME: union class is too complex to compute, fix this.
+                            const layer = new (WrapClass as any)(
+                                el as any,
+                                typeof config === 'function' ? config(i as any) : config
+                            ) as any
+                            return layer
+                    })
+                    )
+                )
                     }
                     this.items.set([...this.items.value, arr as any])
                     return arr as OR<Item>
@@ -233,7 +303,9 @@ export class LimnRenderer {
                 if (inputType === InputClass) {
                     // Create a new instance of the output class
                     // args[0] contains the config parameter
-                    const renderable = new OutputClass(item as any, config as any);
+
+                    // FIXME: union class is too complex - to be fixed.
+                    const renderable: any = new (OutputClass as any)(item as any, config as any) as any;
                     this.items.set([...this.items.value, renderable as any]);
                     return renderable as any;
                 }
@@ -241,7 +313,6 @@ export class LimnRenderer {
 
             // If we get here, we couldn't find a matching renderer
             throw new Error(`No renderer found for input type: ${inputType.name}`);
-        }
         return item as any
     }
 
@@ -256,7 +327,15 @@ export class LimnRenderer {
     render() {
         // FIXME: maybe not clear everything
         const c = this.ctx
+
+        c.save()
+        c.translate(this.center.x, this.center.y)
+        c.scale(this.zoom, this.zoom)
+        c.translate(-this.center.x + this.topLeft.x, -this.center.y + this.topLeft.y)
+
         this.items.value.forEach(item => item.render(c))
+
+        this.context.restore()
     }
 
     watch() {

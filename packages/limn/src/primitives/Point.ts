@@ -26,6 +26,14 @@ export class Point implements Transformable<Point> {
         this._config = configToInternal(isPointConfig(conf) ? conf : { x: conf, y: y ?? 0 })
     }
 
+    static init(conf: PointConfig | [NumSig, NumSig]) {
+        if (Array.isArray(conf)) {
+            return new Point(...conf)
+        } else {
+            return new Point(conf)
+        }
+    }
+
     get x(): number {
         return this._config.x.value
     }

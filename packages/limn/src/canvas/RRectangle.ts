@@ -21,14 +21,15 @@ export class RRectangle extends PrimitiveRenderable<Rectangle, RRectangleConfig>
 
     render(ctx: LimnContext) {
         ctx.beginPath()
-        if (this._config.fill) {
-            ctx.fillStyle = color(this._config.fill)
+        const config = this.config
+        if (config.fill) {
+            ctx.fillStyle = color(config.fill)
             ctx.fillRect(...this._p.p1.xy, ...this._p.size.xy)
         }
 
-        if (this._config.stroke) {
-            ctx.strokeStyle = color(this._config.stroke)
-            ctx.lineWidth = num(this._config.width)
+        if (config.stroke) {
+            ctx.strokeStyle = color(config.stroke)
+            ctx.lineWidth = num(config.width)
             ctx.strokeRect(...this._p.p1.xy, ...this._p.size.xy)
         }
     }

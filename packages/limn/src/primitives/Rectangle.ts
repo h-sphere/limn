@@ -22,6 +22,10 @@ export class Rectangle extends Path  {
 
     _config: any // FIXME
 
+    static init(k: RectangleConfig) {
+        return new Rectangle(k)
+    }
+
     constructor(conf: RectangleConfig) {
         super([])
         this._config = configToInternal<RectangleConfig>(conf)
