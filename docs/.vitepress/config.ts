@@ -62,7 +62,8 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: 'Timers', link: '/advanced/timers' },
-          { text: 'Interactivity', link: '/advanced/interactivity'}
+          { text: 'Interactivity', link: '/advanced/interactivity'},
+          { text: 'Pan and Zoom', link: '/advanced/pan-and-zoom' }
         ]
       },
       {

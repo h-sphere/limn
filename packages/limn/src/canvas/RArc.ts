@@ -24,9 +24,10 @@ export class RArc extends PrimitiveRenderable<Arc, RArcConfig> {
         const end = this._p.end * 2 * Math.PI
         ctx.beginPath()
         ctx.arc(center.x, center.y, radius, start, end)
-        if (this._config.stroke) {
-            ctx.strokeStyle = color(this._config.stroke)
-            ctx.lineWidth = num(this._config.width)
+        const config = this.config
+        if (config.stroke) {
+            ctx.strokeStyle = color(config.stroke)
+            ctx.lineWidth = num(config.width)
             ctx.stroke()
         }
     }

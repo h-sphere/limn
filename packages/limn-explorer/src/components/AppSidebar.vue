@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BookOpenText, Cog, Play, Waves } from 'lucide-vue-next'
+import { BookOpenText, Cog, Play, Waves, MonitorUp } from 'lucide-vue-next'
 import Logo from './sidebar/limn-icon-explorer.svg?url'
 import { h, ref } from 'vue'
 import {
@@ -21,6 +21,7 @@ import Demos from './sidebarContent/demos.vue'
 import Config from './sidebarContent/config.vue'
 import Filesystem from './sidebarContent/filesystem.vue'
 import { cn } from '../lib/utils'
+import Collaborate from './sidebarContent/collaborate.vue'
 
 const props = withDefaults(defineProps<SidebarProps>(), {
   collapsible: 'icon',
@@ -40,6 +41,10 @@ const data = {
     {
       title: 'Examples',
       icon: BookOpenText
+    },
+    {
+      title: 'Collaborate',
+      icon: MonitorUp
     },
     {
       title: 'Config',
@@ -132,6 +137,7 @@ setOpen(false)
         <Demos v-if="activeItem.title === 'Examples'" />
         <Config v-if="activeItem.title === 'Config'" />
         <Filesystem v-if="activeItem.title === 'Playground'" />
+        <Collaborate v-if="activeItem.title === 'Collaborate'" />
       </SidebarContent>
     </Sidebar>
   </Sidebar>

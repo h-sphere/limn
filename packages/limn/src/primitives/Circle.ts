@@ -16,6 +16,10 @@ export class Circle extends BaseShape<CircleConfig> {
     declare readonly center: Point
     declare readonly radius: number
 
+    static init(conf: CircleConfig) {
+        return new Circle(conf)
+    }
+
     segment(start: NumSig, end?: NumSig) {
         const p0 = computed('p0', () => !end ? 0 : num(start))
         const p1 = computed('p1', () => !end ? num(start) : num(end))

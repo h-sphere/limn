@@ -24,6 +24,7 @@ import { BPolygon } from "./canvas/RPolygon";
 import { RText } from "./canvas/RText";
 import { RLayer } from "./canvas/RLayer";
 import { RPath } from "./canvas/RPath";
+import { RArc } from "./canvas/RArc";
 
 // Timer
 import { Timer } from "./timer/timer";
@@ -40,7 +41,6 @@ import { ConicGradient } from "./fills/conicGradient";
 import { LimnImage } from "./primitives/Image";
 import { LimnVideo } from "./primitives/Video";
 import { PathsArray } from "./primitives/PathsArray";
-
 
 export {
     Point,
@@ -67,6 +67,7 @@ export {
     RText,
     RLayer,
     RPath,
+    RArc,
 
     Timer,
 
@@ -78,5 +79,5 @@ export {
 
     LimnImage,
     LimnVideo,
-    PathsArray
+    PathsArray,
 }

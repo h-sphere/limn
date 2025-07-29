@@ -17,9 +17,10 @@ export class RPoint extends PrimitiveRenderable<Point, RPointConfig> {
         }
     }
     render(ctx: LimnContext) {
-        ctx.fillStyle = color(this._config.color)
+        const config = this.config
+        ctx.fillStyle = color(config.color)
         ctx.beginPath()
-        ctx.arc(this._p.x, this._p.y, num(this._config.radius), 0, 2 * Math.PI)
+        ctx.arc(this._p.x, this._p.y, num(config.radius), 0, 2 * Math.PI)
         ctx.fill()
     }
 }

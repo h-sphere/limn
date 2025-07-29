@@ -18,8 +18,9 @@ export class RLine extends PrimitiveRenderable<Line, RLineConfig> {
     }
 
     render(ctx: LimnContext) {
-        ctx.strokeStyle = color(this._config.color)
-        ctx.lineWidth = num(this._config.width)
+        const config = this.config
+        ctx.strokeStyle = color(config.color)
+        ctx.lineWidth = num(config.width)
         ctx.beginPath()
         ctx.moveTo(this._p.p1.x, this._p.p1.y)
         ctx.lineTo(this._p.p2.x, this._p.p2.y)

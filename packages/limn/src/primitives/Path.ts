@@ -1,9 +1,9 @@
 import { atom, Computed, computed, isSignal, Signal } from "signia"
 import { BaseShape } from "../utils/base"
 import { Point } from "./Point"
-import { Clipper, FillRule, Path64, Paths64 } from "clipper2-js"
+// import { Clipper, FillRule, Path64, Paths64 } from "clipper2-js"
 import { TransformConfig } from "../math/matrix"
-import { PathsArray } from "./PathsArray"
+// import { PathsArray } from "./PathsArray"
 import { ReactiveArray } from "./ReactiveArray"
 
 type MapFn<T> = (item: T, index: number) => T;
@@ -44,43 +44,43 @@ export class Path extends BaseShape<{}> {
         return this.points.flatMap<number>(p => p.xy as any as number) // FIXME: fix this typing
     }
 
-    get path64() {
-        // FIXME: make this fully reactive
-        const s = this.serialised
-        if (Array.isArray(s)) {
-            return Clipper.makePath(s)
-        }
-        return Clipper.makePath(s.items)
-    }
+    // get path64() {
+    //     // FIXME: make this fully reactive
+    //     const s = this.serialised
+    //     if (Array.isArray(s)) {
+    //         return Clipper.makePath(s)
+    //     }
+    //     return Clipper.makePath(s.items)
+    // }
 
-    get paths64() {
-        const p = new Paths64()
-        p.push(this.path64)
-        return p
-    }
+    // get paths64() {
+    //     const p = new Paths64()
+    //     p.push(this.path64)
+    //     return p
+    // }
 
-    static fromPath64(path: Path64 | undefined) {
-        if (!path || !path.length) {
-            return new Path([])
-        }
-        const points = []
+    // static fromPath64(path: Path64 | undefined) {
+    //     if (!path || !path.length) {
+    //         return new Path([])
+    //     }
+    //     const points = []
 
-        for (let i=0;i<path.length;i++) {
-            const point = path.at(i)!
-            points.push(new Point(point.x, point.y))
-        }
-        return new Path(points)
-    }
+    //     for (let i=0;i<path.length;i++) {
+    //         const point = path.at(i)!
+    //         points.push(new Point(point.x, point.y))
+    //     }
+    //     return new Path(points)
+    // }
 
-    intersect(p2: Path | PathsArray) {
-        const path = computed('intersection points', () => Clipper.Intersect(this.paths64, p2.paths64, FillRule.NonZero))
-        return PathsArray.fromPaths64(path)
-    }
+    // intersect(p2: Path | PathsArray) {
+    //     const path = computed('intersection points', () => Clipper.Intersect(this.paths64, p2.paths64, FillRule.NonZero))
+    //     return PathsArray.fromPaths64(path)
+    // }
 
-    diff(p2: Path | PathsArray) {
-        const path = computed('diff points', () => Clipper.Difference(this.paths64, p2.paths64, FillRule.NonZero))
-        return PathsArray.fromPaths64(path)
-    }
+    // diff(p2: Path | PathsArray) {
+    //     const path = computed('diff points', () => Clipper.Difference(this.paths64, p2.paths64, FillRule.NonZero))
+    //     return PathsArray.fromPaths64(path)
+    // }
 
     map(mapFn: MapFn<Point>): Path {
         // FIXME: better typing here.

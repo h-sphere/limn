@@ -14,7 +14,8 @@ export class RText extends PrimitiveRenderable<Text, RTextConfig> {
         }
     }
     render(ctx: LimnContext) {
-        ctx.fillStyle = color(this._config.color)
+        const config = this.config
+        ctx.fillStyle = color(config.color)
         ctx.beginPath()
         ctx.font = `${this._p.size}px Arial`
         let [x, y] = this._p.position.xy

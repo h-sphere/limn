@@ -17,8 +17,9 @@ export class RBezierSpline extends PrimitiveRenderable<BezierSpline, RBezierSpli
         }
     }
     render(ctx: LimnContext) {
-        ctx.strokeStyle = color(this._config.color)
-        ctx.lineWidth = num(this._config.width)
+        const config = this.config
+        ctx.strokeStyle = color(config.color)
+        ctx.lineWidth = num(config.width)
         ctx.beginPath()
 
         const points = this._p.points
